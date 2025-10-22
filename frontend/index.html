@@ -495,7 +495,15 @@
             btn.classList.add('text-gray-700', 'hover:bg-gray-100');
         });
 
-        // Stake functionality
+        // Stake functionality with AI model selection
+        const aiModels = [
+            'GPT-4 Oracle Alpha (95.8% accuracy)',
+            'Claude Predictor (93.2% accuracy)',
+            'Llama Vision Pro (91.5% accuracy)',
+            'Gemini Forecast (89.7% accuracy)',
+            'Mistral Oracle (87.3% accuracy)'
+        ];
+
         document.querySelectorAll('button').forEach(btn => {
             if (btn.textContent.trim() === 'Stake Now') {
                 btn.onclick = function() {
@@ -505,12 +513,24 @@
                     }
                     const card = this.closest('.bg-white');
                     const title = card.querySelector('h3').textContent;
-                    const amount = prompt(`Stake on: ${title}\n\nEnter amount (AION tokens):`);
+                    
+                    // Show AI model selection
+                    let modelOptions = 'Select AI Model:\n\n';
+                    aiModels.forEach((model, i) => {
+                        modelOptions += `${i + 1}. ${model}\n`;
+                    });
+                    
+                    const modelChoice = prompt(modelOptions + '\nEnter number (1-5):');
+                    if (!modelChoice || modelChoice < 1 || modelChoice > 5) return;
+                    
+                    const selectedModel = aiModels[modelChoice - 1];
+                    const amount = prompt(`Stake on: ${title}\nAI Model: ${selectedModel}\n\nEnter amount (AION tokens):`);
+                    
                     if (amount && parseFloat(amount) > 0) {
                         this.disabled = true;
                         this.textContent = 'Processing...';
                         setTimeout(() => {
-                            alert(`✅ Successfully staked ${amount} AION!\n\nPrediction: ${title}\nWallet: ${walletAddress.substring(0,6)}...${walletAddress.substring(38)}`);
+                            alert(`✅ Successfully staked ${amount} AION!\n\nPrediction: ${title}\nAI Model: ${selectedModel}\nAmount: ${amount} AION\nWallet: ${walletAddress.substring(0,6)}...${walletAddress.substring(38)}`);
                             this.textContent = 'Staked ✓';
                             this.classList.remove('bg-purple-600', 'hover:bg-purple-700');
                             this.classList.add('bg-green-600');

@@ -408,6 +408,25 @@
         <div id="userinfo" class="page hidden">
             <h1 class="text-3xl font-bold mb-8 text-red-500">User Information</h1>
             
+            <!-- Profile Card -->
+            <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6 mb-6">
+                <div class="flex items-center space-x-6">
+                    <div class="relative">
+                        <img id="userPhoto" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt="Profile" class="w-24 h-24 rounded-full border-4 border-red-500">
+                        <button onclick="changePhoto()" class="absolute bottom-0 right-0 bg-red-600 text-white p-2 rounded-full hover:bg-red-700">
+                            <i data-lucide="camera" class="h-4 w-4"></i>
+                        </button>
+                    </div>
+                    <div class="flex-1">
+                        <h2 class="text-2xl font-bold" id="userName">Anonymous User</h2>
+                        <p class="text-gray-600" id="userBio">No bio yet</p>
+                        <button onclick="editProfile()" class="mt-2 bg-gradient-to-r from-red-600 to-red-800 text-white px-4 py-1 rounded-lg hover:opacity-90 text-sm">
+                            Edit Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Wallet Info -->
                 <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
@@ -591,6 +610,69 @@
             alert('Export Data:\n\n' + JSON.stringify(data, null, 2));
         }
 
+        // Profile management
+        function editProfile() {
+            if (!isConnected) {
+                alert('Please connect your wallet first!');
+                return;
+            }
+            
+            const currentName = document.getElementById('userName').textContent;
+            const currentBio = document.getElementById('userBio').textContent;
+            
+            const newName = prompt('Enter your name:', currentName === 'Anonymous User' ? '' : currentName);
+            if (newName) {
+                document.getElementById('userName').textContent = newName;
+                localStorage.setItem('userName_' + walletAddress, newName);
+            }
+            
+            const newBio = prompt('Enter your bio:', currentBio === 'No bio yet' ? '' : currentBio);
+            if (newBio) {
+                document.getElementById('userBio').textContent = newBio;
+                localStorage.setItem('userBio_' + walletAddress, newBio);
+            }
+            
+            if (newName || newBio) {
+                alert('✅ Profile updated successfully!');
+            }
+        }
+
+        function changePhoto() {
+            if (!isConnected) {
+                alert('Please connect your wallet first!');
+                return;
+            }
+            
+            const styles = ['avataaars', 'bottts', 'personas', 'lorelei', 'micah', 'adventurer'];
+            let styleOptions = 'Select avatar style:\n\n';
+            styles.forEach((style, i) => {
+                styleOptions += `${i + 1}. ${style.charAt(0).toUpperCase() + style.slice(1)}\n`;
+            });
+            
+            const choice = prompt(styleOptions + '\nEnter number (1-6):');
+            if (choice && choice >= 1 && choice <= 6) {
+                const selectedStyle = styles[choice - 1];
+                const seed = walletAddress || 'default';
+                const photoUrl = `https://api.dicebear.com/7.x/${selectedStyle}/svg?seed=${seed}`;
+                document.getElementById('userPhoto').src = photoUrl;
+                localStorage.setItem('userPhoto_' + walletAddress, photoUrl);
+                alert('✅ Photo updated!');
+            }
+        }
+
+        function loadUserProfile() {
+            if (isConnected && walletAddress) {
+                const savedName = localStorage.getItem('userName_' + walletAddress);
+                const savedBio = localStorage.getItem('userBio_' + walletAddress);
+                const savedPhoto = localStorage.getItem('userPhoto_' + walletAddress);
+                
+                if (savedName) document.getElementById('userName').textContent = savedName;
+                if (savedBio) document.getElementById('userBio').textContent = savedBio;
+                if (savedPhoto) document.getElementById('userPhoto').src = savedPhoto;
+                else document.getElementById('userPhoto').src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${walletAddress}`;
+            }
+        }
+
         // Wallet connection functionality
         let isConnected = false;
         let walletAddress = null;
@@ -603,6 +685,7 @@
                     isConnected = true;
                     updateWalletUI();
                     updateUserInfo();
+                    loadUserProfile();
                     alert('Wallet connected: ' + walletAddress);
                 } catch (error) {
                     console.error('Error connecting wallet:', error);

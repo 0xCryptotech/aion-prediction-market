@@ -36,6 +36,10 @@
                         <i data-lucide="vote" class="h-5 w-5"></i>
                         <span>Governance</span>
                     </button>
+                    <button onclick="showPage('userinfo')" class="nav-btn flex items-center space-x-2 px-4 py-2 rounded-lg">
+                        <i data-lucide="user" class="h-5 w-5"></i>
+                        <span>User Info</span>
+                    </button>
                 </nav>
 
                 <!-- Connect Wallet -->
@@ -399,6 +403,100 @@
                 </div>
             </div>
         </div>
+
+        <!-- User Info Page -->
+        <div id="userinfo" class="page hidden">
+            <h1 class="text-3xl font-bold mb-8 text-red-500">User Information</h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Wallet Info -->
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
+                    <h2 class="text-xl font-bold mb-4 flex items-center">
+                        <i data-lucide="wallet" class="h-5 w-5 mr-2"></i>
+                        Wallet Information
+                    </h2>
+                    <div class="space-y-3">
+                        <div>
+                            <p class="text-sm text-gray-600">Wallet Address</p>
+                            <p class="font-mono text-sm" id="userWalletAddress">Not Connected</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">AION Balance</p>
+                            <p class="text-2xl font-bold text-red-600" id="userAionBalance">0</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">ETH Balance</p>
+                            <p class="text-lg font-semibold" id="userEthBalance">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Staking Info -->
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
+                    <h2 class="text-xl font-bold mb-4 flex items-center">
+                        <i data-lucide="trending-up" class="h-5 w-5 mr-2"></i>
+                        Staking Summary
+                    </h2>
+                    <div class="space-y-3">
+                        <div>
+                            <p class="text-sm text-gray-600">Total Staked</p>
+                            <p class="text-2xl font-bold text-blue-600" id="userTotalStaked">0 AION</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Active Stakes</p>
+                            <p class="text-lg font-semibold" id="userActiveStakes">0</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Total Rewards</p>
+                            <p class="text-lg font-semibold text-green-600" id="userRewards">0 AION</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Stats -->
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
+                    <h2 class="text-xl font-bold mb-4 flex items-center">
+                        <i data-lucide="activity" class="h-5 w-5 mr-2"></i>
+                        Activity Statistics
+                    </h2>
+                    <div class="space-y-3">
+                        <div>
+                            <p class="text-sm text-gray-600">Predictions Participated</p>
+                            <p class="text-lg font-semibold" id="userPredictions">0</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Win Rate</p>
+                            <p class="text-lg font-semibold text-green-600" id="userWinRate">0%</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Member Since</p>
+                            <p class="text-sm" id="userMemberSince">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Stakes -->
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
+                    <h2 class="text-xl font-bold mb-4 flex items-center">
+                        <i data-lucide="history" class="h-5 w-5 mr-2"></i>
+                        Recent Stakes
+                    </h2>
+                    <div class="space-y-2" id="userRecentStakes">
+                        <p class="text-sm text-gray-500">No stakes yet</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-6 flex gap-4">
+                <button onclick="refreshUserInfo()" class="bg-gradient-to-r from-red-600 to-red-800 text-white px-6 py-2 rounded-lg hover:opacity-90 shadow-lg">
+                    Refresh Data
+                </button>
+                <button onclick="exportUserData()" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700">
+                    Export Data
+                </button>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -436,6 +534,63 @@
         // Load leaderboard when page opens
         document.addEventListener('DOMContentLoaded', loadLeaderboard);
 
+        // User Info functionality
+        function updateUserInfo() {
+            if (isConnected && walletAddress) {
+                document.getElementById('userWalletAddress').textContent = walletAddress;
+                document.getElementById('userAionBalance').textContent = (Math.random() * 10000 + 1000).toFixed(2) + ' AION';
+                document.getElementById('userEthBalance').textContent = (Math.random() * 5).toFixed(4) + ' ETH';
+                document.getElementById('userTotalStaked').textContent = (Math.random() * 5000).toFixed(2) + ' AION';
+                document.getElementById('userActiveStakes').textContent = Math.floor(Math.random() * 10 + 1);
+                document.getElementById('userRewards').textContent = (Math.random() * 500).toFixed(2) + ' AION';
+                document.getElementById('userPredictions').textContent = Math.floor(Math.random() * 20 + 5);
+                document.getElementById('userWinRate').textContent = (Math.random() * 30 + 60).toFixed(1) + '%';
+                document.getElementById('userMemberSince').textContent = new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000).toLocaleDateString();
+                
+                const recentStakes = document.getElementById('userRecentStakes');
+                recentStakes.innerHTML = `
+                    <div class="text-sm border-b pb-2"><span class="font-semibold">Bitcoin $100k</span> - 500 AION</div>
+                    <div class="text-sm border-b pb-2"><span class="font-semibold">Ethereum $6k</span> - 300 AION</div>
+                    <div class="text-sm"><span class="font-semibold">Solana $300</span> - 200 AION</div>
+                `;
+            } else {
+                document.getElementById('userWalletAddress').textContent = 'Not Connected';
+                document.getElementById('userAionBalance').textContent = '0';
+                document.getElementById('userEthBalance').textContent = '0';
+                document.getElementById('userTotalStaked').textContent = '0 AION';
+                document.getElementById('userActiveStakes').textContent = '0';
+                document.getElementById('userRewards').textContent = '0 AION';
+                document.getElementById('userPredictions').textContent = '0';
+                document.getElementById('userWinRate').textContent = '0%';
+                document.getElementById('userMemberSince').textContent = '-';
+                document.getElementById('userRecentStakes').innerHTML = '<p class="text-sm text-gray-500">Connect wallet to view stakes</p>';
+            }
+        }
+
+        function refreshUserInfo() {
+            if (!isConnected) {
+                alert('Please connect your wallet first!');
+                return;
+            }
+            updateUserInfo();
+            alert('User data refreshed!');
+        }
+
+        function exportUserData() {
+            if (!isConnected) {
+                alert('Please connect your wallet first!');
+                return;
+            }
+            const data = {
+                wallet: walletAddress,
+                timestamp: new Date().toISOString(),
+                balance: document.getElementById('userAionBalance').textContent,
+                staked: document.getElementById('userTotalStaked').textContent,
+                rewards: document.getElementById('userRewards').textContent
+            };
+            alert('Export Data:\n\n' + JSON.stringify(data, null, 2));
+        }
+
         // Wallet connection functionality
         let isConnected = false;
         let walletAddress = null;
@@ -447,6 +602,7 @@
                     walletAddress = accounts[0];
                     isConnected = true;
                     updateWalletUI();
+                    updateUserInfo();
                     alert('Wallet connected: ' + walletAddress);
                 } catch (error) {
                     console.error('Error connecting wallet:', error);

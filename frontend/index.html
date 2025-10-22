@@ -7,15 +7,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
-<body class="bg-gradient-to-br from-white to-gray-50 min-h-screen">
+<body class="bg-white min-h-screen font-sans">
     <!-- Header -->
-    <header class="bg-white border-b border-red-200 shadow-md sticky top-0 z-50">
+    <header class="bg-gradient-to-r from-red-600 to-red-800 shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4">
             <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
                 <div class="flex items-center space-x-2">
-                    <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-red-600 to-red-800 flex items-center justify-center text-gray-900 font-bold text-xl">A</div>
-                    <span class="text-xl font-bold bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent">AION</span>
+                    <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-red-600 font-bold text-xl">A</div>
+                    <span class="text-xl font-bold text-white">AION</span>
                 </div>
 
                 <!-- Navigation -->
@@ -47,7 +47,7 @@
                 </nav>
 
                 <!-- Connect Wallet -->
-                <button id="connectWallet" onclick="connectWallet()" class="bg-gradient-to-r from-red-600 to-red-800 text-gray-900 px-4 py-2 rounded-lg hover:opacity-90">
+                <button id="connectWallet" onclick="connectWallet()" class="bg-white text-red-600 px-4 py-2 rounded-lg hover:bg-gray-100 font-semibold">
                     <span id="walletText">Connect Wallet</span>
                 </button>
             </div>
@@ -58,7 +58,7 @@
     <main class="container mx-auto px-4 py-8">
         <!-- Dashboard Page -->
         <div id="dashboard" class="page">
-            <h1 class="text-3xl font-bold mb-8">Dashboard</h1>
+            <h1 class="text-3xl font-bold mb-8 text-gray-800">Dashboard</h1>
             
             <!-- Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -104,7 +104,7 @@
 
         <!-- About AION Page -->
         <div id="about" class="page hidden">
-            <h1 class="text-3xl font-bold mb-8">About AION</h1>
+            <h1 class="text-3xl font-bold mb-8 text-gray-800">About AION</h1>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
@@ -159,7 +159,7 @@
 
         <!-- Marketplace Page -->
         <div id="marketplace" class="page hidden">
-            <h1 class="text-3xl font-bold mb-8">Prediction Marketplace</h1>
+            <h1 class="text-3xl font-bold mb-8 text-gray-800">Prediction Marketplace</h1>
             
             <!-- Filters -->
             <div class="bg-white border border-red-200 shadow-lg p-4 rounded-lg shadow mb-6">
@@ -193,7 +193,7 @@
                         <span class="text-sm">Confidence: 95.8%</span>
                         <span class="text-sm">Stake: $12,540</span>
                     </div>
-                    <button class="w-full bg-purple-600 text-gray-900 py-2 rounded-lg hover:bg-purple-700">
+                    <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 font-semibold">
                         Stake Now
                     </button>
                 </div>
@@ -209,7 +209,7 @@
                         <span class="text-sm">Confidence: 93.5%</span>
                         <span class="text-sm">Stake: $24,680</span>
                     </div>
-                    <button class="w-full bg-purple-600 text-gray-900 py-2 rounded-lg hover:bg-purple-700">
+                    <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 font-semibold">
                         Stake Now
                     </button>
                 </div>
@@ -225,7 +225,7 @@
                         <span class="text-sm">Confidence: 87.3%</span>
                         <span class="text-sm">Stake: $8,920</span>
                     </div>
-                    <button class="w-full bg-purple-600 text-gray-900 py-2 rounded-lg hover:bg-purple-700">
+                    <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 font-semibold">
                         Stake Now
                     </button>
                 </div>
@@ -241,7 +241,7 @@
                         <span class="text-sm">Confidence: 89.2%</span>
                         <span class="text-sm">Stake: $18,340</span>
                     </div>
-                    <button class="w-full bg-purple-600 text-gray-900 py-2 rounded-lg hover:bg-purple-700">
+                    <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 font-semibold">
                         Stake Now
                     </button>
                 </div>
@@ -273,7 +273,7 @@
                         <span class="text-sm">Confidence: 88.5%</span>
                         <span class="text-sm">Stake: $11,290</span>
                     </div>
-                    <button class="w-full bg-purple-600 text-gray-900 py-2 rounded-lg hover:bg-purple-700">
+                    <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 font-semibold">
                         Stake Now
                     </button>
                 </div>
@@ -305,7 +305,7 @@
                         <span class="text-sm">Confidence: 91.8%</span>
                         <span class="text-sm">Stake: $22,150</span>
                     </div>
-                    <button class="w-full bg-purple-600 text-gray-900 py-2 rounded-lg hover:bg-purple-700">
+                    <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 font-semibold">
                         Stake Now
                     </button>
                 </div>
@@ -321,7 +321,7 @@
                         <span class="text-sm">Confidence: 87.9%</span>
                         <span class="text-sm">Stake: $16,780</span>
                     </div>
-                    <button class="w-full bg-purple-600 text-gray-900 py-2 rounded-lg hover:bg-purple-700">
+                    <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 font-semibold">
                         Stake Now
                     </button>
                 </div>
@@ -337,7 +337,7 @@
                         <span class="text-sm">Confidence: 91.5%</span>
                         <span class="text-sm">Stake: $15,430</span>
                     </div>
-                    <button class="w-full bg-gray-400 text-gray-900 py-2 rounded-lg cursor-not-allowed">
+                    <button class="w-full bg-gray-400 text-white py-2 rounded-lg cursor-not-allowed">
                         Resolved
                     </button>
                 </div>
@@ -346,7 +346,7 @@
 
         <!-- Leaderboard Page -->
         <div id="leaderboard" class="page hidden">
-            <h1 class="text-3xl font-bold mb-8">AI Models Leaderboard</h1>
+            <h1 class="text-3xl font-bold mb-8 text-gray-800">AI Models Leaderboard</h1>
             
             <div class="bg-white border border-red-200 shadow-lg rounded-lg shadow overflow-hidden">
                 <table class="w-full" id="leaderboard">
@@ -412,7 +412,7 @@
 
         <!-- Governance Page -->
         <div id="governance" class="page hidden">
-            <h1 class="text-3xl font-bold mb-8">DAO Governance</h1>
+            <h1 class="text-3xl font-bold mb-8 text-gray-800">DAO Governance</h1>
             
             <div class="space-y-6">
                 <div class="bg-white border border-red-200 shadow-lg rounded-lg shadow p-6">
@@ -465,7 +465,7 @@
 
         <!-- User Info Page -->
         <div id="userinfo" class="page hidden">
-            <h1 class="text-3xl font-bold mb-8 text-red-500">User Information</h1>
+            <h1 class="text-3xl font-bold mb-8 text-gray-800">User Information</h1>
             
             <!-- Profile Card -->
             <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6 mb-6">
@@ -479,7 +479,7 @@
                     <div class="flex-1">
                         <h2 class="text-2xl font-bold" id="userName">Anonymous User</h2>
                         <p class="text-gray-600" id="userBio">No bio yet</p>
-                        <button onclick="editProfile()" class="mt-2 bg-gradient-to-r from-red-600 to-red-800 text-white px-4 py-1 rounded-lg hover:opacity-90 text-sm">
+                        <button onclick="editProfile()" class="mt-2 bg-red-600 text-white px-4 py-1 rounded-lg hover:bg-red-700 text-sm font-semibold">
                             Edit Profile
                         </button>
                     </div>
@@ -567,15 +567,22 @@
 
             <!-- Action Buttons -->
             <div class="mt-6 flex gap-4">
-                <button onclick="refreshUserInfo()" class="bg-gradient-to-r from-red-600 to-red-800 text-white px-6 py-2 rounded-lg hover:opacity-90 shadow-lg">
+                <button onclick="refreshUserInfo()" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 font-semibold">
                     Refresh Data
                 </button>
-                <button onclick="exportUserData()" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700">
+                <button onclick="exportUserData()" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 font-semibold">
                     Export Data
                 </button>
             </div>
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-red-600 to-red-800 text-white py-6 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm">&copy; 2025 AION - Autonomous Intelligence Oracle Network. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script>
         // Initialize Lucide icons
@@ -777,20 +784,16 @@
             // Update navigation buttons
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('active');
-                btn.classList.add('text-gray-700', 'hover:bg-gray-100');
-                btn.classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-gray-900');
             });
             
             // Activate current button
             event.target.closest('.nav-btn').classList.add('active');
-            event.target.closest('.nav-btn').classList.remove('text-gray-700', 'hover:bg-gray-100');
-            event.target.closest('.nav-btn').classList.add('bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-gray-900');
         }
 
         // Set initial active state
-        document.querySelector('.nav-btn.active').classList.add('bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-gray-900');
+        document.querySelector('.nav-btn.active').classList.add('text-white');
         document.querySelectorAll('.nav-btn:not(.active)').forEach(btn => {
-            btn.classList.add('text-gray-700', 'hover:bg-gray-100');
+            btn.classList.add('text-white');
         });
 
         // Stake functionality with AI model selection
@@ -830,12 +833,12 @@
                         setTimeout(() => {
                             alert(`✅ Successfully staked ${amount} AION!\n\nPrediction: ${title}\nAI Model: ${selectedModel}\nAmount: ${amount} AION\nWallet: ${walletAddress.substring(0,6)}...${walletAddress.substring(38)}`);
                             this.textContent = 'Staked ✓';
-                            this.classList.remove('bg-purple-600', 'hover:bg-purple-700');
+                            this.classList.remove('bg-red-600', 'hover:bg-red-700');
                             this.classList.add('bg-green-600');
                             setTimeout(() => {
                                 this.textContent = 'Stake Now';
                                 this.classList.remove('bg-green-600');
-                                this.classList.add('bg-purple-600', 'hover:bg-purple-700');
+                                this.classList.add('bg-red-600', 'hover:bg-red-700');
                                 this.disabled = false;
                             }, 3000);
                         }, 1500);
@@ -847,14 +850,15 @@
 
     <style>
         .nav-btn.active {
-            background: linear-gradient(to right, #9333ea, #2563eb);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
         }
         .nav-btn:not(.active) {
-            color: #374151;
+            color: rgba(255, 255, 255, 0.8);
         }
         .nav-btn:not(.active):hover {
-            background-color: #f3f4f6;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
         }
     </style>
 </body>

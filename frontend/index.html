@@ -494,6 +494,37 @@
         document.querySelectorAll('.nav-btn:not(.active)').forEach(btn => {
             btn.classList.add('text-gray-700', 'hover:bg-gray-100');
         });
+
+        // Stake functionality
+        document.querySelectorAll('button').forEach(btn => {
+            if (btn.textContent.trim() === 'Stake Now') {
+                btn.onclick = function() {
+                    if (!isConnected) {
+                        alert('Please connect your wallet first!');
+                        return;
+                    }
+                    const card = this.closest('.bg-white');
+                    const title = card.querySelector('h3').textContent;
+                    const amount = prompt(`Stake on: ${title}\n\nEnter amount (AION tokens):`);
+                    if (amount && parseFloat(amount) > 0) {
+                        this.disabled = true;
+                        this.textContent = 'Processing...';
+                        setTimeout(() => {
+                            alert(`✅ Successfully staked ${amount} AION!\n\nPrediction: ${title}\nWallet: ${walletAddress.substring(0,6)}...${walletAddress.substring(38)}`);
+                            this.textContent = 'Staked ✓';
+                            this.classList.remove('bg-purple-600', 'hover:bg-purple-700');
+                            this.classList.add('bg-green-600');
+                            setTimeout(() => {
+                                this.textContent = 'Stake Now';
+                                this.classList.remove('bg-green-600');
+                                this.classList.add('bg-purple-600', 'hover:bg-purple-700');
+                                this.disabled = false;
+                            }, 3000);
+                        }, 1500);
+                    }
+                };
+            }
+        });
     </script>
 
     <style>

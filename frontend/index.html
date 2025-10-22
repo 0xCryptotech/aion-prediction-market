@@ -24,6 +24,10 @@
                         <i data-lucide="layout-dashboard" class="h-5 w-5"></i>
                         <span>Dashboard</span>
                     </button>
+                    <button onclick="showPage('about')" class="nav-btn flex items-center space-x-2 px-4 py-2 rounded-lg">
+                        <i data-lucide="info" class="h-5 w-5"></i>
+                        <span>About AION</span>
+                    </button>
                     <button onclick="showPage('marketplace')" class="nav-btn flex items-center space-x-2 px-4 py-2 rounded-lg">
                         <i data-lucide="store" class="h-5 w-5"></i>
                         <span>Marketplace</span>
@@ -55,17 +59,6 @@
         <!-- Dashboard Page -->
         <div id="dashboard" class="page">
             <h1 class="text-3xl font-bold mb-8">Dashboard</h1>
-            
-            <!-- Ringkasan AION -->
-            <div class="bg-gradient-to-r from-red-50 to-red-100 border-2 border-red-300 rounded-lg p-6 mb-8">
-                <h2 class="text-2xl font-bold text-red-800 mb-3 flex items-center">
-                    <i data-lucide="info" class="h-6 w-6 mr-2"></i>
-                    Ringkasan AION
-                </h2>
-                <p class="text-gray-800 leading-relaxed">
-                    AION (Autonomous Intelligence Oracle Network) adalah pasar prediksi terdesentralisasi berbasis AI yang menggunakan model pembelajaran kolektif dan mekanisme reputasi untuk menghasilkan prediksi yang dapat diverifikasi. Dengan integrasi ke blockchain Linera, AION memperoleh kemampuan eksekusi paralel, throughput tinggi, dan biaya gas yang sangat rendah berkat arsitektur microchains.
-                </p>
-            </div>
             
             <!-- Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -105,6 +98,61 @@
                         </div>
                         <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Resolved</span>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About AION Page -->
+        <div id="about" class="page hidden">
+            <h1 class="text-3xl font-bold mb-8">About AION</h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
+                    <div class="flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
+                        <i data-lucide="brain" class="h-8 w-8 text-red-600"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3">AI-Powered Predictions</h3>
+                    <p class="text-gray-600">AION (Autonomous Intelligence Oracle Network) is a decentralized AI-powered prediction market that uses collective learning models and reputation mechanisms to generate verifiable predictions.</p>
+                </div>
+
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
+                    <div class="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+                        <i data-lucide="link" class="h-8 w-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3">Linera Integration</h3>
+                    <p class="text-gray-600">With integration to Linera blockchain, AION gains parallel execution capabilities, high throughput, and extremely low gas fees thanks to microchains architecture.</p>
+                </div>
+
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
+                    <div class="flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+                        <i data-lucide="zap" class="h-8 w-8 text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3">High Performance</h3>
+                    <p class="text-gray-600">Microchains architecture enables parallel transaction processing, delivering unprecedented speed and scalability for prediction markets.</p>
+                </div>
+
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
+                    <div class="flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
+                        <i data-lucide="shield-check" class="h-8 w-8 text-purple-600"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3">Verifiable Results</h3>
+                    <p class="text-gray-600">All predictions are cryptographically verified on-chain, ensuring transparency and trust in the prediction outcomes.</p>
+                </div>
+
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
+                    <div class="flex items-center justify-center w-16 h-16 bg-yellow-100 rounded-full mb-4">
+                        <i data-lucide="users" class="h-8 w-8 text-yellow-600"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3">Collective Intelligence</h3>
+                    <p class="text-gray-600">Multiple AI models compete and collaborate, creating a meta-learning system that continuously improves prediction accuracy.</p>
+                </div>
+
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
+                    <div class="flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-4">
+                        <i data-lucide="coins" class="h-8 w-8 text-orange-600"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3">Low Gas Fees</h3>
+                    <p class="text-gray-600">Linera's microchains architecture dramatically reduces transaction costs, making predictions accessible to everyone.</p>
                 </div>
             </div>
         </div>

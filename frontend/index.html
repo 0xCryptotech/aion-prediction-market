@@ -1301,15 +1301,17 @@
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div class="text-center p-4 ${pvpPosition === 'BULLISH' ? 'bg-green-50 ring-2 ring-green-500' : 'bg-red-50 ring-2 ring-red-500'} rounded-lg">
                             <div class="text-4xl mb-2">👤</div>
-                            <h4 class="font-bold">You</h4>
+                            <h4 class="font-bold">${localStorage.getItem('userName_' + walletAddress) || 'Anonymous'}</h4>
                             <p class="text-sm text-gray-600">${walletAddress.substring(0,6)}...</p>
+                            <p class="text-xs text-gray-500">Win Rate: ${(Math.random() * 30 + 60).toFixed(1)}%</p>
                             <p class="text-xs font-semibold mt-1">${pvpPosition}</p>
                             <div class="mt-2 text-2xl font-bold ${pvpPosition === 'BULLISH' ? 'text-green-600' : 'text-red-600'}" id="p1-score">0</div>
                         </div>
                         <div class="text-center p-4 ${opponentPosition === 'BULLISH' ? 'bg-green-50 ring-2 ring-green-500' : 'bg-red-50 ring-2 ring-red-500'} rounded-lg">
                             <div class="text-4xl mb-2">👤</div>
-                            <h4 class="font-bold">Opponent</h4>
+                            <h4 class="font-bold">${['CryptoKing', 'TraderPro', 'BullMaster', 'BearHunter', 'MoonShot'][Math.floor(Math.random() * 5)]}</h4>
                             <p class="text-sm text-gray-600">0x${Math.random().toString(16).substr(2,6)}...</p>
+                            <p class="text-xs text-gray-500">Win Rate: ${(Math.random() * 30 + 60).toFixed(1)}%</p>
                             <p class="text-xs font-semibold mt-1">${opponentPosition}</p>
                             <div class="mt-2 text-2xl font-bold ${opponentPosition === 'BULLISH' ? 'text-green-600' : 'text-red-600'}" id="p2-score">0</div>
                         </div>

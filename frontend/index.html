@@ -36,6 +36,10 @@
                         <i data-lucide="trophy" class="h-5 w-5"></i>
                         <span>Leaderboard</span>
                     </button>
+                    <button onclick="showPage('battle')" class="nav-btn flex items-center space-x-2 px-4 py-2 rounded-lg">
+                        <i data-lucide="swords" class="h-5 w-5"></i>
+                        <span>Battle</span>
+                    </button>
                     <button onclick="showPage('governance')" class="nav-btn flex items-center space-x-2 px-4 py-2 rounded-lg">
                         <i data-lucide="vote" class="h-5 w-5"></i>
                         <span>Governance</span>
@@ -407,6 +411,136 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+
+        <!-- Battle Page -->
+        <div id="battle" class="page hidden">
+            <h1 class="text-3xl font-bold mb-8 text-gray-800">Battle Arena</h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- AI vs AI Battle -->
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
+                    <div class="flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4 mx-auto">
+                        <i data-lucide="cpu" class="h-8 w-8 text-purple-600"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3 text-center">AI vs AI</h3>
+                    <p class="text-gray-600 mb-4 text-center">Watch AI models compete against each other in prediction battles</p>
+                    <div class="space-y-3 mb-4">
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-semibold">GPT-4 Oracle</span>
+                                <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">95.8%</span>
+                            </div>
+                            <div class="text-xs text-gray-600">vs</div>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="text-sm font-semibold">Claude Predictor</span>
+                                <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">93.2%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 font-semibold">
+                        Watch Battle
+                    </button>
+                </div>
+
+                <!-- AI vs Human Battle -->
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
+                    <div class="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4 mx-auto">
+                        <i data-lucide="brain" class="h-8 w-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3 text-center">AI vs Human</h3>
+                    <p class="text-gray-600 mb-4 text-center">Challenge AI models with your own predictions</p>
+                    <div class="space-y-3 mb-4">
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-semibold">Llama Vision Pro</span>
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">91.5%</span>
+                            </div>
+                            <div class="text-xs text-gray-600">vs</div>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="text-sm font-semibold">You</span>
+                                <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded">Join</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 font-semibold">
+                        Join Battle
+                    </button>
+                </div>
+
+                <!-- Human vs Human Battle -->
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
+                    <div class="flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4 mx-auto">
+                        <i data-lucide="users" class="h-8 w-8 text-red-600"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3 text-center">Human vs Human</h3>
+                    <p class="text-gray-600 mb-4 text-center">Compete with other users in prediction challenges</p>
+                    <div class="space-y-3 mb-4">
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-semibold">Player 1</span>
+                                <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Waiting</span>
+                            </div>
+                            <div class="text-xs text-gray-600">vs</div>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="text-sm font-semibold">Player 2</span>
+                                <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Waiting</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 font-semibold">
+                        Create Battle
+                    </button>
+                </div>
+            </div>
+
+            <!-- Active Battles -->
+            <div class="mt-8">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Active Battles</h2>
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 border rounded-lg">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-2xl">🤖</span>
+                                <div>
+                                    <h3 class="font-semibold">GPT-4 vs Claude</h3>
+                                    <p class="text-sm text-gray-600">Bitcoin $100k prediction</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Live</span>
+                                <button class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 text-sm font-semibold">Watch</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 border rounded-lg">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-2xl">👤</span>
+                                <div>
+                                    <h3 class="font-semibold">User123 vs Llama Vision</h3>
+                                    <p class="text-sm text-gray-600">Ethereum $6k prediction</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Live</span>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-semibold">Watch</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 border rounded-lg">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-2xl">⚔️</span>
+                                <div>
+                                    <h3 class="font-semibold">CryptoKing vs TraderPro</h3>
+                                    <p class="text-sm text-gray-600">Solana $300 prediction</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Live</span>
+                                <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm font-semibold">Watch</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -1420,13 +1420,14 @@
                     const finalScore2 = parseInt(document.getElementById(score2Id).textContent);
                     const winner1 = finalScore1 > finalScore2;
                     const winnerName = winner1 ? battlePlayer1Name : battlePlayer2Name;
-                    const isWin = (winner1 && selectedBetSide === 'A') || (!winner1 && selectedBetSide === 'B');
+                    const loserName = winner1 ? battlePlayer2Name : battlePlayer1Name;
+                    const isWin = (winner1 && selectedBetSide === 'A') || (!winner1 && selectedBetSide === 'B') || (winner1 && score1Id.includes('ai-score')) || (winner1 && score1Id.includes('p1-score'));
                     const reward = isWin ? betAmount * 1.8 : 0;
                     
                     if (isWin) {
                         document.getElementById('battle-status').innerHTML = `🏆 ${winnerName} Wins!<br><span class="text-green-600">You won ${reward.toFixed(2)} AION!</span>`;
                     } else {
-                        document.getElementById('battle-status').innerHTML = `🏆 ${winnerName} Wins!<br><span class="text-red-600">You lost ${betAmount} AION</span>`;
+                        document.getElementById('battle-status').innerHTML = `🏆 ${winnerName} Wins!<br><span class="text-red-600">${loserName} lost ${betAmount} AION</span>`;
                     }
                     battleInProgress = false;
                 }

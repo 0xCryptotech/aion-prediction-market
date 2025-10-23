@@ -1038,6 +1038,9 @@
             const aiA = battleAIModels[aiAIndex];
             const aiB = battleAIModels[aiBIndex];
             
+            battlePlayer1Name = aiA.name;
+            battlePlayer2Name = aiB.name;
+            
             closeBattleModal();
             battleInProgress = true;
             
@@ -1165,6 +1168,9 @@
             const coin = battleCoins[coinIndex];
             const aiPrediction = Math.random() > 0.5 ? 'BULLISH' : 'BEARISH';
             
+            battlePlayer1Name = ai.name;
+            battlePlayer2Name = localStorage.getItem('userName_' + walletAddress) || 'You';
+            
             closeBattleModal();
             battleInProgress = true;
             
@@ -1285,6 +1291,10 @@
             
             const coin = battleCoins[coinIndex];
             const opponentPosition = pvpPosition === 'BULLISH' ? 'BEARISH' : 'BULLISH';
+            const opponentName = ['CryptoKing', 'TraderPro', 'BullMaster', 'BearHunter', 'MoonShot'][Math.floor(Math.random() * 5)];
+            
+            battlePlayer1Name = localStorage.getItem('userName_' + walletAddress) || 'You';
+            battlePlayer2Name = opponentName;
             
             closeBattleModal();
             battleInProgress = true;
@@ -1309,7 +1319,7 @@
                         </div>
                         <div class="text-center p-4 ${opponentPosition === 'BULLISH' ? 'bg-green-50 ring-2 ring-green-500' : 'bg-red-50 ring-2 ring-red-500'} rounded-lg">
                             <div class="text-4xl mb-2">👤</div>
-                            <h4 class="font-bold">${['CryptoKing', 'TraderPro', 'BullMaster', 'BearHunter', 'MoonShot'][Math.floor(Math.random() * 5)]}</h4>
+                            <h4 class="font-bold">${opponentName}</h4>
                             <p class="text-sm text-gray-600">0x${Math.random().toString(16).substr(2,6)}...</p>
                             <p class="text-xs text-gray-500">Win Rate: ${(Math.random() * 30 + 60).toFixed(1)}%</p>
                             <p class="text-xs font-semibold mt-1">${opponentPosition}</p>
@@ -1356,6 +1366,9 @@
             }, 500);
         }
 
+        let battlePlayer1Name = '';
+        let battlePlayer2Name = '';
+
         function simulateBattleWithBet(score1Id, score2Id, betAmount) {
             let progress = 0;
             let round = 1;
@@ -1376,14 +1389,15 @@
                     clearInterval(interval);
                     const finalScore1 = parseInt(document.getElementById(score1Id).textContent);
                     const finalScore2 = parseInt(document.getElementById(score2Id).textContent);
-                    const winnerSide = finalScore1 > finalScore2 ? 'A' : 'B';
-                    const isWin = winnerSide === selectedBetSide;
+                    const winner1 = finalScore1 > finalScore2;
+                    const winnerName = winner1 ? battlePlayer1Name : battlePlayer2Name;
+                    const isWin = (winner1 && selectedBetSide === 'A') || (!winner1 && selectedBetSide === 'B');
                     const reward = isWin ? betAmount * 1.8 : 0;
                     
                     if (isWin) {
-                        document.getElementById('battle-status').innerHTML = `🏆 AI ${winnerSide} Wins!<br><span class="text-green-600">You won ${reward.toFixed(2)} AION!</span>`;
+                        document.getElementById('battle-status').innerHTML = `🏆 ${winnerName} Wins!<br><span class="text-green-600">You won ${reward.toFixed(2)} AION!</span>`;
                     } else {
-                        document.getElementById('battle-status').innerHTML = `🏆 AI ${winnerSide} Wins!<br><span class="text-red-600">You lost ${betAmount} AION</span>`;
+                        document.getElementById('battle-status').innerHTML = `🏆 ${winnerName} Wins!<br><span class="text-red-600">You lost ${betAmount} AION</span>`;
                     }
                     battleInProgress = false;
                 }

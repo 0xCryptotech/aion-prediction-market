@@ -1003,6 +1003,16 @@
                         </select>
                     </div>
                     <div class="mb-4">
+                        <label class="block text-sm font-semibold mb-2">Time Frame</label>
+                        <div class="grid grid-cols-5 gap-2">
+                            <button onclick="selectTimeFrame('M1')" id="tf-m1" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M1</button>
+                            <button onclick="selectTimeFrame('M5')" id="tf-m5" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold bg-red-100 border-red-500">M5</button>
+                            <button onclick="selectTimeFrame('M10')" id="tf-m10" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M10</button>
+                            <button onclick="selectTimeFrame('M15')" id="tf-m15" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M15</button>
+                            <button onclick="selectTimeFrame('M30')" id="tf-m30" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M30</button>
+                        </div>
+                    </div>
+                    <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Choose Your Bet</label>
                         <div class="grid grid-cols-2 gap-2">
                             <button onclick="selectBetSide('A')" id="bet-a" class="p-3 border-2 rounded-lg hover:bg-blue-50 hover:border-blue-500">
@@ -1027,6 +1037,34 @@
         }
 
         let selectedBetSide = null;
+        let selectedTimeFrame = 'M5';
+        let selectedTimeFrameHuman = 'M5';
+        let selectedTimeFramePvP = 'M5';
+
+        function selectTimeFrame(tf) {
+            selectedTimeFrame = tf;
+            ['M1', 'M5', 'M10', 'M15', 'M30'].forEach(t => {
+                document.getElementById('tf-' + t.toLowerCase()).classList.remove('bg-red-100', 'border-red-500');
+            });
+            document.getElementById('tf-' + tf.toLowerCase()).classList.add('bg-red-100', 'border-red-500');
+        }
+
+        function selectTimeFrameHuman(tf) {
+            selectedTimeFrameHuman = tf;
+            ['M1', 'M5', 'M10', 'M15', 'M30'].forEach(t => {
+                document.getElementById('tfh-' + t.toLowerCase()).classList.remove('bg-blue-100', 'border-blue-500');
+            });
+            document.getElementById('tfh-' + tf.toLowerCase()).classList.add('bg-blue-100', 'border-blue-500');
+        }
+
+        function selectTimeFramePvP(tf) {
+            selectedTimeFramePvP = tf;
+            ['M1', 'M5', 'M10', 'M15', 'M30'].forEach(t => {
+                document.getElementById('tfp-' + t.toLowerCase()).classList.remove('bg-red-100', 'border-red-500');
+            });
+            document.getElementById('tfp-' + tf.toLowerCase()).classList.add('bg-red-100', 'border-red-500');
+        }
+
         function selectBetSide(side) {
             selectedBetSide = side;
             document.getElementById('bet-a').classList.remove('bg-blue-100', 'border-blue-500');
@@ -1077,7 +1115,7 @@
                     <h3 class="text-2xl font-bold mb-4 text-center">AI vs AI Battle</h3>
                     <div class="text-center mb-4">
                         <p class="text-sm text-gray-600">Coin: <span class="font-bold">${coin.name}</span> - Target: <span class="font-bold">${coin.target}</span></p>
-                        <p class="text-sm text-gray-600">Your Bet: <span class="font-bold text-red-600">${betAmount} AION</span> on <span class="font-bold">AI ${selectedBetSide}</span></p>
+                        <p class="text-sm text-gray-600">Time Frame: <span class="font-bold text-purple-600">${selectedTimeFrame}</span> | Your Bet: <span class="font-bold text-red-600">${betAmount} AION</span> on <span class="font-bold">AI ${selectedBetSide}</span></p>
                     </div>
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div class="text-center p-4 bg-${aiA.color}-50 rounded-lg ${selectedBetSide === 'A' ? 'ring-2 ring-red-500' : ''}">
@@ -1151,6 +1189,16 @@
                         </select>
                     </div>
                     <div class="mb-4">
+                        <label class="block text-sm font-semibold mb-2">Time Frame</label>
+                        <div class="grid grid-cols-5 gap-2">
+                            <button onclick="selectTimeFrameHuman('M1')" id="tfh-m1" class="p-2 border-2 rounded-lg hover:bg-blue-50 hover:border-blue-500 text-sm font-semibold">M1</button>
+                            <button onclick="selectTimeFrameHuman('M5')" id="tfh-m5" class="p-2 border-2 rounded-lg hover:bg-blue-50 hover:border-blue-500 text-sm font-semibold bg-blue-100 border-blue-500">M5</button>
+                            <button onclick="selectTimeFrameHuman('M10')" id="tfh-m10" class="p-2 border-2 rounded-lg hover:bg-blue-50 hover:border-blue-500 text-sm font-semibold">M10</button>
+                            <button onclick="selectTimeFrameHuman('M15')" id="tfh-m15" class="p-2 border-2 rounded-lg hover:bg-blue-50 hover:border-blue-500 text-sm font-semibold">M15</button>
+                            <button onclick="selectTimeFrameHuman('M30')" id="tfh-m30" class="p-2 border-2 rounded-lg hover:bg-blue-50 hover:border-blue-500 text-sm font-semibold">M30</button>
+                        </div>
+                    </div>
+                    <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Bet Amount (AION)</label>
                         <input type="number" id="human-bet-amount" class="w-full border rounded-lg px-3 py-2" placeholder="Enter amount" min="1">
                     </div>
@@ -1190,7 +1238,7 @@
                     <h3 class="text-2xl font-bold mb-4 text-center">AI vs Human Battle</h3>
                     <div class="text-center mb-4">
                         <p class="text-sm text-gray-600">Coin: <span class="font-bold">${coin.name}</span> - Target: <span class="font-bold">${coin.target}</span></p>
-                        <p class="text-sm text-gray-600">Your Bet: <span class="font-bold text-blue-600">${betAmount} AION</span></p>
+                        <p class="text-sm text-gray-600">Time Frame: <span class="font-bold text-purple-600">${selectedTimeFrameHuman}</span> | Your Bet: <span class="font-bold text-blue-600">${betAmount} AION</span></p>
                     </div>
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div class="text-center p-4 bg-${ai.color}-50 rounded-lg">
@@ -1258,6 +1306,16 @@
                         </div>
                     </div>
                     <div class="mb-4">
+                        <label class="block text-sm font-semibold mb-2">Time Frame</label>
+                        <div class="grid grid-cols-5 gap-2">
+                            <button onclick="selectTimeFramePvP('M1')" id="tfp-m1" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M1</button>
+                            <button onclick="selectTimeFramePvP('M5')" id="tfp-m5" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold bg-red-100 border-red-500">M5</button>
+                            <button onclick="selectTimeFramePvP('M10')" id="tfp-m10" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M10</button>
+                            <button onclick="selectTimeFramePvP('M15')" id="tfp-m15" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M15</button>
+                            <button onclick="selectTimeFramePvP('M30')" id="tfp-m30" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M30</button>
+                        </div>
+                    </div>
+                    <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Bet Amount (AION)</label>
                         <input type="number" id="pvp-bet-amount" class="w-full border rounded-lg px-3 py-2" placeholder="Enter amount" min="1">
                     </div>
@@ -1315,7 +1373,7 @@
                     <h3 class="text-2xl font-bold mb-4 text-center">Human vs Human Battle</h3>
                     <div class="text-center mb-4">
                         <p class="text-sm text-gray-600">Coin: <span class="font-bold">${coin.name}</span> - Target: <span class="font-bold">${coin.target}</span></p>
-                        <p class="text-sm text-gray-600">Bet: <span class="font-bold text-red-600">${betAmount} AION</span> each</p>
+                        <p class="text-sm text-gray-600">Time Frame: <span class="font-bold text-purple-600">${selectedTimeFramePvP}</span> | Bet: <span class="font-bold text-red-600">${betAmount} AION</span> each</p>
                     </div>
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div class="text-center p-4 ${pvpPosition === 'BULLISH' ? 'bg-green-50 ring-2 ring-green-500' : 'bg-red-50 ring-2 ring-red-500'} rounded-lg">

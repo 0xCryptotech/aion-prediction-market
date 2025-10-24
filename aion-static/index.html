@@ -984,24 +984,23 @@
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>
                             <label class="block text-sm font-semibold mb-2">AI Model A</label>
-                            <select id="ai-a-select" class="w-full border rounded-lg px-3 py-2 mb-2">
+                            <select id="ai-a-select" class="w-full border rounded-lg px-3 py-2">
                                 ${battleAIModels.map((ai, i) => `<option value="${i}">${ai.name} (${ai.accuracy})</option>`).join('')}
-                            </select>
-                            <select id="ai-a-prediction" class="w-full border rounded-lg px-3 py-2">
-                                <option value="BULLISH">📈 BULLISH</option>
-                                <option value="BEARISH">📉 BEARISH</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-semibold mb-2">AI Model B</label>
-                            <select id="ai-b-select" class="w-full border rounded-lg px-3 py-2 mb-2">
+                            <select id="ai-b-select" class="w-full border rounded-lg px-3 py-2">
                                 ${battleAIModels.map((ai, i) => `<option value="${i}" ${i === 1 ? 'selected' : ''}>${ai.name} (${ai.accuracy})</option>`).join('')}
                             </select>
-                            <select id="ai-b-prediction" class="w-full border rounded-lg px-3 py-2">
-                                <option value="BULLISH">📈 BULLISH</option>
-                                <option value="BEARISH" selected>📉 BEARISH</option>
-                            </select>
                         </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold mb-2">Prediction</label>
+                        <select id="ai-prediction" class="w-full border rounded-lg px-3 py-2">
+                            <option value="BULLISH">📈 BULLISH</option>
+                            <option value="BEARISH">📉 BEARISH</option>
+                        </select>
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Choose Your Bet</label>
@@ -1044,8 +1043,9 @@
             const aiBIndex = document.getElementById('ai-b-select').value;
             const coinIndex = document.getElementById('ai-coin-select').value;
             const betAmount = document.getElementById('bet-amount').value;
-            const aiAPrediction = document.getElementById('ai-a-prediction').value;
-            const aiBPrediction = document.getElementById('ai-b-prediction').value;
+            const prediction = document.getElementById('ai-prediction').value;
+            const aiAPrediction = prediction;
+            const aiBPrediction = prediction === 'BULLISH' ? 'BEARISH' : 'BULLISH';
             
             if (aiAIndex === aiBIndex) {
                 alert('Please select different AI models!');
@@ -1084,14 +1084,14 @@
                             <div class="text-4xl mb-2">🤖</div>
                             <h4 class="font-bold">${aiA.name}</h4>
                             <p class="text-sm text-gray-600">${aiA.accuracy}</p>
-                            <p class="text-xs font-semibold mt-1">${aiAPrediction}</p>
+                            <p class="text-xs font-semibold mt-1">${aiAPrediction === 'BULLISH' ? '📈' : '📉'} ${aiAPrediction}</p>
                             <div class="mt-2 text-2xl font-bold text-${aiA.color}-600" id="ai1-score">0</div>
                         </div>
                         <div class="text-center p-4 bg-${aiB.color}-50 rounded-lg ${selectedBetSide === 'B' ? 'ring-2 ring-red-500' : ''}">
                             <div class="text-4xl mb-2">🤖</div>
                             <h4 class="font-bold">${aiB.name}</h4>
                             <p class="text-sm text-gray-600">${aiB.accuracy}</p>
-                            <p class="text-xs font-semibold mt-1">${aiBPrediction}</p>
+                            <p class="text-xs font-semibold mt-1">${aiBPrediction === 'BULLISH' ? '📈' : '📉'} ${aiBPrediction}</p>
                             <div class="mt-2 text-2xl font-bold text-${aiB.color}-600" id="ai2-score">0</div>
                         </div>
                     </div>

@@ -1145,14 +1145,10 @@
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Your Prediction</label>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button onclick="selectHumanPrediction('BULLISH')" id="pred-bull" class="p-3 border-2 rounded-lg hover:bg-green-50 hover:border-green-500">
-                                📈 BULLISH (Will Reach)
-                            </button>
-                            <button onclick="selectHumanPrediction('BEARISH')" id="pred-bear" class="p-3 border-2 rounded-lg hover:bg-red-50 hover:border-red-500">
-                                📉 BEARISH (Won't Reach)
-                            </button>
-                        </div>
+                        <select id="human-prediction" class="w-full border rounded-lg px-3 py-2">
+                            <option value="BULLISH">📈 BULLISH (Will Reach)</option>
+                            <option value="BEARISH">📉 BEARISH (Won't Reach)</option>
+                        </select>
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Bet Amount (AION)</label>
@@ -1167,27 +1163,11 @@
             document.body.appendChild(modal);
         }
 
-        let humanPrediction = null;
-        function selectHumanPrediction(pred) {
-            humanPrediction = pred;
-            document.getElementById('pred-bull').classList.remove('bg-green-100', 'border-green-500');
-            document.getElementById('pred-bear').classList.remove('bg-red-100', 'border-red-500');
-            if (pred === 'BULLISH') {
-                document.getElementById('pred-bull').classList.add('bg-green-100', 'border-green-500');
-            } else {
-                document.getElementById('pred-bear').classList.add('bg-red-100', 'border-red-500');
-            }
-        }
-
         function startHumanBattle() {
             const aiIndex = document.getElementById('ai-opponent-select').value;
             const coinIndex = document.getElementById('coin-select').value;
             const betAmount = document.getElementById('human-bet-amount').value;
-            
-            if (!humanPrediction) {
-                alert('Please select your prediction (BULLISH or BEARISH)!');
-                return;
-            }
+            const humanPrediction = document.getElementById('human-prediction').value;
             if (!betAmount || betAmount <= 0) {
                 alert('Please enter a valid bet amount!');
                 return;
@@ -1195,7 +1175,7 @@
             
             const ai = battleAIModels[aiIndex];
             const coin = battleCoins[coinIndex];
-            const aiPrediction = Math.random() > 0.5 ? 'BULLISH' : 'BEARISH';
+            const aiPrediction = humanPrediction === 'BULLISH' ? 'BEARISH' : 'BULLISH';
             
             battlePlayer1Name = ai.name;
             battlePlayer2Name = localStorage.getItem('userName_' + walletAddress) || 'You';
@@ -1217,14 +1197,14 @@
                             <div class="text-4xl mb-2">🤖</div>
                             <h4 class="font-bold">${ai.name}</h4>
                             <p class="text-sm text-gray-600">${ai.accuracy}</p>
-                            <p class="text-xs font-semibold mt-1">${aiPrediction}</p>
+                            <p class="text-xs font-semibold mt-1">${aiPrediction === 'BULLISH' ? '📈' : '📉'} ${aiPrediction}</p>
                             <div class="mt-2 text-2xl font-bold text-${ai.color}-600" id="ai-score">0</div>
                         </div>
                         <div class="text-center p-4 bg-orange-50 rounded-lg">
                             <div class="text-4xl mb-2">👤</div>
                             <h4 class="font-bold">You</h4>
                             <p class="text-sm text-gray-600">${walletAddress.substring(0,6)}...</p>
-                            <p class="text-xs font-semibold mt-1">${humanPrediction}</p>
+                            <p class="text-xs font-semibold mt-1">${humanPrediction === 'BULLISH' ? '📈' : '📉'} ${humanPrediction}</p>
                             <div class="mt-2 text-2xl font-bold text-orange-600" id="human-score">0</div>
                         </div>
                     </div>

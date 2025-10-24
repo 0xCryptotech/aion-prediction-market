@@ -1347,6 +1347,31 @@
                 <p class="text-lg text-gray-300">Shape the future of AION through community voting</p>
             </div>
 
+            <!-- Filters & Create Button -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="backdrop-blur-lg bg-white/5 border border-white/10 rounded-xl p-3">
+                    <select id="filter-status" class="w-full bg-transparent text-white text-sm font-mono" onchange="filterProposals()">
+                        <option value="all">🕓 All Status</option>
+                        <option value="active">🟢 Active</option>
+                        <option value="pending">🟡 Pending</option>
+                        <option value="executed">🔴 Executed</option>
+                    </select>
+                </div>
+                <div class="backdrop-blur-lg bg-white/5 border border-white/10 rounded-xl p-3">
+                    <select id="filter-category" class="w-full bg-transparent text-white text-sm font-mono" onchange="filterProposals()">
+                        <option value="all">🧭 All Categories</option>
+                        <option value="governance">⚖️ Governance</option>
+                        <option value="market">📊 Market</option>
+                        <option value="ai">🤖 AI Model</option>
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <button onclick="openCreateProposal()" class="w-full bg-gradient-to-r from-red-600 to-red-800 text-white px-6 py-3 rounded-xl hover:from-red-700 hover:to-red-900 font-bold transition-all shadow-lg shadow-red-500/30 hover:shadow-red-500/50">
+                        ✨ Create New Proposal
+                    </button>
+                </div>
+            </div>
+
             <!-- Stats Bar -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
                 <div class="backdrop-blur-lg bg-white/5 border border-white/10 rounded-xl p-4">
@@ -1369,7 +1394,7 @@
             
             <div class="space-y-6">
                 <!-- Proposal 1 - Active -->
-                <div class="backdrop-blur-lg bg-white/5 border border-green-500/30 rounded-xl p-6 shadow-2xl hover:shadow-green-500/20 transition-all relative overflow-hidden">
+                <div class="backdrop-blur-lg bg-white/5 border border-green-500/30 rounded-xl p-6 shadow-2xl hover:shadow-red-500/50 hover:border-red-500/50 transition-all duration-300 relative overflow-hidden proposal-card" data-status="active" data-category="ai" onclick="showProposalDetail(1)">
                     <div class="absolute top-4 left-4 text-4xl">🧠</div>
                     <div class="absolute inset-0 bg-gradient-to-r from-green-500/5 to-transparent"></div>
                     <div class="relative z-10 ml-16">
@@ -1407,7 +1432,7 @@
                 </div>
 
                 <!-- Proposal 2 - Active -->
-                <div class="backdrop-blur-lg bg-white/5 border border-green-500/30 rounded-xl p-6 shadow-2xl hover:shadow-green-500/20 transition-all relative overflow-hidden">
+                <div class="backdrop-blur-lg bg-white/5 border border-green-500/30 rounded-xl p-6 shadow-2xl hover:shadow-red-500/50 hover:border-red-500/50 transition-all duration-300 relative overflow-hidden proposal-card" data-status="active" data-category="market" onclick="showProposalDetail(2)">
                     <div class="absolute top-4 left-4 text-4xl">🏦</div>
                     <div class="absolute inset-0 bg-gradient-to-r from-green-500/5 to-transparent"></div>
                     <div class="relative z-10 ml-16">
@@ -1445,7 +1470,7 @@
                 </div>
 
                 <!-- Proposal 3 - Pending -->
-                <div class="backdrop-blur-lg bg-white/5 border border-yellow-500/30 rounded-xl p-6 shadow-2xl hover:shadow-yellow-500/20 transition-all relative overflow-hidden">
+                <div class="backdrop-blur-lg bg-white/5 border border-yellow-500/30 rounded-xl p-6 shadow-2xl hover:shadow-red-500/50 hover:border-red-500/50 transition-all duration-300 relative overflow-hidden proposal-card" data-status="pending" data-category="governance" onclick="showProposalDetail(3)">
                     <div class="absolute top-4 left-4 text-4xl">⚙️</div>
                     <div class="absolute inset-0 bg-gradient-to-r from-yellow-500/5 to-transparent"></div>
                     <div class="relative z-10 ml-16">
@@ -1483,7 +1508,7 @@
                 </div>
 
                 <!-- Proposal 4 - Executed -->
-                <div class="backdrop-blur-lg bg-white/5 border border-red-500/30 rounded-xl p-6 shadow-2xl relative overflow-hidden opacity-75">
+                <div class="backdrop-blur-lg bg-white/5 border border-red-500/30 rounded-xl p-6 shadow-2xl hover:shadow-red-500/30 transition-all duration-300 relative overflow-hidden opacity-75 proposal-card" data-status="executed" data-category="governance" onclick="showProposalDetail(4)">
                     <div class="absolute top-4 left-4 text-4xl">🔒</div>
                     <div class="absolute inset-0 bg-gradient-to-r from-red-500/5 to-transparent"></div>
                     <div class="relative z-10 ml-16">
@@ -2651,23 +2676,223 @@ function buyItem(itemId) {
 
         // Governance Voting
         function voteProposal(proposalId, vote) {
+            event.stopPropagation();
             if (!isConnected) {
-                alert('Please connect your wallet first!');
+                showToast('⚠️ Please connect your wallet first!', 'error');
                 return;
             }
             
             const votingPower = document.getElementById('voting-power').textContent;
             if (votingPower === '0') {
-                alert('⚠️ You need AION tokens to vote!\n\nYour voting power: 0\nGet AION tokens to participate in governance.');
+                showToast('⚠️ You need AION tokens to vote!', 'error');
                 return;
             }
             
             const voteText = vote === 'for' ? '✅ FOR' : '❌ AGAINST';
-            const confirm = window.confirm(`Cast your vote ${voteText} on Proposal #${proposalId}?\n\nYour voting power: ${votingPower}\nThis action cannot be undone.`);
+            const btn = event.target;
+            const originalText = btn.textContent;
             
-            if (confirm) {
-                alert(`✅ Vote submitted successfully!\n\nProposal: #${proposalId}\nVote: ${voteText}\nVoting Power Used: ${votingPower}\n\nYour vote has been recorded on-chain.`);
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+            btn.classList.add('opacity-50');
+            
+            setTimeout(() => {
+                btn.textContent = '✅ Voted!';
+                btn.classList.remove('opacity-50');
+                showToast(`Vote submitted on-chain ✅\n\nProposal #${proposalId} • ${voteText}\nVoting Power: ${votingPower}`, 'success');
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                }, 2000);
+            }, 1000);
+        }
+        
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'from-green-600 to-green-800' : 'from-red-600 to-red-800';
+            toast.className = `fixed top-20 right-4 bg-gradient-to-r ${bgColor} text-white px-6 py-4 rounded-xl shadow-2xl z-50 animate-slide-in font-mono text-sm`;
+            toast.style.whiteSpace = 'pre-line';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slide-out 0.3s ease-out';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        
+        function filterProposals() {
+            const status = document.getElementById('filter-status').value;
+            const category = document.getElementById('filter-category').value;
+            const cards = document.querySelectorAll('.proposal-card');
+            
+            cards.forEach(card => {
+                const cardStatus = card.dataset.status;
+                const cardCategory = card.dataset.category;
+                const matchStatus = status === 'all' || cardStatus === status;
+                const matchCategory = category === 'all' || cardCategory === category;
+                
+                if (matchStatus && matchCategory) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function openCreateProposal() {
+            if (!isConnected) {
+                showToast('⚠️ Connect wallet to create proposals', 'error');
+                return;
             }
+            
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-red-500 rounded-xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                    <h3 class="text-3xl font-bold text-white mb-6 text-center">✨ Create New Proposal</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-300 mb-2">Proposal Title</label>
+                            <input type="text" id="proposal-title" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white" placeholder="Enter proposal title">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-bold text-gray-300 mb-2">Category</label>
+                            <select id="proposal-category" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white">
+                                <option value="governance">⚖️ Governance</option>
+                                <option value="market">📊 Market</option>
+                                <option value="ai">🤖 AI Model</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-bold text-gray-300 mb-2">Description</label>
+                            <textarea id="proposal-description" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white h-32" placeholder="Describe your proposal in detail..."></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-bold text-gray-300 mb-2">Voting Duration</label>
+                            <select id="proposal-duration" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white">
+                                <option value="1">1 Day</option>
+                                <option value="3" selected>3 Days</option>
+                                <option value="7">7 Days</option>
+                                <option value="14">14 Days</option>
+                            </select>
+                        </div>
+                        
+                        <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+                            <p class="text-yellow-400 text-sm font-mono">⚠️ Creating a proposal requires 1,000 AION tokens as deposit</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3 mt-6">
+                        <button onclick="submitProposal()" class="flex-1 bg-gradient-to-r from-red-600 to-red-800 text-white py-3 rounded-lg hover:from-red-700 hover:to-red-900 font-bold transition-all">
+                            Submit Proposal
+                        </button>
+                        <button onclick="closeModal()" class="flex-1 bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 font-bold transition-all">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        
+        function submitProposal() {
+            const title = document.getElementById('proposal-title').value;
+            const category = document.getElementById('proposal-category').value;
+            const description = document.getElementById('proposal-description').value;
+            const duration = document.getElementById('proposal-duration').value;
+            
+            if (!title || !description) {
+                showToast('⚠️ Please fill all required fields', 'error');
+                return;
+            }
+            
+            closeModal();
+            showToast(`✅ Proposal submitted successfully!\n\nTitle: ${title}\nCategory: ${category}\nDuration: ${duration} days\n\nYour proposal is now pending review.`, 'success');
+        }
+        
+        function showProposalDetail(proposalId) {
+            const proposals = [
+                {id: 1, title: 'Increase AI Model Stake Requirement', category: 'AI Model', forVotes: 12450, againstVotes: 3420, forPct: 78.4, againstPct: 21.6, ends: '12h 30m', voters: 15870},
+                {id: 2, title: 'Add New Market Category: DeFi', category: 'Market', forVotes: 8920, againstVotes: 1240, forPct: 87.8, againstPct: 12.2, ends: '8h 15m', voters: 10160},
+                {id: 3, title: 'Reduce Transaction Fees by 50%', category: 'Governance', forVotes: 5140, againstVotes: 2860, forPct: 64.2, againstPct: 35.8, ends: '2d 5h', voters: 8000},
+                {id: 4, title: 'Enable Multi-Chain Support', category: 'Governance', forVotes: 18420, againstVotes: 1580, forPct: 92.1, againstPct: 7.9, ends: 'Executed', voters: 20000}
+            ];
+            
+            const proposal = proposals[proposalId - 1];
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-red-500 rounded-xl p-8 max-w-2xl w-full mx-4">
+                    <h3 class="text-3xl font-bold text-white mb-2">${proposal.title}</h3>
+                    <p class="text-gray-400 mb-6 font-mono text-sm">Proposal #${proposal.id} • ${proposal.category}</p>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-white/5 rounded-lg p-4 border border-white/10">
+                            <div class="text-xs text-gray-400 mb-1">For Votes</div>
+                            <div class="text-3xl font-bold text-green-400 font-mono">${proposal.forVotes.toLocaleString()}</div>
+                            <div class="text-sm text-green-500">${proposal.forPct}%</div>
+                        </div>
+                        <div class="bg-white/5 rounded-lg p-4 border border-white/10">
+                            <div class="text-xs text-gray-400 mb-1">Against Votes</div>
+                            <div class="text-3xl font-bold text-red-400 font-mono">${proposal.againstVotes.toLocaleString()}</div>
+                            <div class="text-sm text-red-500">${proposal.againstPct}%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/5 rounded-lg p-6 border border-white/10 mb-6">
+                        <canvas id="vote-chart" width="400" height="200"></canvas>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-6 text-sm text-gray-400 font-mono">
+                        <span>⏳ ${proposal.ends}</span>
+                        <span>👥 ${proposal.voters.toLocaleString()} voters</span>
+                    </div>
+                    
+                    <button onclick="closeModal()" class="w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 font-bold transition-all">
+                        Close
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // Draw pie chart
+            setTimeout(() => {
+                const canvas = document.getElementById('vote-chart');
+                if (canvas) {
+                    const ctx = canvas.getContext('2d');
+                    const centerX = 200;
+                    const centerY = 100;
+                    const radius = 80;
+                    
+                    // For slice
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.arc(centerX, centerY, radius, 0, (proposal.forPct / 100) * 2 * Math.PI);
+                    ctx.closePath();
+                    ctx.fillStyle = '#22c55e';
+                    ctx.fill();
+                    
+                    // Against slice
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.arc(centerX, centerY, radius, (proposal.forPct / 100) * 2 * Math.PI, 2 * Math.PI);
+                    ctx.closePath();
+                    ctx.fillStyle = '#ef4444';
+                    ctx.fill();
+                    
+                    // Labels
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 16px monospace';
+                    ctx.fillText(`FOR ${proposal.forPct}%`, 50, 50);
+                    ctx.fillText(`AGAINST ${proposal.againstPct}%`, 250, 150);
+                }
+            }, 100);
         }
         
         function updateVotingPower() {
@@ -2837,6 +3062,17 @@ function buyItem(itemId) {
         body {
             background: linear-gradient(to bottom right, #111, #1a0000, #000);
             min-height: 100vh;
+        }
+        @keyframes slide-in {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slide-out {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(400px); opacity: 0; }
+        }
+        .animate-slide-in {
+            animation: slide-in 0.3s ease-out;
         }
     </style>
 </body>

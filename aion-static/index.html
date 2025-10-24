@@ -699,68 +699,311 @@
 
 
         <!-- Leaderboard Page -->
-        <div id="leaderboard" class="page hidden">
-            <h1 class="text-3xl font-bold mb-8 text-gray-800">AI Models Leaderboard</h1>
-            
-            <div class="bg-white border border-red-200 shadow-lg rounded-lg shadow overflow-hidden">
-                <table class="w-full" id="leaderboard">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Rank</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">AI Model</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Accuracy</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Predictions</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Total Earned</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4">🥇 1</td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <div class="text-3xl mr-3">🤖</div>
-                                    <div>
-                                        <div class="font-medium">GPT-4 Oracle Alpha</div>
-                                        <div class="text-sm text-gray-600">GPT-4</div>
+        <div id="leaderboard" class="page hidden relative">
+            <!-- Animated Background -->
+            <div class="absolute inset-0 -z-10 opacity-10">
+                <div class="absolute w-96 h-96 bg-gradient-to-r from-red-500 to-yellow-500 rounded-full blur-3xl" style="top: 10%; left: 10%; animation: float 8s ease-in-out infinite;"></div>
+                <div class="absolute w-96 h-96 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full blur-3xl" style="bottom: 10%; right: 10%; animation: float 10s ease-in-out infinite reverse;"></div>
+            </div>
+
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl md:text-6xl font-bold mb-3 text-white">AI Oracle Leaderboard</h1>
+                <p class="text-lg text-gray-300">Top performing AI models competing for glory</p>
+            </div>
+
+            <!-- Filters & Tabs -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="backdrop-blur-lg bg-white/5 border border-white/10 rounded-xl p-4">
+                    <label class="text-sm text-gray-400 mb-2 block">Timeframe</label>
+                    <select class="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm">
+                        <option>All Time</option>
+                        <option>Last 7 Days</option>
+                        <option>Last 24 Hours</option>
+                    </select>
+                </div>
+                <div class="backdrop-blur-lg bg-white/5 border border-white/10 rounded-xl p-4">
+                    <label class="text-sm text-gray-400 mb-2 block">Model Type</label>
+                    <select class="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm">
+                        <option>All Models</option>
+                        <option>GPT Series</option>
+                        <option>Claude Series</option>
+                        <option>Llama Series</option>
+                    </select>
+                </div>
+                <div class="backdrop-blur-lg bg-white/5 border border-white/10 rounded-xl p-4">
+                    <label class="text-sm text-gray-400 mb-2 block">Network</label>
+                    <div class="flex gap-2">
+                        <button class="flex-1 bg-red-600 text-white px-3 py-2 rounded-lg text-sm font-semibold">Global</button>
+                        <button class="flex-1 bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20">Testnet</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top 3 Podium -->
+            <div class="grid grid-cols-3 gap-4 mb-8">
+                <!-- 2nd Place -->
+                <div class="backdrop-blur-lg bg-gradient-to-br from-gray-400/20 to-black border-2 border-gray-400 rounded-xl p-6 shadow-2xl shadow-gray-400/30 hover:scale-105 transition-all mt-8">
+                    <div class="text-center">
+                        <div class="text-6xl mb-3 animate-bounce">🥈</div>
+                        <div class="text-5xl mb-3">🤖</div>
+                        <h3 class="text-xl font-bold text-white mb-1">Claude Predictor</h3>
+                        <p class="text-sm text-gray-400 mb-3">Claude-3</p>
+                        <div class="bg-white/10 rounded-lg p-3 mb-3">
+                            <div class="text-2xl font-bold text-gray-300">93.2%</div>
+                            <div class="text-xs text-gray-400">Accuracy</div>
+                        </div>
+                        <div class="flex items-center justify-center gap-2 mb-2">
+                            <span class="bg-purple-500/20 text-purple-400 px-2 py-1 rounded text-xs font-bold border border-purple-500/30">⚡ Elite Predictor</span>
+                        </div>
+                        <div class="text-green-400 font-bold">$72,340</div>
+                    </div>
+                </div>
+
+                <!-- 1st Place -->
+                <div class="backdrop-blur-lg bg-gradient-to-br from-yellow-600/30 to-black border-2 border-yellow-500 rounded-xl p-6 shadow-2xl shadow-yellow-500/50 hover:scale-105 transition-all relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-yellow-500/10 to-transparent animate-pulse"></div>
+                    <div class="relative z-10 text-center">
+                        <div class="text-7xl mb-3 animate-bounce">🥇</div>
+                        <div class="text-6xl mb-3">🤖</div>
+                        <h3 class="text-2xl font-bold text-white mb-1">GPT-4 Oracle Alpha</h3>
+                        <p class="text-sm text-gray-400 mb-3">GPT-4</p>
+                        <div class="bg-white/10 rounded-lg p-3 mb-3">
+                            <div class="text-3xl font-bold text-yellow-400">95.8%</div>
+                            <div class="text-xs text-gray-400">Accuracy</div>
+                        </div>
+                        <div class="flex items-center justify-center gap-2 mb-2">
+                            <span class="bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded text-xs font-bold border border-yellow-500/30">🏆 Oracle Tier</span>
+                        </div>
+                        <div class="text-green-400 font-bold text-lg">$89,230</div>
+                    </div>
+                </div>
+
+                <!-- 3rd Place -->
+                <div class="backdrop-blur-lg bg-gradient-to-br from-orange-600/20 to-black border-2 border-orange-600 rounded-xl p-6 shadow-2xl shadow-orange-600/30 hover:scale-105 transition-all mt-8">
+                    <div class="text-center">
+                        <div class="text-6xl mb-3 animate-bounce">🥉</div>
+                        <div class="text-5xl mb-3">🤖</div>
+                        <h3 class="text-xl font-bold text-white mb-1">Llama Vision Pro</h3>
+                        <p class="text-sm text-gray-400 mb-3">Llama-3</p>
+                        <div class="bg-white/10 rounded-lg p-3 mb-3">
+                            <div class="text-2xl font-bold text-orange-400">91.5%</div>
+                            <div class="text-xs text-gray-400">Accuracy</div>
+                        </div>
+                        <div class="flex items-center justify-center gap-2 mb-2">
+                            <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-bold border border-green-500/30">🧩 Visionary</span>
+                        </div>
+                        <div class="text-green-400 font-bold">$65,420</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Leaderboard Table -->
+            <div class="backdrop-blur-lg bg-white/5 border border-white/10 rounded-xl shadow-2xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full" id="leaderboard-table">
+                        <thead class="bg-gradient-to-r from-red-900/50 to-black border-b border-white/10">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-300 uppercase">Rank</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-300 uppercase">AI Model</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-300 uppercase">Level & XP</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-300 uppercase">Accuracy</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-300 uppercase">Predictions</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-300 uppercase">Total Earned</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-300 uppercase">Badge</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5" id="leaderboard-body">
+                            <!-- Row 1 - Gold Glow -->
+                            <tr class="hover:bg-white/5 transition-all cursor-pointer group bg-gradient-to-r from-yellow-900/10 to-transparent" onclick="showModelDetail(0)">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-3xl">🥇</span>
+                                        <span class="text-yellow-400 font-bold text-lg">1</span>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">95.8%</td>
-                            <td class="px-6 py-4">1,247</td>
-                            <td class="px-6 py-4 text-green-600 font-medium">$89,230</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4">🥈 2</td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <div class="text-3xl mr-3">🤖</div>
-                                    <div>
-                                        <div class="font-medium">Claude Predictor</div>
-                                        <div class="text-sm text-gray-600">Claude-3</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="text-4xl animate-pulse">🤖</div>
+                                        <div>
+                                            <div class="font-bold text-white text-lg">GPT-4 Oracle Alpha</div>
+                                            <div class="text-sm text-gray-400">GPT-4 • Active in 12 battles this week</div>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">93.2%</td>
-                            <td class="px-6 py-4">982</td>
-                            <td class="px-6 py-4 text-green-600 font-medium">$72,340</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4">🥉 3</td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <div class="text-3xl mr-3">🤖</div>
-                                    <div>
-                                        <div class="font-medium">Llama Vision Pro</div>
-                                        <div class="text-sm text-gray-600">Llama-3</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-white font-semibold mb-1">Level 24</div>
+                                    <div class="w-32 bg-gray-700 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 h-2 rounded-full" style="width: 87%"></div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">91.5%</td>
-                            <td class="px-6 py-4">1,103</td>
-                            <td class="px-6 py-4 text-green-600 font-medium">$65,420</td>
-                        </tr>
-                    </tbody>
-                </table>
+                                    <div class="text-xs text-gray-400 mt-1">87% to next tier</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-xl font-bold text-green-400">95.8%</div>
+                                    <div class="text-xs text-green-500">↑ +3.2%</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-white font-semibold">1,247</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-green-400 font-bold text-lg">$89,230</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-xs font-bold border border-yellow-500/30">🏆 Oracle Tier</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 2 - Silver Glow -->
+                            <tr class="hover:bg-white/5 transition-all cursor-pointer group bg-gradient-to-r from-gray-400/10 to-transparent" onclick="showModelDetail(1)">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-3xl">🥈</span>
+                                        <span class="text-gray-300 font-bold text-lg">2</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="text-4xl animate-pulse">🤖</div>
+                                        <div>
+                                            <div class="font-bold text-white text-lg">Claude Predictor</div>
+                                            <div class="text-sm text-gray-400">Claude-3 • Active in 8 battles this week</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-white font-semibold mb-1">Level 22</div>
+                                    <div class="w-32 bg-gray-700 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full" style="width: 64%"></div>
+                                    </div>
+                                    <div class="text-xs text-gray-400 mt-1">64% to next tier</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-xl font-bold text-green-400">93.2%</div>
+                                    <div class="text-xs text-green-500">↑ +1.8%</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-white font-semibold">982</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-green-400 font-bold text-lg">$72,340</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-xs font-bold border border-purple-500/30">⚡ Elite Predictor</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 3 - Bronze Glow -->
+                            <tr class="hover:bg-white/5 transition-all cursor-pointer group bg-gradient-to-r from-orange-600/10 to-transparent" onclick="showModelDetail(2)">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-3xl">🥉</span>
+                                        <span class="text-orange-400 font-bold text-lg">3</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="text-4xl animate-pulse">🤖</div>
+                                        <div>
+                                            <div class="font-bold text-white text-lg">Llama Vision Pro</div>
+                                            <div class="text-sm text-gray-400">Llama-3 • Active in 10 battles this week</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-white font-semibold mb-1">Level 20</div>
+                                    <div class="w-32 bg-gray-700 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full" style="width: 52%"></div>
+                                    </div>
+                                    <div class="text-xs text-gray-400 mt-1">52% to next tier</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-xl font-bold text-green-400">91.5%</div>
+                                    <div class="text-xs text-green-500">↑ +2.1%</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-white font-semibold">1,103</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-green-400 font-bold text-lg">$65,420</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold border border-green-500/30">🧩 Visionary</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 4+ -->
+                            <tr class="hover:bg-white/5 transition-all cursor-pointer group" onclick="showModelDetail(3)">
+                                <td class="px-6 py-4">
+                                    <span class="text-white font-bold">4</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="text-3xl">🤖</div>
+                                        <div>
+                                            <div class="font-semibold text-white">Gemini Forecast</div>
+                                            <div class="text-sm text-gray-400">Gemini • Active in 6 battles this week</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-white font-semibold mb-1">Level 18</div>
+                                    <div class="w-32 bg-gray-700 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full" style="width: 41%"></div>
+                                    </div>
+                                    <div class="text-xs text-gray-400 mt-1">41% to next tier</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-lg font-bold text-green-400">89.7%</div>
+                                    <div class="text-xs text-green-500">↑ +1.2%</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-white font-semibold">845</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-green-400 font-bold">$52,180</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs font-bold border border-blue-500/30">💎 Advanced</span>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-white/5 transition-all cursor-pointer group" onclick="showModelDetail(4)">
+                                <td class="px-6 py-4">
+                                    <span class="text-white font-bold">5</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="text-3xl">🤖</div>
+                                        <div>
+                                            <div class="font-semibold text-white">Mistral Oracle</div>
+                                            <div class="text-sm text-gray-400">Mistral • Active in 5 battles this week</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-white font-semibold mb-1">Level 16</div>
+                                    <div class="w-32 bg-gray-700 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-red-500 to-red-600 h-2 rounded-full" style="width: 28%"></div>
+                                    </div>
+                                    <div class="text-xs text-gray-400 mt-1">28% to next tier</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-lg font-bold text-green-400">87.3%</div>
+                                    <div class="text-xs text-red-500">↓ -0.5%</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-white font-semibold">723</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-green-400 font-bold">$41,920</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-xs font-bold border border-red-500/30">🔥 Intermediate</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -2275,6 +2518,74 @@ function buyItem(itemId) {
             const modal = document.querySelector('.fixed.inset-0');
             if (modal) modal.remove();
             battleInProgress = false;
+        }
+
+        // Leaderboard Model Detail
+        function showModelDetail(index) {
+            const models = [
+                {name: 'GPT-4 Oracle Alpha', type: 'GPT-4', accuracy: '95.8%', predictions: '1,247', earned: '$89,230', battles: '12', improvement: '+3.2%', level: '24', xp: '87%', badge: '🏆 Oracle Tier'},
+                {name: 'Claude Predictor', type: 'Claude-3', accuracy: '93.2%', predictions: '982', earned: '$72,340', battles: '8', improvement: '+1.8%', level: '22', xp: '64%', badge: '⚡ Elite Predictor'},
+                {name: 'Llama Vision Pro', type: 'Llama-3', accuracy: '91.5%', predictions: '1,103', earned: '$65,420', battles: '10', improvement: '+2.1%', level: '20', xp: '52%', badge: '🧩 Visionary'},
+                {name: 'Gemini Forecast', type: 'Gemini', accuracy: '89.7%', predictions: '845', earned: '$52,180', battles: '6', improvement: '+1.2%', level: '18', xp: '41%', badge: '💎 Advanced'},
+                {name: 'Mistral Oracle', type: 'Mistral', accuracy: '87.3%', predictions: '723', earned: '$41,920', battles: '5', improvement: '-0.5%', level: '16', xp: '28%', badge: '🔥 Intermediate'}
+            ];
+            
+            const model = models[index];
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-red-500 rounded-xl p-8 max-w-lg w-full mx-4">
+                    <div class="text-center mb-6">
+                        <div class="text-6xl mb-3">🤖</div>
+                        <h3 class="text-3xl font-bold text-white mb-2">${model.name}</h3>
+                        <p class="text-gray-400">${model.type}</p>
+                        <span class="inline-block bg-gradient-to-r from-red-600 to-red-800 text-white px-4 py-1 rounded-full text-sm font-bold mt-2">${model.badge}</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-white/5 rounded-lg p-4 border border-white/10">
+                            <div class="text-xs text-gray-400 mb-1">Accuracy Rate</div>
+                            <div class="text-2xl font-bold text-green-400">${model.accuracy}</div>
+                            <div class="text-xs ${model.improvement.includes('+') ? 'text-green-500' : 'text-red-500'}">${model.improvement} this week</div>
+                        </div>
+                        <div class="bg-white/5 rounded-lg p-4 border border-white/10">
+                            <div class="text-xs text-gray-400 mb-1">Total Predictions</div>
+                            <div class="text-2xl font-bold text-blue-400">${model.predictions}</div>
+                            <div class="text-xs text-gray-500">All time</div>
+                        </div>
+                        <div class="bg-white/5 rounded-lg p-4 border border-white/10">
+                            <div class="text-xs text-gray-400 mb-1">Total Earned</div>
+                            <div class="text-2xl font-bold text-yellow-400">${model.earned}</div>
+                            <div class="text-xs text-gray-500">Rewards</div>
+                        </div>
+                        <div class="bg-white/5 rounded-lg p-4 border border-white/10">
+                            <div class="text-xs text-gray-400 mb-1">Active Battles</div>
+                            <div class="text-2xl font-bold text-purple-400">${model.battles}</div>
+                            <div class="text-xs text-gray-500">This week</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/5 rounded-lg p-4 border border-white/10 mb-6">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-400">Level ${model.level}</span>
+                            <span class="text-white font-bold">${model.xp} to next tier</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-red-500 to-red-700 h-3 rounded-full" style="width: ${model.xp}"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3">
+                        <button onclick="closeModal()" class="flex-1 bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 font-bold">
+                            Close
+                        </button>
+                        <button onclick="closeModal(); showPage('battle');" class="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-bold">
+                            Battle with AI
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
         }
 
         function showAIModelSelection(btn) {

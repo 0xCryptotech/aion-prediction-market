@@ -2128,74 +2128,107 @@ function buyItem(itemId) {
             const modal = document.createElement('div');
             modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
             modal.innerHTML = `
-                <div class="bg-white rounded-lg p-6 max-w-2xl w-full mx-4">
-                    <h3 class="text-2xl font-bold mb-4 text-center">Select AI Models for Battle</h3>
+                <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-red-500 rounded-xl p-6 max-w-2xl w-full mx-4 shadow-2xl shadow-red-500/50 relative overflow-hidden">
+                    <!-- Progress Bar -->
+                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 via-yellow-500 to-red-500 animate-pulse"></div>
+                    
+                    <!-- Header -->
+                    <div class="text-center mb-6 relative">
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/20 to-transparent h-px top-1/2"></div>
+                        <h3 class="text-3xl font-bold text-white relative inline-block px-4 bg-gradient-to-br from-gray-900 to-black">
+                            ⚔️ Battle Arena Setup
+                        </h3>
+                        <p class="text-gray-400 text-sm mt-2">⚙️ Preparing Arena...</p>
+                    </div>
+                    
+                    <!-- Coin Selection -->
                     <div class="mb-4">
-                        <label class="block text-sm font-semibold mb-2">Select Coin to Battle</label>
-                        <select id="ai-coin-select" class="w-full border rounded-lg px-3 py-2" onchange="updateLivePrice('ai')">
+                        <label class="block text-sm font-bold text-gray-300 mb-2">🪙 Select Coin to Battle</label>
+                        <select id="ai-coin-select" class="w-full bg-white/10 border border-red-500/30 rounded-lg px-4 py-3 text-white font-semibold backdrop-blur-sm" onchange="updateLivePrice('ai')">
                             ${battleCoins.map((coin, i) => `<option value="${i}">${coin.name}</option>`).join('')}
                         </select>
                     </div>
-                    <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+                    
+                    <!-- Live Price -->
+                    <div class="mb-4 p-4 bg-gradient-to-r from-green-900/30 to-black border border-green-500/30 rounded-lg backdrop-blur-sm">
                         <div class="flex justify-between items-center">
-                            <span class="text-sm font-semibold">Live Price:</span>
-                            <span class="text-lg font-bold text-green-600" id="ai-live-price">$0.00</span>
+                            <span class="text-sm font-bold text-gray-300">📊 Live Price:</span>
+                            <span class="text-2xl font-bold font-mono text-green-400 animate-pulse" id="ai-live-price">$0.00</span>
                         </div>
                     </div>
+                    
+                    <!-- AI Models -->
                     <div class="grid grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">AI Model A</label>
-                            <select id="ai-a-select" class="w-full border rounded-lg px-3 py-2">
+                        <div class="bg-white/5 border border-blue-500/30 rounded-lg p-3 backdrop-blur-sm">
+                            <label class="block text-xs font-bold text-blue-400 mb-2">🤖 AI Model A</label>
+                            <select id="ai-a-select" class="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm">
                                 ${battleAIModels.map((ai, i) => `<option value="${i}">${ai.name} (${ai.accuracy})</option>`).join('')}
                             </select>
                         </div>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">AI Model B</label>
-                            <select id="ai-b-select" class="w-full border rounded-lg px-3 py-2">
+                        <div class="bg-white/5 border border-purple-500/30 rounded-lg p-3 backdrop-blur-sm">
+                            <label class="block text-xs font-bold text-purple-400 mb-2">🤖 AI Model B</label>
+                            <select id="ai-b-select" class="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm">
                                 ${battleAIModels.map((ai, i) => `<option value="${i}" ${i === 1 ? 'selected' : ''}>${ai.name} (${ai.accuracy})</option>`).join('')}
                             </select>
                         </div>
                     </div>
+                    
+                    <!-- Prediction -->
                     <div class="mb-4">
-                        <label class="block text-sm font-semibold mb-2">Prediction</label>
-                        <select id="ai-prediction" class="w-full border rounded-lg px-3 py-2">
-                            <option value="BULLISH">📈 BULLISH</option>
-                            <option value="BEARISH">📉 BEARISH</option>
+                        <label class="block text-sm font-bold text-gray-300 mb-2">🎯 Prediction</label>
+                        <select id="ai-prediction" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white font-semibold">
+                            <option value="BULLISH">📈 BULLISH (Price Will Rise)</option>
+                            <option value="BEARISH">📉 BEARISH (Price Will Fall)</option>
                         </select>
                     </div>
+                    
+                    <!-- Time Frame -->
                     <div class="mb-4">
-                        <label class="block text-sm font-semibold mb-2">Time Frame</label>
+                        <label class="block text-sm font-bold text-gray-300 mb-2">⏱️ Time Frame</label>
                         <div class="grid grid-cols-5 gap-2">
-                            <button onclick="selectTimeFrame('M1')" id="tf-m1" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M1</button>
-                            <button onclick="selectTimeFrame('M5')" id="tf-m5" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold bg-red-100 border-red-500">M5</button>
-                            <button onclick="selectTimeFrame('M10')" id="tf-m10" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M10</button>
-                            <button onclick="selectTimeFrame('M15')" id="tf-m15" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M15</button>
-                            <button onclick="selectTimeFrame('M30')" id="tf-m30" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M30</button>
+                            <button onclick="selectTimeFrame('M1')" id="tf-m1" class="p-2 border-2 border-white/20 rounded-lg hover:border-red-500 hover:shadow-lg hover:shadow-red-500/50 text-white text-sm font-bold transition-all">M1</button>
+                            <button onclick="selectTimeFrame('M5')" id="tf-m5" class="p-2 border-2 border-red-500 rounded-lg shadow-lg shadow-red-500/50 text-white text-sm font-bold bg-red-500/20">M5</button>
+                            <button onclick="selectTimeFrame('M10')" id="tf-m10" class="p-2 border-2 border-white/20 rounded-lg hover:border-red-500 hover:shadow-lg hover:shadow-red-500/50 text-white text-sm font-bold transition-all">M10</button>
+                            <button onclick="selectTimeFrame('M15')" id="tf-m15" class="p-2 border-2 border-white/20 rounded-lg hover:border-red-500 hover:shadow-lg hover:shadow-red-500/50 text-white text-sm font-bold transition-all">M15</button>
+                            <button onclick="selectTimeFrame('M30')" id="tf-m30" class="p-2 border-2 border-white/20 rounded-lg hover:border-red-500 hover:shadow-lg hover:shadow-red-500/50 text-white text-sm font-bold transition-all">M30</button>
                         </div>
                     </div>
+                    
+                    <!-- Bet Selection -->
                     <div class="mb-4">
-                        <label class="block text-sm font-semibold mb-2">Choose Your Bet</label>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button onclick="selectBetSide('A')" id="bet-a" class="p-3 border-2 rounded-lg hover:bg-blue-50 hover:border-blue-500">
+                        <label class="block text-sm font-bold text-gray-300 mb-2">💰 Choose Your Bet</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="selectBetSide('A')" id="bet-a" class="p-4 border-2 border-white/20 rounded-lg hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/50 transition-all text-white font-bold">
+                                <div class="text-2xl mb-1">🤖</div>
                                 Bet on AI A
                             </button>
-                            <button onclick="selectBetSide('B')" id="bet-b" class="p-3 border-2 rounded-lg hover:bg-purple-50 hover:border-purple-500">
+                            <button onclick="selectBetSide('B')" id="bet-b" class="p-4 border-2 border-white/20 rounded-lg hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-800 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/50 transition-all text-white font-bold">
+                                <div class="text-2xl mb-1">🤖</div>
                                 Bet on AI B
                             </button>
                         </div>
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-semibold mb-2">Bet Amount (AION)</label>
-                        <input type="number" id="bet-amount" class="w-full border rounded-lg px-3 py-2" placeholder="Enter amount" min="1">
+                    
+                    <!-- Bet Amount -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-bold text-gray-300 mb-2">💎 Bet Amount</label>
+                        <input type="number" id="bet-amount" class="w-full bg-white/10 border border-yellow-500/30 rounded-lg px-4 py-3 text-white font-mono text-lg placeholder-gray-500" placeholder="Enter your stake (min. 10 AION)" min="10">
                     </div>
-                    <div class="flex gap-2">
-                        <button onclick="startBattleWithBet()" class="flex-1 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 font-semibold">Start Battle</button>
-                        <button onclick="closeBattleModal()" class="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400">Cancel</button>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex gap-3">
+                        <button onclick="startBattleWithBet()" class="flex-1 bg-gradient-to-r from-red-600 via-red-700 to-red-600 text-white py-4 rounded-lg hover:from-red-700 hover:via-red-800 hover:to-red-700 font-bold text-lg shadow-lg shadow-red-500/50 hover:shadow-red-500/70 transition-all border border-red-500">
+                            🚀 Launch Arena
+                        </button>
+                        <button onclick="closeBattleModal()" class="flex-1 bg-white/5 border border-white/20 text-gray-300 py-4 rounded-lg hover:bg-white/10 font-semibold transition-all">
+                            Cancel
+                        </button>
                     </div>
                 </div>
             `;
             document.body.appendChild(modal);
             updateLivePrice('ai');
+            startLivePriceAnimation('ai');
         }
 
         let selectedBetSide = null;
@@ -2206,9 +2239,11 @@ function buyItem(itemId) {
         function selectTimeFrame(tf) {
             selectedTimeFrame = tf;
             ['M1', 'M5', 'M10', 'M15', 'M30'].forEach(t => {
-                document.getElementById('tf-' + t.toLowerCase()).classList.remove('bg-red-100', 'border-red-500');
+                const btn = document.getElementById('tf-' + t.toLowerCase());
+                btn.classList.remove('bg-red-500/20', 'border-red-500', 'shadow-lg', 'shadow-red-500/50');
             });
-            document.getElementById('tf-' + tf.toLowerCase()).classList.add('bg-red-100', 'border-red-500');
+            const btn = document.getElementById('tf-' + tf.toLowerCase());
+            btn.classList.add('bg-red-500/20', 'border-red-500', 'shadow-lg', 'shadow-red-500/50');
         }
 
         function selectTimeFrameHuman(tf) {
@@ -2229,12 +2264,14 @@ function buyItem(itemId) {
 
         function selectBetSide(side) {
             selectedBetSide = side;
-            document.getElementById('bet-a').classList.remove('bg-blue-100', 'border-blue-500');
-            document.getElementById('bet-b').classList.remove('bg-purple-100', 'border-purple-500');
+            const btnA = document.getElementById('bet-a');
+            const btnB = document.getElementById('bet-b');
+            btnA.classList.remove('bg-gradient-to-br', 'from-blue-600', 'to-blue-800', 'border-blue-500', 'shadow-lg', 'shadow-blue-500/50');
+            btnB.classList.remove('bg-gradient-to-br', 'from-purple-600', 'to-purple-800', 'border-purple-500', 'shadow-lg', 'shadow-purple-500/50');
             if (side === 'A') {
-                document.getElementById('bet-a').classList.add('bg-blue-100', 'border-blue-500');
+                btnA.classList.add('bg-gradient-to-br', 'from-blue-600', 'to-blue-800', 'border-blue-500', 'shadow-lg', 'shadow-blue-500/50');
             } else {
-                document.getElementById('bet-b').classList.add('bg-purple-100', 'border-purple-500');
+                btnB.classList.add('bg-gradient-to-br', 'from-purple-600', 'to-purple-800', 'border-purple-500', 'shadow-lg', 'shadow-purple-500/50');
             }
         }
 
@@ -2248,17 +2285,37 @@ function buyItem(itemId) {
             const aiBPrediction = prediction === 'BULLISH' ? 'BEARISH' : 'BULLISH';
             
             if (aiAIndex === aiBIndex) {
-                alert('Please select different AI models!');
+                showToast('⚠️ Please select different AI models!', 'error');
                 return;
             }
             if (!selectedBetSide) {
-                alert('Please select which AI to bet on!');
+                showToast('⚠️ Please select which AI to bet on!', 'error');
                 return;
             }
-            if (!betAmount || betAmount <= 0) {
-                alert('Please enter a valid bet amount!');
+            if (!betAmount || betAmount < 10) {
+                showToast('⚠️ Minimum bet is 10 AION!', 'error');
                 return;
             }
+            
+            if (priceInterval) clearInterval(priceInterval);
+            
+            // Show loading modal
+            const loadingModal = document.createElement('div');
+            loadingModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            loadingModal.innerHTML = `
+                <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-red-500 rounded-xl p-8 text-center shadow-2xl shadow-red-500/50">
+                    <div class="text-6xl mb-4 animate-bounce">⚙️</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Deploying AI Agents to Arena...</h3>
+                    <div class="w-64 bg-gray-700 rounded-full h-2 mt-4">
+                        <div class="bg-gradient-to-r from-red-500 to-yellow-500 h-2 rounded-full animate-pulse" style="width: 100%"></div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(loadingModal);
+            
+            setTimeout(() => {
+                loadingModal.remove();
+            }, 1500);
             
             const aiA = battleAIModels[aiAIndex];
             const aiB = battleAIModels[aiBIndex];
@@ -2316,6 +2373,8 @@ function buyItem(itemId) {
             {name: 'Cardano (ADA)', symbol: 'ADA', target: '$2', basePrice: 1.2}
         ];
 
+        let priceInterval = null;
+        
         function updateLivePrice(type) {
             let selectId, priceId;
             if (type === 'ai') {
@@ -2333,7 +2392,19 @@ function buyItem(itemId) {
             const coin = battleCoins[coinIndex];
             const variation = (Math.random() - 0.5) * 0.02;
             const livePrice = coin.basePrice * (1 + variation);
-            document.getElementById(priceId).textContent = '$' + livePrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            const priceEl = document.getElementById(priceId);
+            priceEl.textContent = '$' + livePrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            
+            if (variation > 0) {
+                priceEl.className = 'text-2xl font-bold font-mono text-green-400 animate-pulse';
+            } else {
+                priceEl.className = 'text-2xl font-bold font-mono text-red-400 animate-pulse';
+            }
+        }
+        
+        function startLivePriceAnimation(type) {
+            if (priceInterval) clearInterval(priceInterval);
+            priceInterval = setInterval(() => updateLivePrice(type), 2000);
         }
 
         function startAIvHumanBattle() {
@@ -2669,6 +2740,7 @@ function buyItem(itemId) {
         }
 
         function closeBattleModal() {
+            if (priceInterval) clearInterval(priceInterval);
             const modal = document.querySelector('.fixed.inset-0');
             if (modal) modal.remove();
             battleInProgress = false;

@@ -110,11 +110,69 @@
             </div>
         </div>
 
-        <!-- About AION Page -->
+        <!-- Home Page -->
         <div id="about" class="page hidden">
-            <h1 class="text-3xl font-bold mb-8 text-gray-800">About AION</h1>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Hero Section -->
+            <div class="text-center mb-16 px-4">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent leading-tight">AION: The Future of Predictive Trading</h1>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">AI-powered prediction markets. Compete, Earn, and Shape the Future of On-chain Intelligence.</p>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <button onclick="showPage('battle')" class="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 font-semibold text-lg flex items-center gap-2">
+                        <span>🚀</span> Join Battle Now
+                    </button>
+                    <button onclick="showPage('marketplace')" class="bg-white border-2 border-red-600 text-red-600 px-8 py-3 rounded-lg hover:bg-red-50 font-semibold text-lg flex items-center gap-2">
+                        <span>📖</span> Explore Markets
+                    </button>
+                </div>
+            </div>
+
+            <!-- Live Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-8 text-center">
+                    <h3 class="text-4xl font-bold text-red-600 mb-2">1,248</h3>
+                    <p class="text-gray-600">Active Predictions</p>
+                </div>
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-8 text-center">
+                    <h3 class="text-4xl font-bold text-green-600 mb-2">582</h3>
+                    <p class="text-gray-600">Battles Won</p>
+                </div>
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-8 text-center">
+                    <h3 class="text-4xl font-bold text-yellow-600 mb-2">$42,870</h3>
+                    <p class="text-gray-600">Total Rewards</p>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">How It Works</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-4xl">1️⃣</span>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2">Choose a Market</h3>
+                        <p class="text-gray-600">Select from crypto, esports, or other prediction markets</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-4xl">2️⃣</span>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2">Pick Bullish or Bearish</h3>
+                        <p class="text-gray-600">Make your prediction and stake AION tokens</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-4xl">3️⃣</span>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2">Join Battle & Earn</h3>
+                        <p class="text-gray-600">Compete with AI or humans and win rewards</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">AION Ecosystem</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
                 <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
                     <div class="flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
                         <i data-lucide="brain" class="h-8 w-8 text-red-600"></i>
@@ -161,6 +219,26 @@
                     </div>
                     <h3 class="font-bold text-xl mb-3">Low Gas Fees</h3>
                     <p class="text-gray-600">Linera's microchains architecture dramatically reduces transaction costs, making predictions accessible to everyone.</p>
+                </div>
+            </div>
+
+            <!-- Community Section -->
+            <div class="bg-gradient-to-r from-red-600 to-red-800 rounded-lg p-12 text-center text-white">
+                <h2 class="text-3xl font-bold mb-4">Join the Community</h2>
+                <p class="text-lg mb-8 opacity-90">Connect with traders, AI enthusiasts, and prediction market experts</p>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <a href="https://twitter.com/aion" target="_blank" class="bg-white text-red-600 px-6 py-3 rounded-lg hover:bg-gray-100 font-semibold flex items-center gap-2">
+                        <span>𝕏</span> Twitter
+                    </a>
+                    <a href="https://discord.gg/aion" target="_blank" class="bg-white text-red-600 px-6 py-3 rounded-lg hover:bg-gray-100 font-semibold flex items-center gap-2">
+                        <span>💬</span> Discord
+                    </a>
+                    <a href="https://t.me/aion" target="_blank" class="bg-white text-red-600 px-6 py-3 rounded-lg hover:bg-gray-100 font-semibold flex items-center gap-2">
+                        <span>✈️</span> Telegram
+                    </a>
+                    <a href="https://docs.aion.network" target="_blank" class="bg-white text-red-600 px-6 py-3 rounded-lg hover:bg-gray-100 font-semibold flex items-center gap-2">
+                        <span>📚</span> Docs
+                    </a>
                 </div>
             </div>
         </div>

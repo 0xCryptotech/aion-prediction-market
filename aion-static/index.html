@@ -113,9 +113,13 @@
         <!-- Home Page -->
         <div id="about" class="page hidden">
             <!-- Hero Section -->
-            <div class="text-center mb-16 px-4">
+            <div class="text-center mb-16 px-4 relative">
+                <div class="absolute inset-0 -z-10 opacity-20">
+                    <div class="absolute w-64 h-64 bg-red-500 rounded-full blur-3xl animate-pulse" style="top: 0; left: 20%;"></div>
+                    <div class="absolute w-64 h-64 bg-red-600 rounded-full blur-3xl animate-pulse" style="top: 0; right: 20%; animation-delay: 1.5s;"></div>
+                </div>
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent leading-tight">AION: The Future of Predictive Trading</h1>
-                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">AI-powered prediction markets. Compete, Earn, and Shape the Future of On-chain Intelligence.</p>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8" id="typing-text">AI-powered prediction markets. Compete, Earn, and Shape the Future of On-chain Intelligence.</p>
                 <div class="flex flex-wrap gap-4 justify-center">
                     <button onclick="showPage('battle')" class="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 font-semibold text-lg flex items-center gap-2">
                         <span>🚀</span> Join Battle Now
@@ -223,7 +227,12 @@
             </div>
 
             <!-- Community Section -->
-            <div class="bg-gradient-to-r from-red-600 to-red-800 rounded-lg p-12 text-center text-white">
+            <div class="bg-gradient-to-r from-red-700 via-black to-black rounded-lg p-12 text-center text-white relative overflow-hidden">
+                <div class="absolute inset-0 opacity-30">
+                    <div class="absolute w-96 h-96 bg-red-500 rounded-full blur-3xl animate-pulse" style="top: -10%; left: -10%;"></div>
+                    <div class="absolute w-96 h-96 bg-red-600 rounded-full blur-3xl animate-pulse" style="bottom: -10%; right: -10%; animation-delay: 1s;"></div>
+                </div>
+                <div class="relative z-10">
                 <h2 class="text-3xl font-bold mb-4">Join the Community</h2>
                 <p class="text-lg mb-8 opacity-90">Connect with traders, AI enthusiasts, and prediction market experts</p>
                 <div class="flex flex-wrap gap-4 justify-center">
@@ -239,6 +248,7 @@
                     <a href="https://docs.aion.network" target="_blank" class="bg-white text-red-600 px-6 py-3 rounded-lg hover:bg-gray-100 font-semibold flex items-center gap-2">
                         <span>📚</span> Docs
                     </a>
+                </div>
                 </div>
             </div>
         </div>
@@ -807,6 +817,22 @@
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
+
+        // Typing animation
+        const typingText = document.getElementById('typing-text');
+        if (typingText) {
+            const text = typingText.textContent;
+            typingText.textContent = '';
+            let i = 0;
+            const typeWriter = () => {
+                if (i < text.length) {
+                    typingText.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                }
+            };
+            setTimeout(typeWriter, 500);
+        }
 
         // Fetch and display leaderboard data
         async function loadLeaderboard() {
@@ -1672,6 +1698,13 @@
         .nav-btn:not(.active):hover {
             background: rgba(255, 255, 255, 0.1);
             color: white;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+        }
+        .animate-pulse {
+            animation: pulse 4s ease-in-out infinite;
         }
     </style>
 </body>

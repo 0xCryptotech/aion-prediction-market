@@ -25,8 +25,8 @@
                         <span>Dashboard</span>
                     </button>
                     <button onclick="showPage('about')" class="nav-btn flex items-center space-x-2 px-4 py-2 rounded-lg">
-                        <i data-lucide="info" class="h-5 w-5"></i>
-                        <span>About AION</span>
+                        <i data-lucide="home" class="h-5 w-5"></i>
+                        <span>Home</span>
                     </button>
                     <button onclick="showPage('marketplace')" class="nav-btn flex items-center space-x-2 px-4 py-2 rounded-lg">
                         <i data-lucide="store" class="h-5 w-5"></i>
@@ -61,60 +61,285 @@
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8">
         <!-- Dashboard Page -->
-        <div id="dashboard" class="page">
-            <!-- Headline -->
-            <div class="text-center mb-12 px-4">
-                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-red-600 leading-tight">Empowering Truth Through Collective AI</h1>
-                <p class="text-base md:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">AION is a decentralized intelligence oracle network that transforms collective learning into verifiable predictions — bringing transparency, accuracy, and autonomy to the future of forecasting.</p>
+        <div id="dashboard" class="page relative">
+            <!-- Background Effects -->
+            <div class="absolute inset-0 -z-10 opacity-10">
+                <div class="absolute w-96 h-96 bg-red-600 rounded-full blur-3xl" style="top: 10%; left: 10%; animation: float 8s ease-in-out infinite;"></div>
+                <div class="absolute w-96 h-96 bg-red-500 rounded-full blur-3xl" style="bottom: 10%; right: 10%; animation: float 10s ease-in-out infinite reverse;"></div>
             </div>
-            
-            <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                <div class="bg-white border border-red-200 shadow-lg p-6 rounded-lg shadow">
-                    <h3 class="text-sm font-medium text-gray-600">Total Value Locked</h3>
-                    <p class="text-2xl font-bold text-green-600">$2.4M</p>
-                </div>
-                <div class="bg-white border border-red-200 shadow-lg p-6 rounded-lg shadow">
-                    <h3 class="text-sm font-medium text-gray-600">Active Predictions</h3>
-                    <p class="text-2xl font-bold text-blue-600">156</p>
-                </div>
-                <div class="bg-white border border-red-200 shadow-lg p-6 rounded-lg shadow">
-                    <h3 class="text-sm font-medium text-gray-600">Accuracy Rate</h3>
-                    <p class="text-2xl font-bold text-purple-600">92.3%</p>
-                </div>
-                <div class="bg-white border border-red-200 shadow-lg p-6 rounded-lg shadow">
-                    <h3 class="text-sm font-medium text-gray-600">Total Users</h3>
-                    <p class="text-2xl font-bold text-orange-600">8,429</p>
+
+            <!-- Live Banner -->
+            <div class="bg-gradient-to-r from-red-600 to-red-800 text-white py-2 px-4 rounded-lg mb-6 overflow-hidden">
+                <div class="flex items-center gap-2 animate-pulse">
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-ping"></span>
+                    <span class="text-sm font-semibold">LIVE: 1,248 Active Battles • $42,870 in Rewards • 582 Wins Today</span>
                 </div>
             </div>
 
-            <!-- Recent Activity -->
-            <div class="bg-white border border-red-200 shadow-lg rounded-lg shadow p-6">
-                <h2 class="text-xl font-bold mb-4">Recent Predictions</h2>
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between p-4 border rounded-lg">
-                        <div>
-                            <h3 class="font-semibold">Bitcoin Price Prediction</h3>
-                            <p class="text-sm text-gray-600">GPT-4 Oracle Alpha • 95.8% confidence</p>
-                        </div>
-                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Active</span>
+            <!-- Top Stats Bar -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-gradient-to-br from-gray-900 to-black border border-red-500/20 backdrop-blur-md p-6 rounded-xl shadow-2xl hover:shadow-red-500/20 transition-all hover:scale-105">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xs font-medium text-gray-400 uppercase">Total Value Locked</h3>
+                        <i data-lucide="trending-up" class="h-4 w-4 text-green-400"></i>
                     </div>
-                    <div class="flex items-center justify-between p-4 border rounded-lg">
-                        <div>
-                            <h3 class="font-semibold">Ethereum Market Trend</h3>
-                            <p class="text-sm text-gray-600">Claude Predictor • 93.2% confidence</p>
+                    <p class="text-3xl font-bold text-green-400">$2.4M</p>
+                    <p class="text-xs text-gray-500 mt-1">+12.5% this week</p>
+                </div>
+                <div class="bg-gradient-to-br from-gray-900 to-black border border-red-500/20 backdrop-blur-md p-6 rounded-xl shadow-2xl hover:shadow-red-500/20 transition-all hover:scale-105">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xs font-medium text-gray-400 uppercase">Active Predictions</h3>
+                        <i data-lucide="activity" class="h-4 w-4 text-blue-400"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-blue-400">156</p>
+                    <p class="text-xs text-gray-500 mt-1">+8 new today</p>
+                </div>
+                <div class="bg-gradient-to-br from-gray-900 to-black border border-red-500/20 backdrop-blur-md p-6 rounded-xl shadow-2xl hover:shadow-red-500/20 transition-all hover:scale-105">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xs font-medium text-gray-400 uppercase">Accuracy Rate</h3>
+                        <i data-lucide="target" class="h-4 w-4 text-purple-400"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-purple-400">92.3%</p>
+                    <p class="text-xs text-gray-500 mt-1">AI Models Average</p>
+                </div>
+                <div class="bg-gradient-to-br from-gray-900 to-black border border-red-500/20 backdrop-blur-md p-6 rounded-xl shadow-2xl hover:shadow-red-500/20 transition-all hover:scale-105">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xs font-medium text-gray-400 uppercase">Total Users</h3>
+                        <i data-lucide="users" class="h-4 w-4 text-orange-400"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-orange-400">8,429</p>
+                    <p class="text-xs text-gray-500 mt-1">+142 this week</p>
+                </div>
+            </div>
+
+            <!-- Main Grid Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Column (2/3) -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Battle Zone -->
+                    <div class="bg-gradient-to-br from-red-900/20 to-black border-2 border-red-500 backdrop-blur-md rounded-xl p-6 shadow-2xl shadow-red-500/30 hover:shadow-red-500/50 transition-all relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-red-500/10 to-transparent animate-pulse"></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                                    <i data-lucide="swords" class="h-6 w-6 text-red-500"></i>
+                                    Battle Zone
+                                </h2>
+                                <span class="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">HOT</span>
+                            </div>
+                            <p class="text-gray-300 mb-6">Join AI vs Human battles and earn rewards</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <button onclick="showPage('battle')" class="bg-gradient-to-r from-purple-600 to-purple-800 text-white p-4 rounded-lg hover:from-purple-700 hover:to-purple-900 transition-all hover:scale-105 border border-purple-500/50">
+                                    <div class="text-3xl mb-2">🤖</div>
+                                    <div class="font-bold">AI vs AI</div>
+                                    <div class="text-xs opacity-80">Watch & Bet</div>
+                                </button>
+                                <button onclick="showPage('battle')" class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 rounded-lg hover:from-blue-700 hover:to-blue-900 transition-all hover:scale-105 border border-blue-500/50">
+                                    <div class="text-3xl mb-2">🧠</div>
+                                    <div class="font-bold">AI vs Human</div>
+                                    <div class="text-xs opacity-80">Challenge AI</div>
+                                </button>
+                                <button onclick="showPage('battle')" class="bg-gradient-to-r from-red-600 to-red-800 text-white p-4 rounded-lg hover:from-red-700 hover:to-red-900 transition-all hover:scale-105 border border-red-500/50">
+                                    <div class="text-3xl mb-2">⚔️</div>
+                                    <div class="font-bold">Human vs Human</div>
+                                    <div class="text-xs opacity-80">PvP Battle</div>
+                                </button>
+                            </div>
                         </div>
-                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Resolved</span>
+                    </div>
+
+                    <!-- Market Sentiment -->
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 shadow-xl">
+                        <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                            <i data-lucide="bar-chart-3" class="h-5 w-5 text-red-500"></i>
+                            Market Sentiment
+                        </h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+                                <div class="text-green-400 text-2xl font-bold">68%</div>
+                                <div class="text-gray-300 text-sm">📈 Bullish</div>
+                            </div>
+                            <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+                                <div class="text-red-400 text-2xl font-bold">32%</div>
+                                <div class="text-gray-300 text-sm">📉 Bearish</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 shadow-xl">
+                        <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                            <i data-lucide="clock" class="h-5 w-5 text-red-500"></i>
+                            Recent Predictions
+                        </h2>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all">
+                                <div>
+                                    <h3 class="font-semibold text-white">Bitcoin Price Prediction</h3>
+                                    <p class="text-sm text-gray-400">GPT-4 Oracle Alpha • 95.8% confidence</p>
+                                </div>
+                                <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm border border-green-500/30">Active</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all">
+                                <div>
+                                    <h3 class="font-semibold text-white">Ethereum Market Trend</h3>
+                                    <p class="text-sm text-gray-400">Claude Predictor • 93.2% confidence</p>
+                                </div>
+                                <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm border border-blue-500/30">Resolved</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column (1/3) -->
+                <div class="space-y-6">
+                    <!-- User Profile Card -->
+                    <div class="bg-gradient-to-br from-red-900/30 to-black border border-red-500/30 backdrop-blur-md rounded-xl p-6 shadow-xl">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                A
+                            </div>
+                            <div>
+                                <h3 class="text-white font-bold" id="dash-user-name">Anonymous</h3>
+                                <p class="text-gray-400 text-sm" id="dash-user-wallet">Connect Wallet</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Balance</span>
+                                <span class="text-white font-bold">0 AION</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Win Rate</span>
+                                <span class="text-green-400 font-bold">0%</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Total Battles</span>
+                                <span class="text-blue-400 font-bold">0</span>
+                            </div>
+                        </div>
+                        <button onclick="showPage('userinfo')" class="w-full mt-4 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-all font-semibold">
+                            View Profile
+                        </button>
+                    </div>
+
+                    <!-- Top AI Models -->
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 shadow-xl">
+                        <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <i data-lucide="trophy" class="h-5 w-5 text-yellow-500"></i>
+                            Top AI Models
+                        </h2>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
+                                <span class="text-2xl">🥇</span>
+                                <div class="flex-1">
+                                    <div class="text-white font-semibold text-sm">GPT-4 Oracle</div>
+                                    <div class="text-gray-400 text-xs">95.8% accuracy</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
+                                <span class="text-2xl">🥈</span>
+                                <div class="flex-1">
+                                    <div class="text-white font-semibold text-sm">Claude Predictor</div>
+                                    <div class="text-gray-400 text-xs">93.2% accuracy</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
+                                <span class="text-2xl">🥉</span>
+                                <div class="flex-1">
+                                    <div class="text-white font-semibold text-sm">Llama Vision</div>
+                                    <div class="text-gray-400 text-xs">91.5% accuracy</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="showPage('leaderboard')" class="w-full mt-4 bg-white/10 text-white py-2 rounded-lg hover:bg-white/20 transition-all text-sm font-semibold">
+                            View Full Leaderboard
+                        </button>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 shadow-xl">
+                        <h2 class="text-lg font-bold text-white mb-4">Quick Actions</h2>
+                        <div class="space-y-2">
+                            <button onclick="showPage('marketplace')" class="w-full bg-blue-600/20 border border-blue-500/30 text-blue-400 py-2 rounded-lg hover:bg-blue-600/30 transition-all text-sm font-semibold">
+                                📊 Browse Markets
+                            </button>
+                            <button onclick="showPage('governance')" class="w-full bg-purple-600/20 border border-purple-500/30 text-purple-400 py-2 rounded-lg hover:bg-purple-600/30 transition-all text-sm font-semibold">
+                                🗳️ DAO Governance
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- About AION Page -->
+        <!-- Home Page -->
         <div id="about" class="page hidden">
-            <h1 class="text-3xl font-bold mb-8 text-gray-800">About AION</h1>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Hero Section -->
+            <div class="text-center mb-16 px-4 relative">
+                <div class="absolute inset-0 -z-10 opacity-20">
+                    <div class="absolute w-64 h-64 bg-red-500 rounded-full blur-3xl animate-pulse" style="top: 0; left: 20%;"></div>
+                    <div class="absolute w-64 h-64 bg-red-600 rounded-full blur-3xl animate-pulse" style="top: 0; right: 20%; animation-delay: 1.5s;"></div>
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent leading-tight">AION: The Future of Predictive Trading</h1>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8" id="typing-text">AI-powered prediction markets. Compete, Earn, and Shape the Future of On-chain Intelligence.</p>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <button onclick="showPage('battle')" class="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 font-semibold text-lg flex items-center gap-2">
+                        <span>🚀</span> Join Battle Now
+                    </button>
+                    <button onclick="showPage('marketplace')" class="bg-white border-2 border-red-600 text-red-600 px-8 py-3 rounded-lg hover:bg-red-50 font-semibold text-lg flex items-center gap-2">
+                        <span>📖</span> Explore Markets
+                    </button>
+                </div>
+            </div>
+
+            <!-- Live Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-8 text-center">
+                    <h3 class="text-4xl font-bold text-red-600 mb-2">1,248</h3>
+                    <p class="text-gray-600">Active Predictions</p>
+                </div>
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-8 text-center">
+                    <h3 class="text-4xl font-bold text-green-600 mb-2">582</h3>
+                    <p class="text-gray-600">Battles Won</p>
+                </div>
+                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-8 text-center">
+                    <h3 class="text-4xl font-bold text-yellow-600 mb-2">$42,870</h3>
+                    <p class="text-gray-600">Total Rewards</p>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">How It Works</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-4xl">1️⃣</span>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2">Choose a Market</h3>
+                        <p class="text-gray-600">Select from crypto, esports, or other prediction markets</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-4xl">2️⃣</span>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2">Pick Bullish or Bearish</h3>
+                        <p class="text-gray-600">Make your prediction and stake AION tokens</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-4xl">3️⃣</span>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2">Join Battle & Earn</h3>
+                        <p class="text-gray-600">Compete with AI or humans and win rewards</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">AION Ecosystem</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
                 <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
                     <div class="flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
                         <i data-lucide="brain" class="h-8 w-8 text-red-600"></i>
@@ -161,6 +386,32 @@
                     </div>
                     <h3 class="font-bold text-xl mb-3">Low Gas Fees</h3>
                     <p class="text-gray-600">Linera's microchains architecture dramatically reduces transaction costs, making predictions accessible to everyone.</p>
+                </div>
+            </div>
+
+            <!-- Community Section -->
+            <div class="bg-gradient-to-r from-red-700 via-black to-black rounded-lg p-12 text-center text-white relative overflow-hidden">
+                <div class="absolute inset-0 opacity-30">
+                    <div class="absolute w-96 h-96 bg-red-500 rounded-full blur-3xl animate-pulse" style="top: -10%; left: -10%;"></div>
+                    <div class="absolute w-96 h-96 bg-red-600 rounded-full blur-3xl animate-pulse" style="bottom: -10%; right: -10%; animation-delay: 1s;"></div>
+                </div>
+                <div class="relative z-10">
+                <h2 class="text-3xl font-bold mb-4">Join the Community</h2>
+                <p class="text-lg mb-8 opacity-90">Connect with traders, AI enthusiasts, and prediction market experts</p>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <a href="https://twitter.com/aion" target="_blank" class="bg-white text-red-600 px-6 py-3 rounded-lg hover:bg-gray-100 font-semibold flex items-center gap-2">
+                        <span>𝕏</span> Twitter
+                    </a>
+                    <a href="https://discord.gg/aion" target="_blank" class="bg-white text-red-600 px-6 py-3 rounded-lg hover:bg-gray-100 font-semibold flex items-center gap-2">
+                        <span>💬</span> Discord
+                    </a>
+                    <a href="https://t.me/aion" target="_blank" class="bg-white text-red-600 px-6 py-3 rounded-lg hover:bg-gray-100 font-semibold flex items-center gap-2">
+                        <span>✈️</span> Telegram
+                    </a>
+                    <a href="https://docs.aion.network" target="_blank" class="bg-white text-red-600 px-6 py-3 rounded-lg hover:bg-gray-100 font-semibold flex items-center gap-2">
+                        <span>📚</span> Docs
+                    </a>
+                </div>
                 </div>
             </div>
         </div>
@@ -372,7 +623,7 @@
                             <td class="px-6 py-4">🥇 1</td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-gray-900 text-sm mr-3">G</div>
+                                    <div class="text-3xl mr-3">🤖</div>
                                     <div>
                                         <div class="font-medium">GPT-4 Oracle Alpha</div>
                                         <div class="text-sm text-gray-600">GPT-4</div>
@@ -387,7 +638,7 @@
                             <td class="px-6 py-4">🥈 2</td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-gray-900 text-sm mr-3">C</div>
+                                    <div class="text-3xl mr-3">🤖</div>
                                     <div>
                                         <div class="font-medium">Claude Predictor</div>
                                         <div class="text-sm text-gray-600">Claude-3</div>
@@ -402,7 +653,7 @@
                             <td class="px-6 py-4">🥉 3</td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-gray-900 text-sm mr-3">L</div>
+                                    <div class="text-3xl mr-3">🤖</div>
                                     <div>
                                         <div class="font-medium">Llama Vision Pro</div>
                                         <div class="text-sm text-gray-600">Llama-3</div>
@@ -419,131 +670,323 @@
         </div>
 
         <!-- Battle Page -->
-        <div id="battle" class="page hidden">
-            <!-- Headline -->
-            <div class="text-center mb-12">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent">Battle Arena</h1>
-                <p class="text-lg text-gray-600">AION is where humans and AI rewrite the future</p>
+        <div id="battle" class="page hidden relative">
+            <!-- Background Effects -->
+            <div class="absolute inset-0 -z-10 opacity-10">
+                <div class="absolute w-96 h-96 bg-green-500 rounded-full blur-3xl" style="top: 20%; left: 10%; animation: float 6s ease-in-out infinite;"></div>
+                <div class="absolute w-96 h-96 bg-red-500 rounded-full blur-3xl" style="top: 20%; right: 10%; animation: float 8s ease-in-out infinite reverse;"></div>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- AI vs AI Battle -->
-                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6 flex flex-col">
-                    <div class="flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4 mx-auto">
-                        <i data-lucide="cpu" class="h-8 w-8 text-purple-600"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3 text-center">AI vs AI</h3>
-                    <p class="text-gray-600 mb-4 text-center min-h-[48px]">Watch AI models compete against each other in prediction battles</p>
-                    <div class="space-y-3 mb-4 flex-grow">
-                        <div class="p-3 bg-gray-50 rounded-lg">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-sm font-semibold">GPT-4 Oracle</span>
-                                <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">95.8%</span>
-                            </div>
-                            <div class="text-xs text-gray-600">vs</div>
-                            <div class="flex justify-between items-center mt-2">
-                                <span class="text-sm font-semibold">Claude Predictor</span>
-                                <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">93.2%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button onclick="startAIvAIBattle()" class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 font-semibold">
-                        Watch Battle
-                    </button>
-                </div>
 
-                <!-- AI vs Human Battle -->
-                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6 flex flex-col">
-                    <div class="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4 mx-auto">
-                        <i data-lucide="brain" class="h-8 w-8 text-blue-600"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3 text-center">AI vs Human</h3>
-                    <p class="text-gray-600 mb-4 text-center min-h-[48px]">Challenge AI models with your own predictions</p>
-                    <div class="space-y-3 mb-4 flex-grow">
-                        <div class="p-3 bg-gray-50 rounded-lg">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-sm font-semibold">Llama Vision Pro</span>
-                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">91.5%</span>
-                            </div>
-                            <div class="text-xs text-gray-600">vs</div>
-                            <div class="flex justify-between items-center mt-2">
-                                <span class="text-sm font-semibold">You</span>
-                                <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded">Join</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button onclick="startAIvHumanBattle()" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 font-semibold">
-                        Join Battle
-                    </button>
-                </div>
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl md:text-6xl font-bold mb-3 text-white">Battle Arena</h1>
+                <p class="text-lg text-gray-300">Choose your side, place your prediction, clash & earn</p>
+            </div>
 
-                <!-- Human vs Human Battle -->
-                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6 flex flex-col">
-                    <div class="flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4 mx-auto">
-                        <i data-lucide="users" class="h-8 w-8 text-red-600"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3 text-center">Human vs Human</h3>
-                    <p class="text-gray-600 mb-4 text-center min-h-[48px]">Compete with other users in prediction challenges</p>
-                    <div class="space-y-3 mb-4 flex-grow">
-                        <div class="p-3 bg-gray-50 rounded-lg">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-sm font-semibold">Player 1</span>
-                                <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Waiting</span>
-                            </div>
-                            <div class="text-xs text-gray-600">vs</div>
-                            <div class="flex justify-between items-center mt-2">
-                                <span class="text-sm font-semibold">Player 2</span>
-                                <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Waiting</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button onclick="startHumanvHumanBattle()" class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 font-semibold">
-                        Create Battle
-                    </button>
+            <!-- Live Stats Bar -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4 text-center">
+                    <div class="text-2xl font-bold text-green-400">1,248</div>
+                    <div class="text-xs text-gray-400">Active Battles</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4 text-center">
+                    <div class="text-2xl font-bold text-yellow-400">$42.8K</div>
+                    <div class="text-xs text-gray-400">Total Pot</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4 text-center">
+                    <div class="text-2xl font-bold text-blue-400">8,429</div>
+                    <div class="text-xs text-gray-400">Total Players</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4 text-center">
+                    <div class="text-2xl font-bold text-purple-400">92.3%</div>
+                    <div class="text-xs text-gray-400">Avg Win Rate</div>
                 </div>
             </div>
 
-            <!-- Active Battles -->
+            <!-- Main Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Column - Battle Cards -->
+                <div class="lg:col-span-2 space-y-6">
+                    <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <i data-lucide="flame" class="h-6 w-6 text-red-500"></i>
+                        Live Battles
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 gap-4">
+                        <!-- AI vs AI Battle Card -->
+                        <div class="bg-gradient-to-br from-purple-900/30 to-black border-2 border-purple-500 rounded-xl p-6 relative overflow-hidden hover:scale-105 transition-all hover:shadow-2xl hover:shadow-purple-500/50">
+                            <div class="absolute top-2 right-2">
+                                <span class="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">LIVE</span>
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent animate-pulse"></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center">
+                                        <i data-lucide="cpu" class="h-6 w-6 text-purple-400"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white">AI vs AI</h3>
+                                        <p class="text-xs text-gray-400">BTC/USD - M5</p>
+                                    </div>
+                                </div>
+                                <div class="bg-black/30 rounded-lg p-4 mb-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-sm text-gray-300">GPT-4 Oracle</span>
+                                        <span class="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded border border-blue-500/30">95.8%</span>
+                                    </div>
+                                    <div class="text-center text-xs text-gray-500 my-2">VS</div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-300">Claude Predictor</span>
+                                        <span class="text-xs bg-purple-500/20 text-purple-400 px-2 py-1 rounded border border-purple-500/30">93.2%</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="text-center">
+                                        <div class="text-xs text-gray-400">Pot</div>
+                                        <div class="text-lg font-bold text-yellow-400">3.2 ETH</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-xs text-gray-400">Players</div>
+                                        <div class="text-lg font-bold text-blue-400">142</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-xs text-gray-400">Time</div>
+                                        <div class="text-lg font-bold text-red-400">04:32</div>
+                                    </div>
+                                </div>
+                                <button onclick="startAIvAIBattle()" class="w-full bg-gradient-to-r from-purple-600 to-purple-800 text-white py-3 rounded-lg hover:from-purple-700 hover:to-purple-900 font-bold transition-all border border-purple-500/50">
+                                    👁️ Watch Battle
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- AI vs Human Battle Card -->
+                        <div class="bg-gradient-to-br from-blue-900/30 to-black border-2 border-blue-500 rounded-xl p-6 relative overflow-hidden hover:scale-105 transition-all hover:shadow-2xl hover:shadow-blue-500/50">
+                            <div class="absolute top-2 right-2">
+                                <span class="bg-yellow-500 text-black px-3 py-1 rounded-full text-xs font-bold">HOT</span>
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent"></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center">
+                                        <i data-lucide="brain" class="h-6 w-6 text-blue-400"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white">AI vs Human</h3>
+                                        <p class="text-xs text-gray-400">ETH/USD - M10</p>
+                                    </div>
+                                </div>
+                                <div class="bg-black/30 rounded-lg p-4 mb-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-sm text-gray-300">Llama Vision Pro</span>
+                                        <span class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded border border-green-500/30">91.5%</span>
+                                    </div>
+                                    <div class="text-center text-xs text-gray-500 my-2">VS</div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-300">You</span>
+                                        <span class="text-xs bg-orange-500/20 text-orange-400 px-2 py-1 rounded border border-orange-500/30">Join Now</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="text-center">
+                                        <div class="text-xs text-gray-400">Pot</div>
+                                        <div class="text-lg font-bold text-yellow-400">5.8 ETH</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-xs text-gray-400">Players</div>
+                                        <div class="text-lg font-bold text-blue-400">89</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-xs text-gray-400">Time</div>
+                                        <div class="text-lg font-bold text-red-400">08:15</div>
+                                    </div>
+                                </div>
+                                <button onclick="startAIvHumanBattle()" class="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white py-3 rounded-lg hover:from-blue-700 hover:to-blue-900 font-bold transition-all border border-blue-500/50">
+                                    ⚡ Join Battle
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Human vs Human Battle Card -->
+                        <div class="bg-gradient-to-br from-red-900/30 to-black border-2 border-red-500 rounded-xl p-6 relative overflow-hidden hover:scale-105 transition-all hover:shadow-2xl hover:shadow-red-500/50">
+                            <div class="absolute top-2 right-2">
+                                <span class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold">NEW</span>
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-red-500/10 to-transparent"></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center">
+                                        <i data-lucide="users" class="h-6 w-6 text-red-400"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white">Human vs Human</h3>
+                                        <p class="text-xs text-gray-400">SOL/USD - M15</p>
+                                    </div>
+                                </div>
+                                <div class="bg-black/30 rounded-lg p-4 mb-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-sm text-gray-300">Player 1</span>
+                                        <span class="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded border border-yellow-500/30">Waiting</span>
+                                    </div>
+                                    <div class="text-center text-xs text-gray-500 my-2">VS</div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-300">Player 2</span>
+                                        <span class="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded border border-yellow-500/30">Waiting</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="text-center">
+                                        <div class="text-xs text-gray-400">Pot</div>
+                                        <div class="text-lg font-bold text-yellow-400">2.1 ETH</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-xs text-gray-400">Players</div>
+                                        <div class="text-lg font-bold text-blue-400">64</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-xs text-gray-400">Time</div>
+                                        <div class="text-lg font-bold text-red-400">12:45</div>
+                                    </div>
+                                </div>
+                                <button onclick="startHumanvHumanBattle()" class="w-full bg-gradient-to-r from-red-600 to-red-800 text-white py-3 rounded-lg hover:from-red-700 hover:to-red-900 font-bold transition-all border border-red-500/50">
+                                    🔥 Create Battle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Sentiment & Leaderboard -->
+                <div class="space-y-6">
+                    <!-- Sentiment Meter -->
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <i data-lucide="trending-up" class="h-5 w-5 text-green-400"></i>
+                            Market Sentiment
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-green-400 font-bold">📈 Bull 68%</span>
+                                    <span class="text-red-400 font-bold">Bear 32% 📉</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full" style="width: 68%"></div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-3 text-center">
+                                    <div class="text-2xl font-bold text-green-400">5,742</div>
+                                    <div class="text-xs text-gray-400">Bull Votes</div>
+                                </div>
+                                <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-center">
+                                    <div class="text-2xl font-bold text-red-400">2,687</div>
+                                    <div class="text-xs text-gray-400">Bear Votes</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Winners -->
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <i data-lucide="trophy" class="h-5 w-5 text-yellow-400"></i>
+                            Recent Winners
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xl">🥇</span>
+                                    <div>
+                                        <div class="text-white font-semibold text-sm">CryptoKing</div>
+                                        <div class="text-gray-400 text-xs">BTC Bull</div>
+                                    </div>
+                                </div>
+                                <div class="text-green-400 font-bold text-sm">+2.4 ETH</div>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xl">🥈</span>
+                                    <div>
+                                        <div class="text-white font-semibold text-sm">TraderPro</div>
+                                        <div class="text-gray-400 text-xs">ETH Bear</div>
+                                    </div>
+                                </div>
+                                <div class="text-green-400 font-bold text-sm">+1.8 ETH</div>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xl">🥉</span>
+                                    <div>
+                                        <div class="text-white font-semibold text-sm">MoonShot</div>
+                                        <div class="text-gray-400 text-xs">SOL Bull</div>
+                                    </div>
+                                </div>
+                                <div class="text-green-400 font-bold text-sm">+1.2 ETH</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Your Position -->
+                    <div class="bg-gradient-to-br from-yellow-900/20 to-black border border-yellow-500/30 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <i data-lucide="user" class="h-5 w-5 text-yellow-400"></i>
+                            Your Position
+                        </h3>
+                        <div class="text-center py-4">
+                            <div class="text-gray-400 text-sm mb-2">No active battles</div>
+                            <button onclick="startAIvHumanBattle()" class="bg-yellow-600 text-black px-4 py-2 rounded-lg hover:bg-yellow-500 font-bold text-sm">
+                                Join Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Battles List -->
             <div class="mt-8">
-                <h2 class="text-2xl font-bold mb-4 text-gray-800">Active Battles</h2>
-                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between p-4 border rounded-lg">
+                <h2 class="text-2xl font-bold mb-4 text-white flex items-center gap-2">
+                    <i data-lucide="activity" class="h-6 w-6 text-red-500"></i>
+                    All Active Battles
+                </h2>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all">
                             <div class="flex items-center space-x-4">
                                 <span class="text-2xl">🤖</span>
                                 <div>
-                                    <h3 class="font-semibold">GPT-4 vs Claude</h3>
-                                    <p class="text-sm text-gray-600">Bitcoin $100k prediction</p>
+                                    <h3 class="font-semibold text-white">GPT-4 vs Claude</h3>
+                                    <p class="text-sm text-gray-400">Bitcoin $100k prediction</p>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-4">
-                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Live</span>
+                                <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm border border-green-500/30">Live</span>
                                 <button onclick="startAIvAIBattle()" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 text-sm font-semibold">Watch</button>
                             </div>
                         </div>
-                        <div class="flex items-center justify-between p-4 border rounded-lg">
+                        <div class="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all">
                             <div class="flex items-center space-x-4">
                                 <span class="text-2xl">👤</span>
                                 <div>
-                                    <h3 class="font-semibold">User123 vs Llama Vision</h3>
-                                    <p class="text-sm text-gray-600">Ethereum $6k prediction</p>
+                                    <h3 class="font-semibold text-white">User123 vs Llama Vision</h3>
+                                    <p class="text-sm text-gray-400">Ethereum $6k prediction</p>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-4">
-                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Live</span>
+                                <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm border border-green-500/30">Live</span>
                                 <button onclick="startAIvHumanBattle()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-semibold">Watch</button>
                             </div>
                         </div>
-                        <div class="flex items-center justify-between p-4 border rounded-lg">
+                        <div class="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all">
                             <div class="flex items-center space-x-4">
                                 <span class="text-2xl">⚔️</span>
                                 <div>
-                                    <h3 class="font-semibold">CryptoKing vs TraderPro</h3>
-                                    <p class="text-sm text-gray-600">Solana $300 prediction</p>
+                                    <h3 class="font-semibold text-white">CryptoKing vs TraderPro</h3>
+                                    <p class="text-sm text-gray-400">Solana $300 prediction</p>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-4">
-                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Live</span>
+                                <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm border border-green-500/30">Live</span>
                                 <button onclick="startHumanvHumanBattle()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm font-semibold">Watch</button>
                             </div>
                         </div>
@@ -606,115 +1049,256 @@
         </div>
 
         <!-- User Info Page -->
-        <div id="userinfo" class="page hidden">
-            <h1 class="text-3xl font-bold mb-8 text-gray-800">User Information</h1>
+        <div id="userinfo" class="page hidden relative">
+            <!-- Background Effects -->
+            <div class="absolute inset-0 -z-10 opacity-10">
+                <div class="absolute w-96 h-96 bg-red-600 rounded-full blur-3xl" style="top: 10%; left: 10%; animation: float 8s ease-in-out infinite;"></div>
+                <div class="absolute w-96 h-96 bg-red-500 rounded-full blur-3xl" style="bottom: 10%; right: 10%; animation: float 10s ease-in-out infinite reverse;"></div>
+            </div>
+
+            <h1 class="text-4xl font-bold mb-8 text-white text-center">Battle Profile</h1>
             
-            <!-- Profile Card -->
-            <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6 mb-6">
-                <div class="flex items-center space-x-6">
-                    <div class="relative">
-                        <img id="userPhoto" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt="Profile" class="w-24 h-24 rounded-full border-4 border-red-500">
-                        <button onclick="changePhoto()" class="absolute bottom-0 right-0 bg-red-600 text-white p-2 rounded-full hover:bg-red-700">
-                            <i data-lucide="camera" class="h-4 w-4"></i>
-                        </button>
-                    </div>
-                    <div class="flex-1">
-                        <h2 class="text-2xl font-bold" id="userName">Anonymous User</h2>
-                        <p class="text-gray-600" id="userBio">No bio yet</p>
-                        <button onclick="editProfile()" class="mt-2 bg-red-600 text-white px-4 py-1 rounded-lg hover:bg-red-700 text-sm font-semibold">
+            <!-- Main Grid Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Panel - Profile Card -->
+                <div class="space-y-6">
+                    <div class="backdrop-blur-lg bg-white/5 border border-red-700/30 rounded-xl p-6 shadow-2xl hover:shadow-red-500/20 transition-all">
+                        <div class="text-center mb-4">
+                            <div class="relative inline-block">
+                                <img id="userPhoto" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt="Profile" class="w-32 h-32 rounded-full border-4 border-red-500 shadow-lg shadow-red-500/50">
+                                <button onclick="changePhoto()" class="absolute bottom-0 right-0 bg-red-600 text-white p-2 rounded-full hover:bg-red-700 shadow-lg">
+                                    <i data-lucide="camera" class="h-4 w-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center mb-4">
+                            <h2 class="text-2xl font-bold text-white mb-1" id="userName">Anonymous User</h2>
+                            <p class="text-gray-400 text-sm mb-2" id="userBio">No bio yet</p>
+                            <div class="inline-block bg-gradient-to-r from-yellow-600 to-yellow-800 text-white px-3 py-1 rounded-full text-xs font-bold">⭐ Elite Trader</div>
+                        </div>
+                        <div class="space-y-3 mb-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Wallet</span>
+                                <span class="text-white font-mono text-xs" id="userWalletAddress">Not Connected</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Rank</span>
+                                <span class="text-yellow-400 font-bold">#142</span>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-400">XP Progress</span>
+                                    <span class="text-white font-bold">8,420 / 10,000</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-2">
+                                    <div class="bg-gradient-to-r from-red-500 to-red-700 h-2 rounded-full" style="width: 84.2%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="editProfile()" class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 font-semibold transition-all">
                             Edit Profile
                         </button>
                     </div>
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Wallet Info -->
-                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
-                    <h2 class="text-xl font-bold mb-4 flex items-center">
-                        <i data-lucide="wallet" class="h-5 w-5 mr-2"></i>
-                        Wallet Information
-                    </h2>
-                    <div class="space-y-3">
-                        <div>
-                            <p class="text-sm text-gray-600">Wallet Address</p>
-                            <p class="font-mono text-sm" id="userWalletAddress">Not Connected</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-600">AION Balance</p>
-                            <p class="text-2xl font-bold text-red-600" id="userAionBalance">0</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-600">ETH Balance</p>
-                            <p class="text-lg font-semibold" id="userEthBalance">0</p>
+
+                    <!-- Wallet Info -->
+                    <div class="backdrop-blur-lg bg-white/5 border border-red-700/30 rounded-xl p-6 shadow-xl">
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <i data-lucide="wallet" class="h-5 w-5 text-red-500"></i>
+                            Wallet
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <p class="text-xs text-gray-400 mb-1">AION Balance</p>
+                                <p class="text-2xl font-bold text-red-400" id="userAionBalance">0</p>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <p class="text-xs text-gray-400 mb-1">ETH Balance</p>
+                                <p class="text-lg font-bold text-blue-400" id="userEthBalance">0</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Staking Info -->
-                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
-                    <h2 class="text-xl font-bold mb-4 flex items-center">
-                        <i data-lucide="trending-up" class="h-5 w-5 mr-2"></i>
-                        Staking Summary
-                    </h2>
-                    <div class="space-y-3">
-                        <div>
-                            <p class="text-sm text-gray-600">Total Staked</p>
-                            <p class="text-2xl font-bold text-blue-600" id="userTotalStaked">0 AION</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-600">Active Stakes</p>
-                            <p class="text-lg font-semibold" id="userActiveStakes">0</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-600">Total Rewards</p>
-                            <p class="text-lg font-semibold text-green-600" id="userRewards">0 AION</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Activity Stats -->
-                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
-                    <h2 class="text-xl font-bold mb-4 flex items-center">
-                        <i data-lucide="activity" class="h-5 w-5 mr-2"></i>
-                        Activity Statistics
-                    </h2>
-                    <div class="space-y-3">
-                        <div>
-                            <p class="text-sm text-gray-600">Predictions Participated</p>
-                            <p class="text-lg font-semibold" id="userPredictions">0</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-600">Win Rate</p>
-                            <p class="text-lg font-semibold text-green-600" id="userWinRate">0%</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-600">Member Since</p>
-                            <p class="text-sm" id="userMemberSince">-</p>
+                <!-- Middle Panel - Stats & Achievements -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Battle Metrics -->
+                    <div class="backdrop-blur-lg bg-white/5 border border-red-700/30 rounded-xl p-6 shadow-xl">
+                        <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                            <i data-lucide="swords" class="h-6 w-6 text-red-500"></i>
+                            Battle Metrics
+                        </h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="bg-gradient-to-br from-green-900/30 to-black border border-green-500/30 rounded-lg p-4 hover:scale-105 transition-all">
+                                <div class="text-xs text-gray-400 mb-1">Total Battles</div>
+                                <div class="text-2xl font-bold text-green-400" id="userPredictions">0</div>
+                            </div>
+                            <div class="bg-gradient-to-br from-blue-900/30 to-black border border-blue-500/30 rounded-lg p-4 hover:scale-105 transition-all">
+                                <div class="text-xs text-gray-400 mb-1">Wins</div>
+                                <div class="text-2xl font-bold text-blue-400" id="userWins">0</div>
+                            </div>
+                            <div class="bg-gradient-to-br from-yellow-900/30 to-black border border-yellow-500/30 rounded-lg p-4 hover:scale-105 transition-all">
+                                <div class="text-xs text-gray-400 mb-1">Win Rate</div>
+                                <div class="text-2xl font-bold text-yellow-400" id="userWinRate">0%</div>
+                            </div>
+                            <div class="bg-gradient-to-br from-purple-900/30 to-black border border-purple-500/30 rounded-lg p-4 hover:scale-105 transition-all">
+                                <div class="text-xs text-gray-400 mb-1">Total Earned</div>
+                                <div class="text-2xl font-bold text-purple-400" id="userRewards">0</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Recent Stakes -->
-                <div class="bg-white border border-red-200 shadow-lg rounded-lg p-6">
-                    <h2 class="text-xl font-bold mb-4 flex items-center">
-                        <i data-lucide="history" class="h-5 w-5 mr-2"></i>
-                        Recent Stakes
-                    </h2>
-                    <div class="space-y-2" id="userRecentStakes">
-                        <p class="text-sm text-gray-500">No stakes yet</p>
+                    <!-- Stats Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="backdrop-blur-lg bg-white/5 border border-red-700/30 rounded-xl p-6 shadow-xl">
+                            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                                <i data-lucide="trending-up" class="h-5 w-5 text-green-500"></i>
+                                Bullish Stats
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400 text-sm">Bull Predictions</span>
+                                    <span class="text-green-400 font-bold">42</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400 text-sm">Bull Accuracy</span>
+                                    <span class="text-green-400 font-bold">72%</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400 text-sm">Bull Earnings</span>
+                                    <span class="text-green-400 font-bold" id="userTotalStaked">0 AION</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="backdrop-blur-lg bg-white/5 border border-red-700/30 rounded-xl p-6 shadow-xl">
+                            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                                <i data-lucide="trending-down" class="h-5 w-5 text-red-500"></i>
+                                Bearish Stats
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400 text-sm">Bear Predictions</span>
+                                    <span class="text-red-400 font-bold">28</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400 text-sm">Bear Accuracy</span>
+                                    <span class="text-red-400 font-bold">65%</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400 text-sm">Bear Earnings</span>
+                                    <span class="text-red-400 font-bold" id="userActiveStakes">0 AION</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Achievements -->
+                    <div class="backdrop-blur-lg bg-white/5 border border-red-700/30 rounded-xl p-6 shadow-xl">
+                        <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                            <i data-lucide="award" class="h-6 w-6 text-yellow-500"></i>
+                            Achievements
+                        </h3>
+                        <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
+                            <div class="text-center group cursor-pointer" title="Win your first battle">
+                                <div class="w-16 h-16 mx-auto bg-gradient-to-br from-yellow-600 to-yellow-800 rounded-full flex items-center justify-center text-3xl mb-2 group-hover:scale-110 transition-all shadow-lg shadow-yellow-500/50">
+                                    🏆
+                                </div>
+                                <p class="text-xs text-gray-400">First Win</p>
+                            </div>
+                            <div class="text-center group cursor-pointer" title="Win 10 battles">
+                                <div class="w-16 h-16 mx-auto bg-gradient-to-br from-blue-600 to-blue-800 rounded-full flex items-center justify-center text-3xl mb-2 group-hover:scale-110 transition-all shadow-lg shadow-blue-500/50">
+                                    ⚔️
+                                </div>
+                                <p class="text-xs text-gray-400">Warrior</p>
+                            </div>
+                            <div class="text-center group cursor-pointer" title="Earn 1000 AION">
+                                <div class="w-16 h-16 mx-auto bg-gradient-to-br from-green-600 to-green-800 rounded-full flex items-center justify-center text-3xl mb-2 group-hover:scale-110 transition-all shadow-lg shadow-green-500/50">
+                                    💰
+                                </div>
+                                <p class="text-xs text-gray-400">Rich</p>
+                            </div>
+                            <div class="text-center group cursor-pointer opacity-50" title="Locked: Win 50 battles">
+                                <div class="w-16 h-16 mx-auto bg-gray-700 rounded-full flex items-center justify-center text-3xl mb-2">
+                                    🔒
+                                </div>
+                                <p class="text-xs text-gray-400">Legend</p>
+                            </div>
+                            <div class="text-center group cursor-pointer opacity-50" title="Locked: 90% win rate">
+                                <div class="w-16 h-16 mx-auto bg-gray-700 rounded-full flex items-center justify-center text-3xl mb-2">
+                                    🔒
+                                </div>
+                                <p class="text-xs text-gray-400">Master</p>
+                            </div>
+                            <div class="text-center group cursor-pointer opacity-50" title="Locked: Top 10 leaderboard">
+                                <div class="w-16 h-16 mx-auto bg-gray-700 rounded-full flex items-center justify-center text-3xl mb-2">
+                                    🔒
+                                </div>
+                                <p class="text-xs text-gray-400">Elite</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="backdrop-blur-lg bg-white/5 border border-red-700/30 rounded-xl p-6 shadow-xl">
+                        <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                            <i data-lucide="history" class="h-6 w-6 text-red-500"></i>
+                            Battle History
+                        </h3>
+                        <div class="space-y-2 max-h-64 overflow-y-auto" id="userRecentStakes">
+                            <div class="bg-white/5 border border-green-500/30 rounded-lg p-3 hover:bg-white/10 transition-all">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-white font-semibold text-sm">BTC Bull vs AI</span>
+                                    <span class="text-green-400 font-bold text-sm">+240 AION</span>
+                                </div>
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-gray-400">2 hours ago</span>
+                                    <span class="bg-green-500/20 text-green-400 px-2 py-0.5 rounded">WIN</span>
+                                </div>
+                            </div>
+                            <div class="bg-white/5 border border-red-500/30 rounded-lg p-3 hover:bg-white/10 transition-all">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-white font-semibold text-sm">ETH Bear vs Human</span>
+                                    <span class="text-red-400 font-bold text-sm">-150 AION</span>
+                                </div>
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-gray-400">5 hours ago</span>
+                                    <span class="bg-red-500/20 text-red-400 px-2 py-0.5 rounded">LOSS</span>
+                                </div>
+                            </div>
+                            <div class="bg-white/5 border border-green-500/30 rounded-lg p-3 hover:bg-white/10 transition-all">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-white font-semibold text-sm">SOL Bull vs AI</span>
+                                    <span class="text-green-400 font-bold text-sm">+180 AION</span>
+                                </div>
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-gray-400">1 day ago</span>
+                                    <span class="bg-green-500/20 text-green-400 px-2 py-0.5 rounded">WIN</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Insight -->
+                    <div class="backdrop-blur-lg bg-gradient-to-br from-purple-900/30 to-black border border-purple-500/30 rounded-xl p-6 shadow-xl">
+                        <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                            <i data-lucide="brain" class="h-5 w-5 text-purple-400"></i>
+                            AI Insight
+                        </h3>
+                        <p class="text-gray-300 text-sm italic">"You've shown strong Bullish accuracy (72%) in volatile markets. Keep it up!"</p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-4">
+                        <button onclick="refreshUserInfo()" class="flex-1 bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 font-semibold transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="refresh-cw" class="h-5 w-5"></i>
+                            Refresh Data
+                        </button>
+                        <button onclick="exportUserData()" class="flex-1 bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 font-semibold transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="download" class="h-5 w-5"></i>
+                            Export Data
+                        </button>
                     </div>
                 </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="mt-6 flex gap-4">
-                <button onclick="refreshUserInfo()" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 font-semibold">
-                    Refresh Data
-                </button>
-                <button onclick="exportUserData()" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 font-semibold">
-                    Export Data
-                </button>
             </div>
         </div>
     </main>
@@ -730,6 +1314,22 @@
         // Initialize Lucide icons
         lucide.createIcons();
 
+        // Typing animation
+        const typingText = document.getElementById('typing-text');
+        if (typingText) {
+            const text = typingText.textContent;
+            typingText.textContent = '';
+            let i = 0;
+            const typeWriter = () => {
+                if (i < text.length) {
+                    typingText.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                }
+            };
+            setTimeout(typeWriter, 500);
+        }
+
         // Fetch and display leaderboard data
         async function loadLeaderboard() {
             try {
@@ -741,7 +1341,7 @@
                         <td class="px-6 py-4">${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : ''} ${model.rank}</td>
                         <td class="px-6 py-4">
                             <div class="flex items-center">
-                                <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white text-sm mr-3">${model.name[0]}</div>
+                                <div class="text-3xl mr-3">🤖</div>
                                 <div>
                                     <div class="font-medium">${model.name}</div>
                                     <div class="text-sm text-gray-600">${model.model_type}</div>
@@ -764,33 +1364,29 @@
         // User Info functionality
         function updateUserInfo() {
             if (isConnected && walletAddress) {
-                document.getElementById('userWalletAddress').textContent = walletAddress;
+                const totalBattles = Math.floor(Math.random() * 50 + 20);
+                const wins = Math.floor(totalBattles * (Math.random() * 0.3 + 0.6));
+                const winRate = ((wins / totalBattles) * 100).toFixed(1);
+                
+                document.getElementById('userWalletAddress').textContent = walletAddress.substring(0, 6) + '...' + walletAddress.substring(38);
                 document.getElementById('userAionBalance').textContent = (Math.random() * 10000 + 1000).toFixed(2) + ' AION';
                 document.getElementById('userEthBalance').textContent = (Math.random() * 5).toFixed(4) + ' ETH';
-                document.getElementById('userTotalStaked').textContent = (Math.random() * 5000).toFixed(2) + ' AION';
-                document.getElementById('userActiveStakes').textContent = Math.floor(Math.random() * 10 + 1);
+                document.getElementById('userTotalStaked').textContent = (Math.random() * 5000).toFixed(2);
+                document.getElementById('userActiveStakes').textContent = (Math.random() * 3000).toFixed(2);
                 document.getElementById('userRewards').textContent = (Math.random() * 500).toFixed(2) + ' AION';
-                document.getElementById('userPredictions').textContent = Math.floor(Math.random() * 20 + 5);
-                document.getElementById('userWinRate').textContent = (Math.random() * 30 + 60).toFixed(1) + '%';
-                document.getElementById('userMemberSince').textContent = new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000).toLocaleDateString();
-                
-                const recentStakes = document.getElementById('userRecentStakes');
-                recentStakes.innerHTML = `
-                    <div class="text-sm border-b pb-2"><span class="font-semibold">Bitcoin $100k</span> - 500 AION</div>
-                    <div class="text-sm border-b pb-2"><span class="font-semibold">Ethereum $6k</span> - 300 AION</div>
-                    <div class="text-sm"><span class="font-semibold">Solana $300</span> - 200 AION</div>
-                `;
+                document.getElementById('userPredictions').textContent = totalBattles;
+                document.getElementById('userWins').textContent = wins;
+                document.getElementById('userWinRate').textContent = winRate + '%';
             } else {
                 document.getElementById('userWalletAddress').textContent = 'Not Connected';
                 document.getElementById('userAionBalance').textContent = '0';
                 document.getElementById('userEthBalance').textContent = '0';
-                document.getElementById('userTotalStaked').textContent = '0 AION';
+                document.getElementById('userTotalStaked').textContent = '0';
                 document.getElementById('userActiveStakes').textContent = '0';
                 document.getElementById('userRewards').textContent = '0 AION';
                 document.getElementById('userPredictions').textContent = '0';
+                document.getElementById('userWins').textContent = '0';
                 document.getElementById('userWinRate').textContent = '0%';
-                document.getElementById('userMemberSince').textContent = '-';
-                document.getElementById('userRecentStakes').innerHTML = '<p class="text-sm text-gray-500">Connect wallet to view stakes</p>';
             }
         }
 
@@ -881,6 +1477,15 @@
             }
         }
 
+        // Update dashboard user info
+        function updateDashboardUserInfo() {
+            if (isConnected && walletAddress) {
+                const userName = localStorage.getItem('userName_' + walletAddress) || 'Anonymous';
+                document.getElementById('dash-user-name').textContent = userName;
+                document.getElementById('dash-user-wallet').textContent = walletAddress.substring(0, 6) + '...' + walletAddress.substring(38);
+            }
+        }
+
         // Wallet connection functionality
         let isConnected = false;
         let walletAddress = null;
@@ -894,6 +1499,7 @@
                     updateWalletUI();
                     updateUserInfo();
                     loadUserProfile();
+                    updateDashboardUserInfo();
                     alert('Wallet connected: ' + walletAddress);
                 } catch (error) {
                     console.error('Error connecting wallet:', error);
@@ -977,30 +1583,45 @@
                     <h3 class="text-2xl font-bold mb-4 text-center">Select AI Models for Battle</h3>
                     <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Select Coin to Battle</label>
-                        <select id="ai-coin-select" class="w-full border rounded-lg px-3 py-2">
-                            ${battleCoins.map((coin, i) => `<option value="${i}">${coin.name} - Target: ${coin.target}</option>`).join('')}
+                        <select id="ai-coin-select" class="w-full border rounded-lg px-3 py-2" onchange="updateLivePrice('ai')">
+                            ${battleCoins.map((coin, i) => `<option value="${i}">${coin.name}</option>`).join('')}
                         </select>
+                    </div>
+                    <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-semibold">Live Price:</span>
+                            <span class="text-lg font-bold text-green-600" id="ai-live-price">$0.00</span>
+                        </div>
                     </div>
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>
                             <label class="block text-sm font-semibold mb-2">AI Model A</label>
-                            <select id="ai-a-select" class="w-full border rounded-lg px-3 py-2 mb-2">
+                            <select id="ai-a-select" class="w-full border rounded-lg px-3 py-2">
                                 ${battleAIModels.map((ai, i) => `<option value="${i}">${ai.name} (${ai.accuracy})</option>`).join('')}
-                            </select>
-                            <select id="ai-a-prediction" class="w-full border rounded-lg px-3 py-2">
-                                <option value="BULLISH">📈 BULLISH</option>
-                                <option value="BEARISH">📉 BEARISH</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-semibold mb-2">AI Model B</label>
-                            <select id="ai-b-select" class="w-full border rounded-lg px-3 py-2 mb-2">
+                            <select id="ai-b-select" class="w-full border rounded-lg px-3 py-2">
                                 ${battleAIModels.map((ai, i) => `<option value="${i}" ${i === 1 ? 'selected' : ''}>${ai.name} (${ai.accuracy})</option>`).join('')}
                             </select>
-                            <select id="ai-b-prediction" class="w-full border rounded-lg px-3 py-2">
-                                <option value="BULLISH">📈 BULLISH</option>
-                                <option value="BEARISH" selected>📉 BEARISH</option>
-                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold mb-2">Prediction</label>
+                        <select id="ai-prediction" class="w-full border rounded-lg px-3 py-2">
+                            <option value="BULLISH">📈 BULLISH</option>
+                            <option value="BEARISH">📉 BEARISH</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold mb-2">Time Frame</label>
+                        <div class="grid grid-cols-5 gap-2">
+                            <button onclick="selectTimeFrame('M1')" id="tf-m1" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M1</button>
+                            <button onclick="selectTimeFrame('M5')" id="tf-m5" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold bg-red-100 border-red-500">M5</button>
+                            <button onclick="selectTimeFrame('M10')" id="tf-m10" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M10</button>
+                            <button onclick="selectTimeFrame('M15')" id="tf-m15" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M15</button>
+                            <button onclick="selectTimeFrame('M30')" id="tf-m30" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M30</button>
                         </div>
                     </div>
                     <div class="mb-4">
@@ -1025,9 +1646,38 @@
                 </div>
             `;
             document.body.appendChild(modal);
+            updateLivePrice('ai');
         }
 
         let selectedBetSide = null;
+        let selectedTimeFrame = 'M5';
+        let selectedTimeFrameHuman = 'M5';
+        let selectedTimeFramePvP = 'M5';
+
+        function selectTimeFrame(tf) {
+            selectedTimeFrame = tf;
+            ['M1', 'M5', 'M10', 'M15', 'M30'].forEach(t => {
+                document.getElementById('tf-' + t.toLowerCase()).classList.remove('bg-red-100', 'border-red-500');
+            });
+            document.getElementById('tf-' + tf.toLowerCase()).classList.add('bg-red-100', 'border-red-500');
+        }
+
+        function selectTimeFrameHuman(tf) {
+            selectedTimeFrameHuman = tf;
+            ['M1', 'M5', 'M10', 'M15', 'M30'].forEach(t => {
+                document.getElementById('tfh-' + t.toLowerCase()).classList.remove('bg-blue-100', 'border-blue-500');
+            });
+            document.getElementById('tfh-' + tf.toLowerCase()).classList.add('bg-blue-100', 'border-blue-500');
+        }
+
+        function selectTimeFramePvP(tf) {
+            selectedTimeFramePvP = tf;
+            ['M1', 'M5', 'M10', 'M15', 'M30'].forEach(t => {
+                document.getElementById('tfp-' + t.toLowerCase()).classList.remove('bg-red-100', 'border-red-500');
+            });
+            document.getElementById('tfp-' + tf.toLowerCase()).classList.add('bg-red-100', 'border-red-500');
+        }
+
         function selectBetSide(side) {
             selectedBetSide = side;
             document.getElementById('bet-a').classList.remove('bg-blue-100', 'border-blue-500');
@@ -1044,8 +1694,9 @@
             const aiBIndex = document.getElementById('ai-b-select').value;
             const coinIndex = document.getElementById('ai-coin-select').value;
             const betAmount = document.getElementById('bet-amount').value;
-            const aiAPrediction = document.getElementById('ai-a-prediction').value;
-            const aiBPrediction = document.getElementById('ai-b-prediction').value;
+            const prediction = document.getElementById('ai-prediction').value;
+            const aiAPrediction = prediction;
+            const aiBPrediction = prediction === 'BULLISH' ? 'BEARISH' : 'BULLISH';
             
             if (aiAIndex === aiBIndex) {
                 alert('Please select different AI models!');
@@ -1077,21 +1728,21 @@
                     <h3 class="text-2xl font-bold mb-4 text-center">AI vs AI Battle</h3>
                     <div class="text-center mb-4">
                         <p class="text-sm text-gray-600">Coin: <span class="font-bold">${coin.name}</span> - Target: <span class="font-bold">${coin.target}</span></p>
-                        <p class="text-sm text-gray-600">Your Bet: <span class="font-bold text-red-600">${betAmount} AION</span> on <span class="font-bold">AI ${selectedBetSide}</span></p>
+                        <p class="text-sm text-gray-600">Time Frame: <span class="font-bold text-purple-600">${selectedTimeFrame}</span> | Your Bet: <span class="font-bold text-red-600">${betAmount} AION</span> on <span class="font-bold">AI ${selectedBetSide}</span></p>
                     </div>
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div class="text-center p-4 bg-${aiA.color}-50 rounded-lg ${selectedBetSide === 'A' ? 'ring-2 ring-red-500' : ''}">
                             <div class="text-4xl mb-2">🤖</div>
                             <h4 class="font-bold">${aiA.name}</h4>
                             <p class="text-sm text-gray-600">${aiA.accuracy}</p>
-                            <p class="text-xs font-semibold mt-1">${aiAPrediction}</p>
+                            <p class="text-xs font-semibold mt-1">${aiAPrediction === 'BULLISH' ? '📈' : '📉'} ${aiAPrediction}</p>
                             <div class="mt-2 text-2xl font-bold text-${aiA.color}-600" id="ai1-score">0</div>
                         </div>
                         <div class="text-center p-4 bg-${aiB.color}-50 rounded-lg ${selectedBetSide === 'B' ? 'ring-2 ring-red-500' : ''}">
                             <div class="text-4xl mb-2">🤖</div>
                             <h4 class="font-bold">${aiB.name}</h4>
                             <p class="text-sm text-gray-600">${aiB.accuracy}</p>
-                            <p class="text-xs font-semibold mt-1">${aiBPrediction}</p>
+                            <p class="text-xs font-semibold mt-1">${aiBPrediction === 'BULLISH' ? '📈' : '📉'} ${aiBPrediction}</p>
                             <div class="mt-2 text-2xl font-bold text-${aiB.color}-600" id="ai2-score">0</div>
                         </div>
                     </div>
@@ -1109,12 +1760,32 @@
         }
 
         const battleCoins = [
-            {name: 'Bitcoin (BTC)', symbol: 'BTC', target: '$100,000'},
-            {name: 'Ethereum (ETH)', symbol: 'ETH', target: '$6,000'},
-            {name: 'Solana (SOL)', symbol: 'SOL', target: '$300'},
-            {name: 'BNB', symbol: 'BNB', target: '$800'},
-            {name: 'Cardano (ADA)', symbol: 'ADA', target: '$2'}
+            {name: 'Bitcoin (BTC)', symbol: 'BTC', target: '$100,000', basePrice: 95000},
+            {name: 'Ethereum (ETH)', symbol: 'ETH', target: '$6,000', basePrice: 3500},
+            {name: 'Solana (SOL)', symbol: 'SOL', target: '$300', basePrice: 180},
+            {name: 'BNB', symbol: 'BNB', target: '$800', basePrice: 650},
+            {name: 'Cardano (ADA)', symbol: 'ADA', target: '$2', basePrice: 1.2}
         ];
+
+        function updateLivePrice(type) {
+            let selectId, priceId;
+            if (type === 'ai') {
+                selectId = 'ai-coin-select';
+                priceId = 'ai-live-price';
+            } else if (type === 'human') {
+                selectId = 'coin-select';
+                priceId = 'human-live-price';
+            } else {
+                selectId = 'pvp-coin-select';
+                priceId = 'pvp-live-price';
+            }
+            
+            const coinIndex = document.getElementById(selectId).value;
+            const coin = battleCoins[coinIndex];
+            const variation = (Math.random() - 0.5) * 0.02;
+            const livePrice = coin.basePrice * (1 + variation);
+            document.getElementById(priceId).textContent = '$' + livePrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
 
         function startAIvHumanBattle() {
             if (!isConnected) {
@@ -1139,19 +1810,31 @@
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Select Coin to Predict</label>
-                        <select id="coin-select" class="w-full border rounded-lg px-3 py-2">
-                            ${battleCoins.map((coin, i) => `<option value="${i}">${coin.name} - Target: ${coin.target}</option>`).join('')}
+                        <select id="coin-select" class="w-full border rounded-lg px-3 py-2" onchange="updateLivePrice('human')">
+                            ${battleCoins.map((coin, i) => `<option value="${i}">${coin.name}</option>`).join('')}
                         </select>
+                    </div>
+                    <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-semibold">Live Price:</span>
+                            <span class="text-lg font-bold text-green-600" id="human-live-price">$0.00</span>
+                        </div>
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Your Prediction</label>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button onclick="selectHumanPrediction('BULLISH')" id="pred-bull" class="p-3 border-2 rounded-lg hover:bg-green-50 hover:border-green-500">
-                                📈 BULLISH (Will Reach)
-                            </button>
-                            <button onclick="selectHumanPrediction('BEARISH')" id="pred-bear" class="p-3 border-2 rounded-lg hover:bg-red-50 hover:border-red-500">
-                                📉 BEARISH (Won't Reach)
-                            </button>
+                        <select id="human-prediction" class="w-full border rounded-lg px-3 py-2">
+                            <option value="BULLISH">📈 BULLISH (Will Reach)</option>
+                            <option value="BEARISH">📉 BEARISH (Won't Reach)</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold mb-2">Time Frame</label>
+                        <div class="grid grid-cols-5 gap-2">
+                            <button onclick="selectTimeFrameHuman('M1')" id="tfh-m1" class="p-2 border-2 rounded-lg hover:bg-blue-50 hover:border-blue-500 text-sm font-semibold">M1</button>
+                            <button onclick="selectTimeFrameHuman('M5')" id="tfh-m5" class="p-2 border-2 rounded-lg hover:bg-blue-50 hover:border-blue-500 text-sm font-semibold bg-blue-100 border-blue-500">M5</button>
+                            <button onclick="selectTimeFrameHuman('M10')" id="tfh-m10" class="p-2 border-2 rounded-lg hover:bg-blue-50 hover:border-blue-500 text-sm font-semibold">M10</button>
+                            <button onclick="selectTimeFrameHuman('M15')" id="tfh-m15" class="p-2 border-2 rounded-lg hover:bg-blue-50 hover:border-blue-500 text-sm font-semibold">M15</button>
+                            <button onclick="selectTimeFrameHuman('M30')" id="tfh-m30" class="p-2 border-2 rounded-lg hover:bg-blue-50 hover:border-blue-500 text-sm font-semibold">M30</button>
                         </div>
                     </div>
                     <div class="mb-4">
@@ -1165,29 +1848,14 @@
                 </div>
             `;
             document.body.appendChild(modal);
-        }
-
-        let humanPrediction = null;
-        function selectHumanPrediction(pred) {
-            humanPrediction = pred;
-            document.getElementById('pred-bull').classList.remove('bg-green-100', 'border-green-500');
-            document.getElementById('pred-bear').classList.remove('bg-red-100', 'border-red-500');
-            if (pred === 'BULLISH') {
-                document.getElementById('pred-bull').classList.add('bg-green-100', 'border-green-500');
-            } else {
-                document.getElementById('pred-bear').classList.add('bg-red-100', 'border-red-500');
-            }
+            updateLivePrice('human');
         }
 
         function startHumanBattle() {
             const aiIndex = document.getElementById('ai-opponent-select').value;
             const coinIndex = document.getElementById('coin-select').value;
             const betAmount = document.getElementById('human-bet-amount').value;
-            
-            if (!humanPrediction) {
-                alert('Please select your prediction (BULLISH or BEARISH)!');
-                return;
-            }
+            const humanPrediction = document.getElementById('human-prediction').value;
             if (!betAmount || betAmount <= 0) {
                 alert('Please enter a valid bet amount!');
                 return;
@@ -1195,7 +1863,7 @@
             
             const ai = battleAIModels[aiIndex];
             const coin = battleCoins[coinIndex];
-            const aiPrediction = Math.random() > 0.5 ? 'BULLISH' : 'BEARISH';
+            const aiPrediction = humanPrediction === 'BULLISH' ? 'BEARISH' : 'BULLISH';
             
             battlePlayer1Name = ai.name;
             battlePlayer2Name = localStorage.getItem('userName_' + walletAddress) || 'You';
@@ -1210,21 +1878,21 @@
                     <h3 class="text-2xl font-bold mb-4 text-center">AI vs Human Battle</h3>
                     <div class="text-center mb-4">
                         <p class="text-sm text-gray-600">Coin: <span class="font-bold">${coin.name}</span> - Target: <span class="font-bold">${coin.target}</span></p>
-                        <p class="text-sm text-gray-600">Your Bet: <span class="font-bold text-blue-600">${betAmount} AION</span></p>
+                        <p class="text-sm text-gray-600">Time Frame: <span class="font-bold text-purple-600">${selectedTimeFrameHuman}</span> | Your Bet: <span class="font-bold text-blue-600">${betAmount} AION</span></p>
                     </div>
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div class="text-center p-4 bg-${ai.color}-50 rounded-lg">
                             <div class="text-4xl mb-2">🤖</div>
                             <h4 class="font-bold">${ai.name}</h4>
                             <p class="text-sm text-gray-600">${ai.accuracy}</p>
-                            <p class="text-xs font-semibold mt-1">${aiPrediction}</p>
+                            <p class="text-xs font-semibold mt-1">${aiPrediction === 'BULLISH' ? '📈' : '📉'} ${aiPrediction}</p>
                             <div class="mt-2 text-2xl font-bold text-${ai.color}-600" id="ai-score">0</div>
                         </div>
                         <div class="text-center p-4 bg-orange-50 rounded-lg">
                             <div class="text-4xl mb-2">👤</div>
                             <h4 class="font-bold">You</h4>
                             <p class="text-sm text-gray-600">${walletAddress.substring(0,6)}...</p>
-                            <p class="text-xs font-semibold mt-1">${humanPrediction}</p>
+                            <p class="text-xs font-semibold mt-1">${humanPrediction === 'BULLISH' ? '📈' : '📉'} ${humanPrediction}</p>
                             <div class="mt-2 text-2xl font-bold text-orange-600" id="human-score">0</div>
                         </div>
                     </div>
@@ -1258,9 +1926,15 @@
                     <h3 class="text-2xl font-bold mb-4 text-center">Human vs Human Battle Setup</h3>
                     <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Select Coin to Battle</label>
-                        <select id="pvp-coin-select" class="w-full border rounded-lg px-3 py-2">
-                            ${battleCoins.map((coin, i) => `<option value="${i}">${coin.name} - Target: ${coin.target}</option>`).join('')}
+                        <select id="pvp-coin-select" class="w-full border rounded-lg px-3 py-2" onchange="updateLivePrice('pvp')">
+                            ${battleCoins.map((coin, i) => `<option value="${i}">${coin.name}</option>`).join('')}
                         </select>
+                    </div>
+                    <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-semibold">Live Price:</span>
+                            <span class="text-lg font-bold text-green-600" id="pvp-live-price">$0.00</span>
+                        </div>
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Choose Your Position</label>
@@ -1278,6 +1952,16 @@
                         </div>
                     </div>
                     <div class="mb-4">
+                        <label class="block text-sm font-semibold mb-2">Time Frame</label>
+                        <div class="grid grid-cols-5 gap-2">
+                            <button onclick="selectTimeFramePvP('M1')" id="tfp-m1" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M1</button>
+                            <button onclick="selectTimeFramePvP('M5')" id="tfp-m5" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold bg-red-100 border-red-500">M5</button>
+                            <button onclick="selectTimeFramePvP('M10')" id="tfp-m10" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M10</button>
+                            <button onclick="selectTimeFramePvP('M15')" id="tfp-m15" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M15</button>
+                            <button onclick="selectTimeFramePvP('M30')" id="tfp-m30" class="p-2 border-2 rounded-lg hover:bg-red-50 hover:border-red-500 text-sm font-semibold">M30</button>
+                        </div>
+                    </div>
+                    <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Bet Amount (AION)</label>
                         <input type="number" id="pvp-bet-amount" class="w-full border rounded-lg px-3 py-2" placeholder="Enter amount" min="1">
                     </div>
@@ -1291,6 +1975,7 @@
                 </div>
             `;
             document.body.appendChild(modal);
+            updateLivePrice('pvp');
         }
 
         let pvpPosition = null;
@@ -1335,7 +2020,7 @@
                     <h3 class="text-2xl font-bold mb-4 text-center">Human vs Human Battle</h3>
                     <div class="text-center mb-4">
                         <p class="text-sm text-gray-600">Coin: <span class="font-bold">${coin.name}</span> - Target: <span class="font-bold">${coin.target}</span></p>
-                        <p class="text-sm text-gray-600">Bet: <span class="font-bold text-red-600">${betAmount} AION</span> each</p>
+                        <p class="text-sm text-gray-600">Time Frame: <span class="font-bold text-purple-600">${selectedTimeFramePvP}</span> | Bet: <span class="font-bold text-red-600">${betAmount} AION</span> each</p>
                     </div>
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div class="text-center p-4 ${pvpPosition === 'BULLISH' ? 'bg-green-50 ring-2 ring-green-500' : 'bg-red-50 ring-2 ring-red-500'} rounded-lg">
@@ -1420,13 +2105,14 @@
                     const finalScore2 = parseInt(document.getElementById(score2Id).textContent);
                     const winner1 = finalScore1 > finalScore2;
                     const winnerName = winner1 ? battlePlayer1Name : battlePlayer2Name;
-                    const isWin = (winner1 && selectedBetSide === 'A') || (!winner1 && selectedBetSide === 'B');
+                    const loserName = winner1 ? battlePlayer2Name : battlePlayer1Name;
+                    const isWin = (winner1 && selectedBetSide === 'A') || (!winner1 && selectedBetSide === 'B') || (winner1 && score1Id.includes('ai-score')) || (winner1 && score1Id.includes('p1-score'));
                     const reward = isWin ? betAmount * 1.8 : 0;
                     
                     if (isWin) {
                         document.getElementById('battle-status').innerHTML = `🏆 ${winnerName} Wins!<br><span class="text-green-600">You won ${reward.toFixed(2)} AION!</span>`;
                     } else {
-                        document.getElementById('battle-status').innerHTML = `🏆 ${winnerName} Wins!<br><span class="text-red-600">You lost ${betAmount} AION</span>`;
+                        document.getElementById('battle-status').innerHTML = `🏆 ${winnerName} Wins!<br><span class="text-red-600">${loserName} lost ${betAmount} AION</span>`;
                     }
                     battleInProgress = false;
                 }
@@ -1514,6 +2200,21 @@
         .nav-btn:not(.active):hover {
             background: rgba(255, 255, 255, 0.1);
             color: white;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+        }
+        .animate-pulse {
+            animation: pulse 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-20px) translateX(20px); }
+        }
+        body {
+            background: linear-gradient(to bottom right, #111, #1a0000, #000);
+            min-height: 100vh;
         }
     </style>
 </body>

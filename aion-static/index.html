@@ -977,9 +977,15 @@
                     <h3 class="text-2xl font-bold mb-4 text-center">Select AI Models for Battle</h3>
                     <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Select Coin to Battle</label>
-                        <select id="ai-coin-select" class="w-full border rounded-lg px-3 py-2">
-                            ${battleCoins.map((coin, i) => `<option value="${i}">${coin.name} - Target: ${coin.target}</option>`).join('')}
+                        <select id="ai-coin-select" class="w-full border rounded-lg px-3 py-2" onchange="updateLivePrice('ai')">
+                            ${battleCoins.map((coin, i) => `<option value="${i}">${coin.name}</option>`).join('')}
                         </select>
+                    </div>
+                    <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-semibold">Live Price:</span>
+                            <span class="text-lg font-bold text-green-600" id="ai-live-price">$0.00</span>
+                        </div>
                     </div>
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>
@@ -1034,6 +1040,7 @@
                 </div>
             `;
             document.body.appendChild(modal);
+            updateLivePrice('ai');
         }
 
         let selectedBetSide = null;
@@ -1147,12 +1154,32 @@
         }
 
         const battleCoins = [
-            {name: 'Bitcoin (BTC)', symbol: 'BTC', target: '$100,000'},
-            {name: 'Ethereum (ETH)', symbol: 'ETH', target: '$6,000'},
-            {name: 'Solana (SOL)', symbol: 'SOL', target: '$300'},
-            {name: 'BNB', symbol: 'BNB', target: '$800'},
-            {name: 'Cardano (ADA)', symbol: 'ADA', target: '$2'}
+            {name: 'Bitcoin (BTC)', symbol: 'BTC', target: '$100,000', basePrice: 95000},
+            {name: 'Ethereum (ETH)', symbol: 'ETH', target: '$6,000', basePrice: 3500},
+            {name: 'Solana (SOL)', symbol: 'SOL', target: '$300', basePrice: 180},
+            {name: 'BNB', symbol: 'BNB', target: '$800', basePrice: 650},
+            {name: 'Cardano (ADA)', symbol: 'ADA', target: '$2', basePrice: 1.2}
         ];
+
+        function updateLivePrice(type) {
+            let selectId, priceId;
+            if (type === 'ai') {
+                selectId = 'ai-coin-select';
+                priceId = 'ai-live-price';
+            } else if (type === 'human') {
+                selectId = 'coin-select';
+                priceId = 'human-live-price';
+            } else {
+                selectId = 'pvp-coin-select';
+                priceId = 'pvp-live-price';
+            }
+            
+            const coinIndex = document.getElementById(selectId).value;
+            const coin = battleCoins[coinIndex];
+            const variation = (Math.random() - 0.5) * 0.02;
+            const livePrice = coin.basePrice * (1 + variation);
+            document.getElementById(priceId).textContent = '$' + livePrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
 
         function startAIvHumanBattle() {
             if (!isConnected) {
@@ -1177,9 +1204,15 @@
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Select Coin to Predict</label>
-                        <select id="coin-select" class="w-full border rounded-lg px-3 py-2">
-                            ${battleCoins.map((coin, i) => `<option value="${i}">${coin.name} - Target: ${coin.target}</option>`).join('')}
+                        <select id="coin-select" class="w-full border rounded-lg px-3 py-2" onchange="updateLivePrice('human')">
+                            ${battleCoins.map((coin, i) => `<option value="${i}">${coin.name}</option>`).join('')}
                         </select>
+                    </div>
+                    <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-semibold">Live Price:</span>
+                            <span class="text-lg font-bold text-green-600" id="human-live-price">$0.00</span>
+                        </div>
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Your Prediction</label>
@@ -1209,6 +1242,7 @@
                 </div>
             `;
             document.body.appendChild(modal);
+            updateLivePrice('human');
         }
 
         function startHumanBattle() {
@@ -1286,9 +1320,15 @@
                     <h3 class="text-2xl font-bold mb-4 text-center">Human vs Human Battle Setup</h3>
                     <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Select Coin to Battle</label>
-                        <select id="pvp-coin-select" class="w-full border rounded-lg px-3 py-2">
-                            ${battleCoins.map((coin, i) => `<option value="${i}">${coin.name} - Target: ${coin.target}</option>`).join('')}
+                        <select id="pvp-coin-select" class="w-full border rounded-lg px-3 py-2" onchange="updateLivePrice('pvp')">
+                            ${battleCoins.map((coin, i) => `<option value="${i}">${coin.name}</option>`).join('')}
                         </select>
+                    </div>
+                    <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-semibold">Live Price:</span>
+                            <span class="text-lg font-bold text-green-600" id="pvp-live-price">$0.00</span>
+                        </div>
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-semibold mb-2">Choose Your Position</label>
@@ -1329,6 +1369,7 @@
                 </div>
             `;
             document.body.appendChild(modal);
+            updateLivePrice('pvp');
         }
 
         let pvpPosition = null;

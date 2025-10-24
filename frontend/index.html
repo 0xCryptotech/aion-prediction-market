@@ -1334,53 +1334,181 @@
         </div>
 
         <!-- Governance Page -->
-        <div id="governance" class="page hidden">
-            <h1 class="text-3xl font-bold mb-8 text-gray-800">DAO Governance</h1>
+        <div id="governance" class="page hidden relative">
+            <!-- Background Effects -->
+            <div class="absolute inset-0 -z-10 opacity-10">
+                <div class="absolute w-96 h-96 bg-purple-500 rounded-full blur-3xl" style="top: 10%; left: 10%; animation: float 8s ease-in-out infinite;"></div>
+                <div class="absolute w-96 h-96 bg-blue-500 rounded-full blur-3xl" style="bottom: 10%; right: 10%; animation: float 10s ease-in-out infinite reverse;"></div>
+            </div>
+
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl md:text-6xl font-bold mb-3 text-white">DAO Governance</h1>
+                <p class="text-lg text-gray-300">Shape the future of AION through community voting</p>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="backdrop-blur-lg bg-white/5 border border-white/10 rounded-xl p-4">
+                    <div class="text-xs text-gray-400 mb-1">Active Proposals</div>
+                    <div class="text-2xl font-bold text-green-400">3</div>
+                </div>
+                <div class="backdrop-blur-lg bg-white/5 border border-white/10 rounded-xl p-4">
+                    <div class="text-xs text-gray-400 mb-1">Total Voters</div>
+                    <div class="text-2xl font-bold text-blue-400">15,870</div>
+                </div>
+                <div class="backdrop-blur-lg bg-white/5 border border-white/10 rounded-xl p-4">
+                    <div class="text-xs text-gray-400 mb-1">Your Voting Power</div>
+                    <div class="text-2xl font-bold text-purple-400" id="voting-power">0</div>
+                </div>
+                <div class="backdrop-blur-lg bg-white/5 border border-white/10 rounded-xl p-4">
+                    <div class="text-xs text-gray-400 mb-1">Executed</div>
+                    <div class="text-2xl font-bold text-yellow-400">42</div>
+                </div>
+            </div>
             
             <div class="space-y-6">
-                <div class="bg-white border border-red-200 shadow-lg rounded-lg shadow p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl font-bold">Increase AI Model Stake Requirement</h3>
-                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Active</span>
-                    </div>
-                    <p class="text-gray-600 mb-4">Proposal to increase minimum stake from 1000 to 5000 AION tokens to improve prediction quality.</p>
-                    
-                    <div class="mb-4">
-                        <div class="flex justify-between text-sm mb-2">
-                            <span>For: 12,450 votes (78.4%)</span>
-                            <span>Against: 3,420 votes (21.6%)</span>
+                <!-- Proposal 1 - Active -->
+                <div class="backdrop-blur-lg bg-white/5 border border-green-500/30 rounded-xl p-6 shadow-2xl hover:shadow-green-500/20 transition-all relative overflow-hidden">
+                    <div class="absolute top-4 left-4 text-4xl">🧠</div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-green-500/5 to-transparent"></div>
+                    <div class="relative z-10 ml-16">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex-1">
+                                <h3 class="text-2xl font-bold text-white mb-2">Increase AI Model Stake Requirement</h3>
+                                <p class="text-gray-300 text-sm">Proposal to increase minimum stake from 1000 to 5000 AION tokens to improve prediction quality.</p>
+                            </div>
+                            <span class="bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-sm font-bold border border-green-500/30 ml-4">🟢 Active</span>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-green-500 h-2 rounded-full" style="width: 78.4%"></div>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between text-sm mb-3">
+                                <span class="text-green-400 font-bold">✅ 78.4% For (12,450 votes)</span>
+                                <span class="text-red-400 font-bold">❌ 21.6% Against (3,420 votes)</span>
+                            </div>
+                            <div class="relative w-full h-4 bg-gray-700 rounded-full overflow-hidden">
+                                <div class="absolute left-0 top-0 h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full transition-all duration-1000" style="width: 78.4%"></div>
+                                <div class="absolute right-0 top-0 h-full bg-gradient-to-l from-red-500 to-red-600 rounded-full transition-all duration-1000" style="width: 21.6%"></div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="flex space-x-4">
-                        <button class="bg-green-500 text-gray-900 px-4 py-2 rounded-lg hover:bg-green-600">Vote For</button>
-                        <button class="bg-red-500 text-gray-900 px-4 py-2 rounded-lg hover:bg-red-600">Vote Against</button>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-4 text-sm text-gray-400">
+                                <span>⏳ Ends in <span class="text-white font-bold">12h 30m</span></span>
+                                <span>👥 <span class="text-white font-bold">15,870</span> total votes</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-3">
+                            <button onclick="voteProposal(1, 'for')" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-lg hover:from-green-700 hover:to-green-800 font-bold transition-all">Vote For</button>
+                            <button onclick="voteProposal(1, 'against')" class="flex-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-lg hover:from-red-700 hover:to-red-800 font-bold transition-all">Vote Against</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bg-white border border-red-200 shadow-lg rounded-lg shadow p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl font-bold">Add New Market Category: DeFi</h3>
-                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Active</span>
-                    </div>
-                    <p class="text-gray-600 mb-4">Proposal to add DeFi as a new prediction market category.</p>
-                    
-                    <div class="mb-4">
-                        <div class="flex justify-between text-sm mb-2">
-                            <span>For: 8,920 votes (87.8%)</span>
-                            <span>Against: 1,240 votes (12.2%)</span>
+                <!-- Proposal 2 - Active -->
+                <div class="backdrop-blur-lg bg-white/5 border border-green-500/30 rounded-xl p-6 shadow-2xl hover:shadow-green-500/20 transition-all relative overflow-hidden">
+                    <div class="absolute top-4 left-4 text-4xl">🏦</div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-green-500/5 to-transparent"></div>
+                    <div class="relative z-10 ml-16">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex-1">
+                                <h3 class="text-2xl font-bold text-white mb-2">Add New Market Category: DeFi</h3>
+                                <p class="text-gray-300 text-sm">Proposal to add DeFi as a new prediction market category.</p>
+                            </div>
+                            <span class="bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-sm font-bold border border-green-500/30 ml-4">🟢 Active</span>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-green-500 h-2 rounded-full" style="width: 87.8%"></div>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between text-sm mb-3">
+                                <span class="text-green-400 font-bold">✅ 87.8% For (8,920 votes)</span>
+                                <span class="text-red-400 font-bold">❌ 12.2% Against (1,240 votes)</span>
+                            </div>
+                            <div class="relative w-full h-4 bg-gray-700 rounded-full overflow-hidden">
+                                <div class="absolute left-0 top-0 h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full transition-all duration-1000" style="width: 87.8%"></div>
+                                <div class="absolute right-0 top-0 h-full bg-gradient-to-l from-red-500 to-red-600 rounded-full transition-all duration-1000" style="width: 12.2%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-4 text-sm text-gray-400">
+                                <span>⏳ Ends in <span class="text-white font-bold">8h 15m</span></span>
+                                <span>👥 <span class="text-white font-bold">10,160</span> total votes</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-3">
+                            <button onclick="voteProposal(2, 'for')" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-lg hover:from-green-700 hover:to-green-800 font-bold transition-all">Vote For</button>
+                            <button onclick="voteProposal(2, 'against')" class="flex-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-lg hover:from-red-700 hover:to-red-800 font-bold transition-all">Vote Against</button>
                         </div>
                     </div>
-                    
-                    <div class="flex space-x-4">
-                        <button class="bg-green-500 text-gray-900 px-4 py-2 rounded-lg hover:bg-green-600">Vote For</button>
-                        <button class="bg-red-500 text-gray-900 px-4 py-2 rounded-lg hover:bg-red-600">Vote Against</button>
+                </div>
+
+                <!-- Proposal 3 - Pending -->
+                <div class="backdrop-blur-lg bg-white/5 border border-yellow-500/30 rounded-xl p-6 shadow-2xl hover:shadow-yellow-500/20 transition-all relative overflow-hidden">
+                    <div class="absolute top-4 left-4 text-4xl">⚙️</div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-yellow-500/5 to-transparent"></div>
+                    <div class="relative z-10 ml-16">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex-1">
+                                <h3 class="text-2xl font-bold text-white mb-2">Reduce Transaction Fees by 50%</h3>
+                                <p class="text-gray-300 text-sm">Proposal to reduce platform transaction fees from 2% to 1% to attract more users.</p>
+                            </div>
+                            <span class="bg-yellow-500/20 text-yellow-400 px-4 py-2 rounded-full text-sm font-bold border border-yellow-500/30 ml-4">🟡 Pending</span>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between text-sm mb-3">
+                                <span class="text-green-400 font-bold">✅ 64.2% For (5,140 votes)</span>
+                                <span class="text-red-400 font-bold">❌ 35.8% Against (2,860 votes)</span>
+                            </div>
+                            <div class="relative w-full h-4 bg-gray-700 rounded-full overflow-hidden">
+                                <div class="absolute left-0 top-0 h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full transition-all duration-1000" style="width: 64.2%"></div>
+                                <div class="absolute right-0 top-0 h-full bg-gradient-to-l from-red-500 to-red-600 rounded-full transition-all duration-1000" style="width: 35.8%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-4 text-sm text-gray-400">
+                                <span>⏳ Ends in <span class="text-white font-bold">2d 5h</span></span>
+                                <span>👥 <span class="text-white font-bold">8,000</span> total votes</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-3">
+                            <button onclick="voteProposal(3, 'for')" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-lg hover:from-green-700 hover:to-green-800 font-bold transition-all">Vote For</button>
+                            <button onclick="voteProposal(3, 'against')" class="flex-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-lg hover:from-red-700 hover:to-red-800 font-bold transition-all">Vote Against</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proposal 4 - Executed -->
+                <div class="backdrop-blur-lg bg-white/5 border border-red-500/30 rounded-xl p-6 shadow-2xl relative overflow-hidden opacity-75">
+                    <div class="absolute top-4 left-4 text-4xl">🔒</div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-red-500/5 to-transparent"></div>
+                    <div class="relative z-10 ml-16">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex-1">
+                                <h3 class="text-2xl font-bold text-white mb-2">Enable Multi-Chain Support</h3>
+                                <p class="text-gray-300 text-sm">Proposal to add support for Ethereum, Polygon, and Arbitrum networks.</p>
+                            </div>
+                            <span class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm font-bold border border-red-500/30 ml-4">🔴 Executed</span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-3">
+                                <span class="text-green-400 font-bold">✅ 92.1% For (18,420 votes)</span>
+                                <span class="text-red-400 font-bold">❌ 7.9% Against (1,580 votes)</span>
+                            </div>
+                            <div class="relative w-full h-4 bg-gray-700 rounded-full overflow-hidden">
+                                <div class="absolute left-0 top-0 h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full" style="width: 92.1%"></div>
+                                <div class="absolute right-0 top-0 h-full bg-gradient-to-l from-red-500 to-red-600 rounded-full" style="width: 7.9%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-sm text-gray-400">
+                            ✅ Executed on Jan 15, 2025 • 👥 20,000 total votes
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1838,6 +1966,7 @@
                     updateUserInfo();
                     loadUserProfile();
                     updateDashboardUserInfo();
+                    updateVotingPower();
                     alert('Wallet connected: ' + walletAddress);
                 } catch (error) {
                     console.error('Error connecting wallet:', error);
@@ -2518,6 +2647,36 @@ function buyItem(itemId) {
             const modal = document.querySelector('.fixed.inset-0');
             if (modal) modal.remove();
             battleInProgress = false;
+        }
+
+        // Governance Voting
+        function voteProposal(proposalId, vote) {
+            if (!isConnected) {
+                alert('Please connect your wallet first!');
+                return;
+            }
+            
+            const votingPower = document.getElementById('voting-power').textContent;
+            if (votingPower === '0') {
+                alert('⚠️ You need AION tokens to vote!\n\nYour voting power: 0\nGet AION tokens to participate in governance.');
+                return;
+            }
+            
+            const voteText = vote === 'for' ? '✅ FOR' : '❌ AGAINST';
+            const confirm = window.confirm(`Cast your vote ${voteText} on Proposal #${proposalId}?\n\nYour voting power: ${votingPower}\nThis action cannot be undone.`);
+            
+            if (confirm) {
+                alert(`✅ Vote submitted successfully!\n\nProposal: #${proposalId}\nVote: ${voteText}\nVoting Power Used: ${votingPower}\n\nYour vote has been recorded on-chain.`);
+            }
+        }
+        
+        function updateVotingPower() {
+            if (isConnected && walletAddress) {
+                const power = Math.floor(Math.random() * 500 + 100);
+                document.getElementById('voting-power').textContent = power;
+            } else {
+                document.getElementById('voting-power').textContent = '0';
+            }
         }
 
         // Leaderboard Model Detail

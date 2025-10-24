@@ -61,50 +61,213 @@
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8">
         <!-- Dashboard Page -->
-        <div id="dashboard" class="page">
-            <!-- Headline -->
-            <div class="text-center mb-12 px-4">
-                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-red-600 leading-tight">Empowering Truth Through Collective AI</h1>
-                <p class="text-base md:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">AION is a decentralized intelligence oracle network that transforms collective learning into verifiable predictions — bringing transparency, accuracy, and autonomy to the future of forecasting.</p>
+        <div id="dashboard" class="page relative">
+            <!-- Background Effects -->
+            <div class="absolute inset-0 -z-10 opacity-10">
+                <div class="absolute w-96 h-96 bg-red-600 rounded-full blur-3xl" style="top: 10%; left: 10%; animation: float 8s ease-in-out infinite;"></div>
+                <div class="absolute w-96 h-96 bg-red-500 rounded-full blur-3xl" style="bottom: 10%; right: 10%; animation: float 10s ease-in-out infinite reverse;"></div>
             </div>
-            
-            <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                <div class="bg-white border border-red-200 shadow-lg p-6 rounded-lg shadow">
-                    <h3 class="text-sm font-medium text-gray-600">Total Value Locked</h3>
-                    <p class="text-2xl font-bold text-green-600">$2.4M</p>
-                </div>
-                <div class="bg-white border border-red-200 shadow-lg p-6 rounded-lg shadow">
-                    <h3 class="text-sm font-medium text-gray-600">Active Predictions</h3>
-                    <p class="text-2xl font-bold text-blue-600">156</p>
-                </div>
-                <div class="bg-white border border-red-200 shadow-lg p-6 rounded-lg shadow">
-                    <h3 class="text-sm font-medium text-gray-600">Accuracy Rate</h3>
-                    <p class="text-2xl font-bold text-purple-600">92.3%</p>
-                </div>
-                <div class="bg-white border border-red-200 shadow-lg p-6 rounded-lg shadow">
-                    <h3 class="text-sm font-medium text-gray-600">Total Users</h3>
-                    <p class="text-2xl font-bold text-orange-600">8,429</p>
+
+            <!-- Live Banner -->
+            <div class="bg-gradient-to-r from-red-600 to-red-800 text-white py-2 px-4 rounded-lg mb-6 overflow-hidden">
+                <div class="flex items-center gap-2 animate-pulse">
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-ping"></span>
+                    <span class="text-sm font-semibold">LIVE: 1,248 Active Battles • $42,870 in Rewards • 582 Wins Today</span>
                 </div>
             </div>
 
-            <!-- Recent Activity -->
-            <div class="bg-white border border-red-200 shadow-lg rounded-lg shadow p-6">
-                <h2 class="text-xl font-bold mb-4">Recent Predictions</h2>
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between p-4 border rounded-lg">
-                        <div>
-                            <h3 class="font-semibold">Bitcoin Price Prediction</h3>
-                            <p class="text-sm text-gray-600">GPT-4 Oracle Alpha • 95.8% confidence</p>
-                        </div>
-                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Active</span>
+            <!-- Top Stats Bar -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-gradient-to-br from-gray-900 to-black border border-red-500/20 backdrop-blur-md p-6 rounded-xl shadow-2xl hover:shadow-red-500/20 transition-all hover:scale-105">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xs font-medium text-gray-400 uppercase">Total Value Locked</h3>
+                        <i data-lucide="trending-up" class="h-4 w-4 text-green-400"></i>
                     </div>
-                    <div class="flex items-center justify-between p-4 border rounded-lg">
-                        <div>
-                            <h3 class="font-semibold">Ethereum Market Trend</h3>
-                            <p class="text-sm text-gray-600">Claude Predictor • 93.2% confidence</p>
+                    <p class="text-3xl font-bold text-green-400">$2.4M</p>
+                    <p class="text-xs text-gray-500 mt-1">+12.5% this week</p>
+                </div>
+                <div class="bg-gradient-to-br from-gray-900 to-black border border-red-500/20 backdrop-blur-md p-6 rounded-xl shadow-2xl hover:shadow-red-500/20 transition-all hover:scale-105">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xs font-medium text-gray-400 uppercase">Active Predictions</h3>
+                        <i data-lucide="activity" class="h-4 w-4 text-blue-400"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-blue-400">156</p>
+                    <p class="text-xs text-gray-500 mt-1">+8 new today</p>
+                </div>
+                <div class="bg-gradient-to-br from-gray-900 to-black border border-red-500/20 backdrop-blur-md p-6 rounded-xl shadow-2xl hover:shadow-red-500/20 transition-all hover:scale-105">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xs font-medium text-gray-400 uppercase">Accuracy Rate</h3>
+                        <i data-lucide="target" class="h-4 w-4 text-purple-400"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-purple-400">92.3%</p>
+                    <p class="text-xs text-gray-500 mt-1">AI Models Average</p>
+                </div>
+                <div class="bg-gradient-to-br from-gray-900 to-black border border-red-500/20 backdrop-blur-md p-6 rounded-xl shadow-2xl hover:shadow-red-500/20 transition-all hover:scale-105">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xs font-medium text-gray-400 uppercase">Total Users</h3>
+                        <i data-lucide="users" class="h-4 w-4 text-orange-400"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-orange-400">8,429</p>
+                    <p class="text-xs text-gray-500 mt-1">+142 this week</p>
+                </div>
+            </div>
+
+            <!-- Main Grid Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Column (2/3) -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Battle Zone -->
+                    <div class="bg-gradient-to-br from-red-900/20 to-black border-2 border-red-500 backdrop-blur-md rounded-xl p-6 shadow-2xl shadow-red-500/30 hover:shadow-red-500/50 transition-all relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-red-500/10 to-transparent animate-pulse"></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                                    <i data-lucide="swords" class="h-6 w-6 text-red-500"></i>
+                                    Battle Zone
+                                </h2>
+                                <span class="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">HOT</span>
+                            </div>
+                            <p class="text-gray-300 mb-6">Join AI vs Human battles and earn rewards</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <button onclick="showPage('battle')" class="bg-gradient-to-r from-purple-600 to-purple-800 text-white p-4 rounded-lg hover:from-purple-700 hover:to-purple-900 transition-all hover:scale-105 border border-purple-500/50">
+                                    <div class="text-3xl mb-2">🤖</div>
+                                    <div class="font-bold">AI vs AI</div>
+                                    <div class="text-xs opacity-80">Watch & Bet</div>
+                                </button>
+                                <button onclick="showPage('battle')" class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 rounded-lg hover:from-blue-700 hover:to-blue-900 transition-all hover:scale-105 border border-blue-500/50">
+                                    <div class="text-3xl mb-2">🧠</div>
+                                    <div class="font-bold">AI vs Human</div>
+                                    <div class="text-xs opacity-80">Challenge AI</div>
+                                </button>
+                                <button onclick="showPage('battle')" class="bg-gradient-to-r from-red-600 to-red-800 text-white p-4 rounded-lg hover:from-red-700 hover:to-red-900 transition-all hover:scale-105 border border-red-500/50">
+                                    <div class="text-3xl mb-2">⚔️</div>
+                                    <div class="font-bold">Human vs Human</div>
+                                    <div class="text-xs opacity-80">PvP Battle</div>
+                                </button>
+                            </div>
                         </div>
-                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Resolved</span>
+                    </div>
+
+                    <!-- Market Sentiment -->
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 shadow-xl">
+                        <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                            <i data-lucide="bar-chart-3" class="h-5 w-5 text-red-500"></i>
+                            Market Sentiment
+                        </h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+                                <div class="text-green-400 text-2xl font-bold">68%</div>
+                                <div class="text-gray-300 text-sm">📈 Bullish</div>
+                            </div>
+                            <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+                                <div class="text-red-400 text-2xl font-bold">32%</div>
+                                <div class="text-gray-300 text-sm">📉 Bearish</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 shadow-xl">
+                        <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                            <i data-lucide="clock" class="h-5 w-5 text-red-500"></i>
+                            Recent Predictions
+                        </h2>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all">
+                                <div>
+                                    <h3 class="font-semibold text-white">Bitcoin Price Prediction</h3>
+                                    <p class="text-sm text-gray-400">GPT-4 Oracle Alpha • 95.8% confidence</p>
+                                </div>
+                                <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm border border-green-500/30">Active</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all">
+                                <div>
+                                    <h3 class="font-semibold text-white">Ethereum Market Trend</h3>
+                                    <p class="text-sm text-gray-400">Claude Predictor • 93.2% confidence</p>
+                                </div>
+                                <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm border border-blue-500/30">Resolved</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column (1/3) -->
+                <div class="space-y-6">
+                    <!-- User Profile Card -->
+                    <div class="bg-gradient-to-br from-red-900/30 to-black border border-red-500/30 backdrop-blur-md rounded-xl p-6 shadow-xl">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                A
+                            </div>
+                            <div>
+                                <h3 class="text-white font-bold" id="dash-user-name">Anonymous</h3>
+                                <p class="text-gray-400 text-sm" id="dash-user-wallet">Connect Wallet</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Balance</span>
+                                <span class="text-white font-bold">0 AION</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Win Rate</span>
+                                <span class="text-green-400 font-bold">0%</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Total Battles</span>
+                                <span class="text-blue-400 font-bold">0</span>
+                            </div>
+                        </div>
+                        <button onclick="showPage('userinfo')" class="w-full mt-4 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-all font-semibold">
+                            View Profile
+                        </button>
+                    </div>
+
+                    <!-- Top AI Models -->
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 shadow-xl">
+                        <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <i data-lucide="trophy" class="h-5 w-5 text-yellow-500"></i>
+                            Top AI Models
+                        </h2>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
+                                <span class="text-2xl">🥇</span>
+                                <div class="flex-1">
+                                    <div class="text-white font-semibold text-sm">GPT-4 Oracle</div>
+                                    <div class="text-gray-400 text-xs">95.8% accuracy</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
+                                <span class="text-2xl">🥈</span>
+                                <div class="flex-1">
+                                    <div class="text-white font-semibold text-sm">Claude Predictor</div>
+                                    <div class="text-gray-400 text-xs">93.2% accuracy</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
+                                <span class="text-2xl">🥉</span>
+                                <div class="flex-1">
+                                    <div class="text-white font-semibold text-sm">Llama Vision</div>
+                                    <div class="text-gray-400 text-xs">91.5% accuracy</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="showPage('leaderboard')" class="w-full mt-4 bg-white/10 text-white py-2 rounded-lg hover:bg-white/20 transition-all text-sm font-semibold">
+                            View Full Leaderboard
+                        </button>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 shadow-xl">
+                        <h2 class="text-lg font-bold text-white mb-4">Quick Actions</h2>
+                        <div class="space-y-2">
+                            <button onclick="showPage('marketplace')" class="w-full bg-blue-600/20 border border-blue-500/30 text-blue-400 py-2 rounded-lg hover:bg-blue-600/30 transition-all text-sm font-semibold">
+                                📊 Browse Markets
+                            </button>
+                            <button onclick="showPage('governance')" class="w-full bg-purple-600/20 border border-purple-500/30 text-purple-400 py-2 rounded-lg hover:bg-purple-600/30 transition-all text-sm font-semibold">
+                                🗳️ DAO Governance
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -985,6 +1148,15 @@
             }
         }
 
+        // Update dashboard user info
+        function updateDashboardUserInfo() {
+            if (isConnected && walletAddress) {
+                const userName = localStorage.getItem('userName_' + walletAddress) || 'Anonymous';
+                document.getElementById('dash-user-name').textContent = userName;
+                document.getElementById('dash-user-wallet').textContent = walletAddress.substring(0, 6) + '...' + walletAddress.substring(38);
+            }
+        }
+
         // Wallet connection functionality
         let isConnected = false;
         let walletAddress = null;
@@ -998,6 +1170,7 @@
                     updateWalletUI();
                     updateUserInfo();
                     loadUserProfile();
+                    updateDashboardUserInfo();
                     alert('Wallet connected: ' + walletAddress);
                 } catch (error) {
                     console.error('Error connecting wallet:', error);
@@ -1705,6 +1878,14 @@
         }
         .animate-pulse {
             animation: pulse 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-20px) translateX(20px); }
+        }
+        body {
+            background: linear-gradient(to bottom right, #111, #1a0000, #000);
+            min-height: 100vh;
         }
     </style>
 </body>

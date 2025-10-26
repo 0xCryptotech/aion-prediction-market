@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { TrendingUp, Activity, Users, Lock, BarChart3, Target } from 'lucide-react';
+import { TrendingUp, Activity, Users, Lock, BarChart3, Target, CheckCircle2, Circle, Loader2 } from 'lucide-react';
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import axios from 'axios';
 
@@ -53,6 +53,71 @@ const Dashboard = () => {
     { name: 'Politics', value: 12, color: '#f59e0b' },
     { name: 'Tech', value: 8, color: '#ef4444' }
   ];
+
+  const roadmapData = [
+    {
+      phase: 'Phase 1 - MVP',
+      status: 'completed',
+      progress: 100,
+      items: [
+        { name: 'Basic prediction marketplace', done: true },
+        { name: 'AI models leaderboard', done: true },
+        { name: 'Wallet integration (MetaMask)', done: true },
+        { name: 'DAO governance system', done: true },
+        { name: 'Dashboard analytics', done: true }
+      ]
+    },
+    {
+      phase: 'Phase 2 - Alpha',
+      status: 'in-progress',
+      progress: 68,
+      items: [
+        { name: 'Linera smart contract structure', done: true },
+        { name: 'Backend Linera adapter', done: true },
+        { name: 'Indexer for state sync', done: true },
+        { name: 'CLI tools', done: true },
+        { name: 'Testing infrastructure', done: true },
+        { name: 'Full contract implementation', done: false },
+        { name: 'Testnet deployment', done: false },
+        { name: 'Atoma AI inference', done: false },
+        { name: 'Real oracle verification', done: false }
+      ]
+    },
+    {
+      phase: 'Phase 3 - Beta',
+      status: 'planned',
+      progress: 0,
+      items: [
+        { name: 'Fusion Hub meta-learning', done: false },
+        { name: 'Dispute resolution mechanism', done: false },
+        { name: 'Advanced analytics', done: false },
+        { name: 'Mobile app', done: false }
+      ]
+    },
+    {
+      phase: 'Phase 4 - Mainnet',
+      status: 'planned',
+      progress: 0,
+      items: [
+        { name: 'Security audit', done: false },
+        { name: 'Multi-microchain deployment', done: false },
+        { name: 'Full decentralization', done: false },
+        { name: 'Token launch', done: false }
+      ]
+    }
+  ];
+
+  const getStatusIcon = (status) => {
+    if (status === 'completed') return <CheckCircle2 className="h-5 w-5 text-green-500" />;
+    if (status === 'in-progress') return <Loader2 className="h-5 w-5 text-blue-500 animate-spin" />;
+    return <Circle className="h-5 w-5 text-gray-400" />;
+  };
+
+  const getStatusColor = (status) => {
+    if (status === 'completed') return 'border-green-500/20 bg-green-500/5';
+    if (status === 'in-progress') return 'border-blue-500/20 bg-blue-500/5';
+    return 'border-gray-500/20 bg-gray-500/5';
+  };
 
   if (loading) {
     return (
@@ -159,6 +224,58 @@ const Dashboard = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Roadmap */}
+      <Card data-testid="roadmap-section">
+        <CardHeader>
+          <CardTitle>Development Roadmap</CardTitle>
+          <CardDescription>Project milestones and progress</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            {roadmapData.map((phase, index) => (
+              <div key={index} className={`border rounded-lg p-4 ${getStatusColor(phase.status)}`}>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-3">
+                    {getStatusIcon(phase.status)}
+                    <h3 className="font-semibold text-lg">{phase.phase}</h3>
+                  </div>
+                  <Badge variant={phase.status === 'completed' ? 'default' : phase.status === 'in-progress' ? 'secondary' : 'outline'}>
+                    {phase.progress}%
+                  </Badge>
+                </div>
+                
+                {/* Progress Bar */}
+                <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
+                  <div 
+                    className={`h-2 rounded-full transition-all ${
+                      phase.status === 'completed' ? 'bg-green-500' : 
+                      phase.status === 'in-progress' ? 'bg-blue-500' : 'bg-gray-400'
+                    }`}
+                    style={{ width: `${phase.progress}%` }}
+                  ></div>
+                </div>
+
+                {/* Items */}
+                <div className="space-y-2">
+                  {phase.items.map((item, idx) => (
+                    <div key={idx} className="flex items-center space-x-2 text-sm">
+                      {item.done ? (
+                        <CheckCircle2 className="h-4 w-4 text-green-500 flex-shrink-0" />
+                      ) : (
+                        <Circle className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                      )}
+                      <span className={item.done ? 'text-muted-foreground line-through' : ''}>
+                        {item.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Recent Activity */}
       <div className="grid gap-4 md:grid-cols-2">

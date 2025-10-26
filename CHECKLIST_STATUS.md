@@ -38,17 +38,17 @@
 - ✅ `linera_adapter.py` - Bridge ke Linera CLI
 - ✅ Methods: call_operation(), query_state(), create_market(), stake(), resolve_market()
 - ✅ Subprocess integration dengan Linera CLI
-- ⏳ API endpoints integration (TODO)
-- ⏳ Error handling & retry logic (TODO)
+- ✅ API endpoints integration
+- ✅ API key validation
+- ⏳ Rate limiting (TODO)
 
 **Files:**
 - `backend/linera_adapter.py`
-- `backend/server.py` (needs update)
+- `backend/server.py` (updated)
 
 **Next Steps:**
-- Add Linera endpoints to server.py
-- Implement API key validation
 - Add rate limiting
+- Implement retry logic
 
 ---
 
@@ -110,16 +110,20 @@
 - ✅ Rust test pipeline
 - ✅ Python test pipeline
 - ✅ Vercel deployment automation
-- ⏳ Unit tests (TODO)
-- ⏳ Integration tests (TODO)
+- ✅ Rust unit tests
+- ✅ Python pytest tests
+- ✅ Test runner scripts
+- ⏳ Test coverage reporting (TODO)
 
 **Files:**
 - `.github/workflows/ci-cd.yml`
+- `linera/tests/lib_test.rs`
+- `backend/tests/test_linera.py`
+- `scripts/test_all.bat`
 
 **Next Steps:**
-- Write Rust unit tests
-- Write Python pytest tests
 - Add test coverage reporting
+- Add integration tests
 
 ---
 
@@ -127,22 +131,27 @@
 - ✅ Deployment script `deploy_linera.sh`
 - ✅ CLI tool `aion_cli.py`
 - ✅ Documentation `LINERA_INTEGRATION.md`
+- ✅ Setup scripts (Windows)
+- ✅ Local deployment automation
+- ✅ Quick start guide
 - ⏳ Local testing (TODO)
 - ⏳ Testnet deployment (TODO)
 - ⏳ Production deployment (TODO)
 
 **Files:**
 - `scripts/deploy_linera.sh`
+- `scripts/deploy_local.bat`
+- `scripts/setup_linera.bat`
 - `scripts/aion_cli.py`
 - `docs/LINERA_INTEGRATION.md`
+- `docs/QUICK_START.md`
 - `docs/bcs_schema.md`
 
 **Next Steps:**
-1. Install Rust & Linera CLI
-2. Test local: `linera net up --local`
-3. Deploy contract: `bash scripts/deploy_linera.sh`
-4. Start indexer: `python backend/indexer.py`
-5. Test CLI: `python scripts/aion_cli.py query`
+1. Run: `scripts\setup_linera.bat`
+2. Test local: `scripts\deploy_local.bat`
+3. Test CLI: `python scripts/aion_cli.py query`
+4. Deploy testnet: `bash scripts/deploy_linera.sh`
 
 ---
 
@@ -152,38 +161,42 @@
 |-----------|--------|----------|
 | Project Structure | ✅ Complete | 100% |
 | Smart Contract | 🟡 Partial | 40% |
-| Backend Adapter | 🟡 Partial | 60% |
+| Backend Adapter | ✅ Complete | 85% |
 | Indexer | ✅ Complete | 90% |
 | Frontend | 🟡 Partial | 30% |
-| Security | 🟡 Partial | 50% |
-| Testing | 🔴 Not Started | 10% |
-| Deployment | 🟡 Partial | 40% |
+| Security | 🟡 Partial | 60% |
+| Testing | 🟡 Partial | 70% |
+| Deployment | 🟡 Partial | 75% |
 
-**Overall Progress: 52%**
+**Overall Progress: 68%**
 
 ---
 
 ## 🎯 Immediate Next Steps
 
-1. **Install Linera CLI**
+1. **Setup Linera (Windows)**
    ```bash
-   cargo install linera-cli
-   rustup target add wasm32-unknown-unknown
+   scripts\setup_linera.bat
    ```
 
-2. **Test Local Deployment**
+2. **Run Tests**
    ```bash
-   linera net up --local
-   cd linera && cargo build --target wasm32-unknown-unknown --release
+   scripts\test_all.bat
    ```
 
-3. **Update Backend Server**
-   - Add Linera endpoints to `server.py`
-   - Integrate `linera_adapter.py`
+3. **Deploy Locally**
+   ```bash
+   scripts\deploy_local.bat
+   ```
 
-4. **Write Tests**
-   - Rust: `cargo test`
-   - Python: `pytest`
+4. **Test API**
+   ```bash
+   # Query Linera state
+   curl http://localhost:8001/api/linera/state
+   
+   # Test CLI
+   python scripts/aion_cli.py query
+   ```
 
 5. **Deploy to Testnet**
    ```bash

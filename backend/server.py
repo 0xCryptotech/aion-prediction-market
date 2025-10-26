@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import FastAPI, APIRouter, HTTPException, Header
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -10,6 +10,7 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, timezone, timedelta
 import random
+from linera_adapter import linera_adapter
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -93,6 +94,18 @@ class PlatformStats(BaseModel):
     total_staked: float
     accuracy_rate: float
     total_users: int
+
+class LineraStakeRequest(BaseModel):
+    market_id: int
+    amount: int
+    prediction: bool
+    wallet_address: str
+
+class LineraMarketRequest(BaseModel):
+    title: str
+    description: str
+    category: str
+    event_date: int
 
 # ============ SEED DATA ============
 
@@ -382,6 +395,52 @@ async def get_platform_stats():
         "accuracy_rate": round(avg_accuracy, 2),
         "total_users": random.randint(5000, 15000)
     }
+
+# ============ LINERA ENDPOINTS ============
+
+def verify_api_key(x_api_key: str = Header(None)):
+    api_key = os.getenv("API_KEY")
+    if api_key and x_api_key != api_key:
+        raise HTTPException(status_code=401, detail="Invalid API key")
+
+@api_router.post("/linera/market")
+async def create_linera_market(request: LineraMarketRequest, x_api_key: str = Header(None)):
+    verify_api_key(x_api_key)
+    result = await linera_adapter.create_market(
+        title=request.title,
+        description=request.description,
+        category=request.category,
+        event_date=request.event_date
+    )
+    if not result.get("success"):
+        raise HTTPException(status_code=500, detail=result.get("error"))
+    return result
+
+@api_router.post("/linera/stake")
+async def linera_stake(request: LineraStakeRequest):
+    result = await linera_adapter.stake(
+        market_id=request.market_id,
+        amount=request.amount,
+        prediction=request.prediction
+    )
+    if not result.get("success"):
+        raise HTTPException(status_code=500, detail=result.get("error"))
+    return result
+
+@api_router.get("/linera/state")
+async def get_linera_state():
+    result = await linera_adapter.query_state()
+    if "error" in result:
+        raise HTTPException(status_code=500, detail=result["error"])
+    return result
+
+@api_router.post("/linera/resolve/{market_id}")
+async def resolve_linera_market(market_id: int, outcome: bool, x_api_key: str = Header(None)):
+    verify_api_key(x_api_key)
+    result = await linera_adapter.resolve_market(market_id=market_id, outcome=outcome)
+    if not result.get("success"):
+        raise HTTPException(status_code=500, detail=result.get("error"))
+    return result
 
 # Include router
 app.include_router(api_router)

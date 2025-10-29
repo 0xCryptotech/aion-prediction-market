@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { TrendingUp, Activity, Users, Lock, BarChart3, Target, CheckCircle2, Circle, Loader2 } from 'lucide-react';
+import { TrendingUp, Activity, Users, Lock, BarChart3, Target, CheckCircle2, Circle, Loader2, Zap, ArrowUp, ArrowDown } from 'lucide-react';
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import axios from 'axios';
 
@@ -13,10 +13,15 @@ const Dashboard = () => {
   const [predictions, setPredictions] = useState([]);
   const [aiModels, setAiModels] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [livePredictions, setLivePredictions] = useState([]);
+  const [selectedTimeframe, setSelectedTimeframe] = useState('M5');
 
   useEffect(() => {
     fetchData();
-  }, []);
+    fetchLivePredictions();
+    const interval = setInterval(fetchLivePredictions, 30000);
+    return () => clearInterval(interval);
+  }, [selectedTimeframe]);
 
   const fetchData = async () => {
     try {
@@ -33,6 +38,15 @@ const Dashboard = () => {
       console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchLivePredictions = async () => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/live-predictions?timeframe=${selectedTimeframe}`);
+      setLivePredictions(response.data);
+    } catch (error) {
+      console.error('Error fetching live predictions:', error);
     }
   };
 
@@ -224,6 +238,85 @@ const Dashboard = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Live AI Predictions */}
+      <Card data-testid="live-predictions">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2">
+                <Zap className="h-5 w-5 text-yellow-500" />
+                Live AI Predictions
+              </CardTitle>
+              <CardDescription>Real-time price predictions from Pyth Network</CardDescription>
+            </div>
+            <div className="flex gap-2">
+              {['M1', 'M5', 'M10', 'M15', 'M30', 'H1'].map((tf) => (
+                <button
+                  key={tf}
+                  onClick={() => setSelectedTimeframe(tf)}
+                  className={`px-3 py-1 text-xs rounded-md transition-colors ${
+                    selectedTimeframe === tf
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
+                >
+                  {tf}
+                </button>
+              ))}
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {livePredictions.map((pred) => (
+              <div
+                key={pred.id}
+                className="border rounded-lg p-4 hover:shadow-lg transition-shadow"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-bold text-lg">{pred.symbol}</h3>
+                  <Badge variant={pred.direction === 'UP' ? 'default' : 'destructive'}>
+                    {pred.direction === 'UP' ? (
+                      <ArrowUp className="h-3 w-3" />
+                    ) : (
+                      <ArrowDown className="h-3 w-3" />
+                    )}
+                  </Badge>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Current:</span>
+                    <span className="font-semibold">${pred.current_price.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Predicted:</span>
+                    <span className={`font-semibold ${
+                      pred.direction === 'UP' ? 'text-green-600' : 'text-red-600'
+                    }`}>
+                      ${pred.predicted_price.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Change:</span>
+                    <span className={pred.direction === 'UP' ? 'text-green-600' : 'text-red-600'}>
+                      {pred.direction === 'UP' ? '+' : '-'}{pred.change_percent}%
+                    </span>
+                  </div>
+                  <div className="pt-2 border-t">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-muted-foreground">{pred.ai_model}</span>
+                      <span className="text-xs font-semibold text-purple-600">
+                        {(pred.confidence * 100).toFixed(0)}% conf
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Roadmap */}
       <Card data-testid="roadmap-section">

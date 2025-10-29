@@ -10,6 +10,7 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, timezone, timedelta
 import random
+import httpx
 from linera_adapter import linera_adapter
 
 ROOT_DIR = Path(__file__).parent
@@ -106,6 +107,24 @@ class LineraMarketRequest(BaseModel):
     description: str
     category: str
     event_date: int
+
+class PythPriceData(BaseModel):
+    symbol: str
+    price: float
+    confidence: float
+    timestamp: int
+    timeframe: str
+
+class LivePrediction(BaseModel):
+    id: str
+    symbol: str
+    current_price: float
+    predicted_price: float
+    direction: str
+    confidence: float
+    timeframe: str
+    ai_model: str
+    timestamp: datetime
 
 # ============ SEED DATA ============
 
@@ -441,6 +460,87 @@ async def resolve_linera_market(market_id: int, outcome: bool, x_api_key: str = 
     if not result.get("success"):
         raise HTTPException(status_code=500, detail=result.get("error"))
     return result
+
+# ============ PYTH NETWORK & LIVE PREDICTIONS ============
+
+PYTH_PRICE_IDS = {
+    "BTC/USD": "0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43",
+    "ETH/USD": "0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace",
+    "SOL/USD": "0xef0d8b6fda2ceba41da15d4095d1da392a0d2f8ed0c6c7bc0f4cfac8c280b56d",
+    "BNB/USD": "0x2f95862b045670cd22bee3114c39763a4a08beeb663b145d283c31d7d1101c4f",
+}
+
+@api_router.get("/pyth/price/{symbol}")
+async def get_pyth_price(symbol: str):
+    price_id = PYTH_PRICE_IDS.get(symbol.upper())
+    if not price_id:
+        raise HTTPException(status_code=404, detail="Symbol not found")
+    
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(
+                f"https://hermes.pyth.network/v2/updates/price/latest?ids[]={price_id}",
+                timeout=10.0
+            )
+            data = response.json()
+            
+            if "parsed" in data and len(data["parsed"]) > 0:
+                price_data = data["parsed"][0]["price"]
+                price = float(price_data["price"]) * (10 ** price_data["expo"])
+                conf = float(price_data["conf"]) * (10 ** price_data["expo"])
+                
+                return {
+                    "symbol": symbol.upper(),
+                    "price": round(price, 2),
+                    "confidence": round(conf, 2),
+                    "timestamp": int(price_data["publish_time"]),
+                    "expo": price_data["expo"]
+                }
+    except Exception as e:
+        logger.error(f"Error fetching Pyth price: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/live-predictions")
+async def get_live_predictions(timeframe: str = "M5"):
+    symbols = ["BTC/USD", "ETH/USD", "SOL/USD", "BNB/USD"]
+    ai_models = ["GPT-4 Oracle", "Claude Predictor", "Llama Vision", "Gemini Forecast"]
+    predictions = []
+    
+    for symbol in symbols:
+        try:
+            async with httpx.AsyncClient() as client:
+                price_id = PYTH_PRICE_IDS.get(symbol)
+                response = await client.get(
+                    f"https://hermes.pyth.network/v2/updates/price/latest?ids[]={price_id}",
+                    timeout=10.0
+                )
+                data = response.json()
+                
+                if "parsed" in data and len(data["parsed"]) > 0:
+                    price_data = data["parsed"][0]["price"]
+                    current_price = float(price_data["price"]) * (10 ** price_data["expo"])
+                    
+                    direction = random.choice(["UP", "DOWN"])
+                    change_percent = random.uniform(0.1, 2.5)
+                    predicted_price = current_price * (1 + change_percent/100 if direction == "UP" else 1 - change_percent/100)
+                    
+                    predictions.append({
+                        "id": str(uuid.uuid4()),
+                        "symbol": symbol,
+                        "current_price": round(current_price, 2),
+                        "predicted_price": round(predicted_price, 2),
+                        "direction": direction,
+                        "confidence": round(random.uniform(0.75, 0.95), 2),
+                        "timeframe": timeframe,
+                        "ai_model": random.choice(ai_models),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                        "change_percent": round(change_percent, 2)
+                    })
+        except Exception as e:
+            logger.error(f"Error generating prediction for {symbol}: {e}")
+            continue
+    
+    return predictions
 
 # Include router
 app.include_router(api_router)

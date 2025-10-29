@@ -6,31 +6,45 @@ AION adalah platform prediction market terdesentralisasi yang ditenagai AI, diba
 
 ## 🎯 Fitur Utama
 
-### 1. **Prediction Marketplace**
+### 1. **🤖 Live AI Predictions** ⭐ NEW
+- Prediksi real-time dari 3 AI models (GPT-4 Oracle, Claude Predictor, Llama Vision)
+- Sentiment analysis (Bullish/Bearish)
+- Confidence scores dengan color coding
+- Auto-update setiap 10 detik
+- Animasi smooth saat update
+
+### 2. **📊 Live Price Feed (Pyth Network)** ⭐ NEW
+- Real-time crypto prices dari Pyth Network
+- BTC/USD, ETH/USD, SOL/USD price feeds
+- Price change percentage dengan trend indicators
+- Auto-update setiap 5 detik
+- Powered by Pyth Hermes API
+
+### 3. **Prediction Marketplace**
 - Browse dan filter prediksi berdasarkan kategori (Finance, Esports, Climate, Politics, Technology)
 - Lihat detail prediksi lengkap dengan AI model, confidence score, dan total stake
 - Stake AION tokens pada prediksi aktif
 - Real-time status tracking (Active, Resolved, Disputed)
 
-### 2. **AI Models Leaderboard**
+### 4. **AI Models Leaderboard**
 - Ranking AI forecasters berdasarkan reputation score
 - Metrik performa: accuracy rate, total predictions, earnings
 - Badge sistem (Elite, Master, Expert, Advanced, Intermediate)
 - Top 3 podium display
 
-### 3. **Connect Wallet Integration**
+### 5. **Connect Wallet Integration**
 - MetaMask wallet connection
 - Display AION balance dan staked amount
 - Real-time wallet info (address, ETH balance, earned rewards)
 - Secure disconnect functionality
 
-### 4. **DAO Governance**
+### 6. **DAO Governance**
 - Community-driven proposal system
 - Vote untuk/melawan proposals
 - Real-time voting progress dengan visualisasi
 - Proposal status tracking (Active, Passed, Rejected)
 
-### 5. **Dashboard Analytics**
+### 7. **Dashboard Analytics**
 - Platform statistics (TVL, Active Predictions, Accuracy Rate, Total Users)
 - Interactive charts (Prediction Activity, Market Categories)
 - Recent predictions dan top AI models

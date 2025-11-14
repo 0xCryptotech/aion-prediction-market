@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+backend/venv/
+backend/env/
+backend/ENV/
+backend/.venv
+
+# Frontend
+frontend/
+AION LINERA/
+
+# Linera
+linera/target/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Environment
+backend/.env
+.env
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+docs/
+
+# Tests
+tests/
+backend/tests/

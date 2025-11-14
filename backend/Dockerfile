@@ -21,5 +21,5 @@ COPY . .
 # Expose port (Railway will override with $PORT)
 EXPOSE 8001
 
-# Start command
-CMD uvicorn server:app --host 0.0.0.0 --port ${PORT:-8001}
+# Start command - Railway provides PORT env var
+CMD ["sh", "-c", "uvicorn server:app --host 0.0.0.0 --port ${PORT:-8001}"]

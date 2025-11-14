@@ -5,7 +5,7 @@
 
 // Configuration
 const API_CONFIG = {
-    baseURL: 'http://localhost:8001',
+    baseURL: 'https://aion-backend-production.up.railway.app',
     timeout: 10000,
 };
 

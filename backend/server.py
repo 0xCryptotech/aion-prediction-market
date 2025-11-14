@@ -27,8 +27,10 @@ def get_db():
         try:
             # Use MONGODB_URI or MONGO_URL from environment
             mongo_url = os.getenv("MONGODB_URI") or os.getenv("MONGO_URL")
-            if not mongo_url:
-                logger.warning("No MongoDB URI configured")
+            
+            # Skip if no MongoDB or localhost (Railway doesn't have local MongoDB)
+            if not mongo_url or "localhost" in mongo_url:
+                logger.warning("No valid MongoDB URI configured (skipping localhost)")
                 return None
             
             client = MongoClient(mongo_url, serverSelectionTimeoutMS=3000)

@@ -285,12 +285,22 @@ async def seed_database():
 
 # ============ ENDPOINTS ============
 
-@api_router.get("/")
+@app.get("/")
 async def root():
+    return {"message": "AION Prediction Market API", "version": "1.0.0"}
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
+@api_router.get("/")
+async def api_root():
     return {"message": "AION Prediction Market API", "version": "1.0.0"}
 
 @api_router.get("/ai-models", response_model=List[AIModel])
 async def get_ai_models():
+    if not mongo_available or db is None:
+        return []
     models = await db.ai_models.find({}, {"_id": 0}).sort("rank", 1).to_list(100)
     for model in models:
         if isinstance(model['created_at'], str):
@@ -308,6 +318,8 @@ async def get_ai_model(model_id: str):
 
 @api_router.get("/predictions", response_model=List[Prediction])
 async def get_predictions(status: Optional[str] = None, category: Optional[str] = None):
+    if not mongo_available or db is None:
+        return []
     query = {}
     if status:
         query["status"] = status
@@ -558,12 +570,16 @@ logger = logging.getLogger(__name__)
 
 @app.on_event("startup")
 async def startup_event():
-    await seed_database()
-    logger.info("Database seeded successfully")
+    try:
+        await seed_database()
+        logger.info("Database seeded successfully")
+    except Exception as e:
+        logger.warning(f"Could not seed database: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
-    client.close()
+    if mongo_available and client:
+        client.close()
 
 
 # For Railway deployment

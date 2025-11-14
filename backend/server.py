@@ -25,10 +25,15 @@ def get_db():
     global client
     if client is None:
         try:
-            mongo_url = os.getenv("MONGO_URL", "mongodb://localhost:27017")
-            client = MongoClient(mongo_url, serverSelectionTimeoutMS=5000)
-            client.server_info()  # Test connection
-            logger.info("MongoDB connected successfully")
+            # Use MONGODB_URI or MONGO_URL from environment
+            mongo_url = os.getenv("MONGODB_URI") or os.getenv("MONGO_URL")
+            if not mongo_url:
+                logger.warning("No MongoDB URI configured")
+                return None
+            
+            client = MongoClient(mongo_url, serverSelectionTimeoutMS=3000)
+            # Don't test connection here - let it fail lazily
+            logger.info("MongoDB client initialized")
         except Exception as e:
             logger.warning(f"MongoDB not available: {e}")
             return None

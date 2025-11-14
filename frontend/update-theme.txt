@@ -1,0 +1,35 @@
+Ganti di index-old.html:
+
+1. Body background:
+   from-gray-50 to-gray-100 → from-gray-900 via-red-950 to-black
+   
+2. Header:
+   bg-white border-gray-200 → bg-black/90 backdrop-blur-sm border-red-900/50 shadow-lg shadow-red-900/20
+   
+3. Logo:
+   from-purple-600 to-blue-600 → from-red-600 to-red-800 shadow-lg shadow-red-600/50
+   
+4. Connect Wallet button:
+   from-purple-600 to-blue-600 → from-red-600 to-red-800 shadow-lg shadow-red-600/30 border border-red-500/30
+   
+5. Cards:
+   bg-white → bg-black/50 backdrop-blur-sm border border-red-900/30
+   
+6. Text colors:
+   text-gray-500 → text-gray-400
+   text-gray-700 → text-white
+   
+7. Buttons:
+   bg-purple-600 → bg-gradient-to-r from-red-600 to-red-800
+   
+8. Nav active:
+   from-purple-600 to-blue-600 → from-red-600 to-red-800
+
+9. Add TradingView:
+   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+   
+10. Add widget setelah h1 Dashboard:
+   <div class="bg-black/50 backdrop-blur-sm rounded-lg shadow-xl border border-red-900/30 p-6 mb-8">
+       <h2 class="text-xl font-bold mb-4 text-red-400">Live Market Prices</h2>
+       <div id="tradingview_widget"></div>
+   </div>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AION - Prediction Market</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-8">🚀 AION Prediction Market</h1>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-bold mb-4">✅ Backend Active</h2>
+                <p class="mb-4">API server running on port 8001</p>
+                <a href="http://localhost:8001/docs" target="_blank" 
+                   class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    View API Docs
+                </a>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-bold mb-4">⚠️ React Frontend</h2>
+                <p class="mb-4">Full React app needs dependency fix</p>
+                <button onclick="testAPI()" 
+                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                    Test API Connection
+                </button>
+            </div>
+        </div>
+        
+        <div id="api-result" class="mt-6 p-4 bg-gray-200 rounded hidden">
+            <h3 class="font-bold">API Response:</h3>
+            <pre id="api-data"></pre>
+        </div>
+    </div>
+
+    <script>
+        async function testAPI() {
+            try {
+                const response = await fetch('http://localhost:8001/api/');
+                const data = await response.json();
+                document.getElementById('api-data').textContent = JSON.stringify(data, null, 2);
+                document.getElementById('api-result').classList.remove('hidden');
+            } catch (error) {
+                document.getElementById('api-data').textContent = 'Error: ' + error.message;
+                document.getElementById('api-result').classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,35 +1,40 @@
 from fastapi import FastAPI, APIRouter, HTTPException, Header
-from dotenv import load_dotenv
-from starlette.middleware.cors import CORSMiddleware
-from motor.motor_asyncio import AsyncIOMotorClient
+from fastapi.middleware.cors import CORSMiddleware
+from pymongo import MongoClient
 import os
 import logging
-from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Optional
 import uuid
 from datetime import datetime, timezone, timedelta
 import random
-from linera_adapter import linera_adapter
 
-ROOT_DIR = Path(__file__).parent
-load_dotenv(ROOT_DIR / '.env')
-
-# MongoDB connection (optional)
-mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
-db_name = os.environ.get('DB_NAME', 'aion_db')
-try:
-    client = AsyncIOMotorClient(mongo_url, serverSelectionTimeoutMS=5000)
-    db = client[db_name]
-    mongo_available = True
-except Exception as e:
-    logging.warning(f"MongoDB not available: {e}")
-    db = None
-    mongo_available = False
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Create the main app
-app = FastAPI()
+app = FastAPI(title="AION Prediction Market API", version="1.0.0")
 api_router = APIRouter(prefix="/api")
+
+# MongoDB connection (lazy loading)
+client = None
+
+def get_db():
+    """Lazy MongoDB connection - non-blocking"""
+    global client
+    if client is None:
+        try:
+            mongo_url = os.getenv("MONGO_URL", "mongodb://localhost:27017")
+            client = MongoClient(mongo_url, serverSelectionTimeoutMS=5000)
+            client.server_info()  # Test connection
+            logger.info("MongoDB connected successfully")
+        except Exception as e:
+            logger.warning(f"MongoDB not available: {e}")
+            return None
+    
+    db_name = os.getenv("DB_NAME", "aion_db")
+    return client[db_name] if client else None
 
 # ============ MODELS ============
 
@@ -125,19 +130,21 @@ class LineraStakeRequest(BaseModel):
 
 # ============ SEED DATA ============
 
-async def seed_database():
-    # Skip if MongoDB not available
-    if not mongo_available or db is None:
-        logging.info("MongoDB not available, skipping database seeding")
+def seed_database():
+    """Seed database with initial data - non-blocking"""
+    db = get_db()
+    if db is None:
+        logger.info("MongoDB not available, skipping database seeding")
         return
     
     try:
         # Check if data already exists
-        existing_models = await db.ai_models.count_documents({})
+        existing_models = db.ai_models.count_documents({})
         if existing_models > 0:
+            logger.info("Database already seeded")
             return
     except Exception as e:
-        logging.warning(f"Could not seed database: {e}")
+        logger.warning(f"Could not seed database: {e}")
         return
     
     # Seed AI Models
@@ -213,7 +220,7 @@ async def seed_database():
             "created_at": datetime.now(timezone.utc).isoformat()
         }
     ]
-    await db.ai_models.insert_many(ai_models)
+    db.ai_models.insert_many(ai_models)
     
     # Seed Predictions
     categories = ["Finance", "Esports", "Climate", "Politics", "Technology"]
@@ -240,7 +247,7 @@ async def seed_database():
             }
             predictions.append(pred)
     
-    await db.predictions.insert_many(predictions)
+    db.predictions.insert_many(predictions)
     
     # Seed DAO Proposals
     proposals = [
@@ -281,35 +288,47 @@ async def seed_database():
             "created_at": (datetime.now(timezone.utc) - timedelta(days=10)).isoformat()
         }
     ]
-    await db.dao_proposals.insert_many(proposals)
+    db.dao_proposals.insert_many(proposals)
+    logger.info("Database seeded successfully")
 
 # ============ ENDPOINTS ============
 
 @app.get("/")
-async def root():
-    return {"message": "AION Prediction Market API", "version": "1.0.0"}
+def root():
+    return {"message": "AION Prediction Market API", "version": "1.0.0", "status": "online"}
 
 @app.get("/health")
-async def health():
+def health():
     return {"status": "ok"}
 
+@app.get("/test-db")
+def test_db():
+    db = get_db()
+    if db is None:
+        return {"db": "not connected"}
+    return {"db": "connected"}
+
 @api_router.get("/")
-async def api_root():
+def api_root():
     return {"message": "AION Prediction Market API", "version": "1.0.0"}
 
 @api_router.get("/ai-models", response_model=List[AIModel])
-async def get_ai_models():
-    if not mongo_available or db is None:
+def get_ai_models():
+    db = get_db()
+    if db is None:
         return []
-    models = await db.ai_models.find({}, {"_id": 0}).sort("rank", 1).to_list(100)
+    models = list(db.ai_models.find({}, {"_id": 0}).sort("rank", 1).limit(100))
     for model in models:
         if isinstance(model['created_at'], str):
             model['created_at'] = datetime.fromisoformat(model['created_at'])
     return models
 
 @api_router.get("/ai-models/{model_id}", response_model=AIModel)
-async def get_ai_model(model_id: str):
-    model = await db.ai_models.find_one({"id": model_id}, {"_id": 0})
+def get_ai_model(model_id: str):
+    db = get_db()
+    if db is None:
+        raise HTTPException(status_code=503, detail="Database not available")
+    model = db.ai_models.find_one({"id": model_id}, {"_id": 0})
     if not model:
         raise HTTPException(status_code=404, detail="AI Model not found")
     if isinstance(model['created_at'], str):
@@ -317,8 +336,9 @@ async def get_ai_model(model_id: str):
     return model
 
 @api_router.get("/predictions", response_model=List[Prediction])
-async def get_predictions(status: Optional[str] = None, category: Optional[str] = None):
-    if not mongo_available or db is None:
+def get_predictions(status: Optional[str] = None, category: Optional[str] = None):
+    db = get_db()
+    if db is None:
         return []
     query = {}
     if status:
@@ -326,7 +346,7 @@ async def get_predictions(status: Optional[str] = None, category: Optional[str] 
     if category:
         query["category"] = category
     
-    predictions = await db.predictions.find(query, {"_id": 0}).to_list(1000)
+    predictions = list(db.predictions.find(query, {"_id": 0}).limit(1000))
     for pred in predictions:
         if isinstance(pred['created_at'], str):
             pred['created_at'] = datetime.fromisoformat(pred['created_at'])
@@ -335,8 +355,11 @@ async def get_predictions(status: Optional[str] = None, category: Optional[str] 
     return predictions
 
 @api_router.get("/predictions/{prediction_id}", response_model=Prediction)
-async def get_prediction(prediction_id: str):
-    prediction = await db.predictions.find_one({"id": prediction_id}, {"_id": 0})
+def get_prediction(prediction_id: str):
+    db = get_db()
+    if db is None:
+        raise HTTPException(status_code=503, detail="Database not available")
+    prediction = db.predictions.find_one({"id": prediction_id}, {"_id": 0})
     if not prediction:
         raise HTTPException(status_code=404, detail="Prediction not found")
     if isinstance(prediction['created_at'], str):
@@ -346,8 +369,11 @@ async def get_prediction(prediction_id: str):
     return prediction
 
 @api_router.post("/predictions/{prediction_id}/stake")
-async def stake_on_prediction(prediction_id: str, wallet_address: str, amount: float):
-    prediction = await db.predictions.find_one({"id": prediction_id})
+def stake_on_prediction(prediction_id: str, wallet_address: str, amount: float):
+    db = get_db()
+    if db is None:
+        raise HTTPException(status_code=503, detail="Database not available")
+    prediction = db.predictions.find_one({"id": prediction_id})
     if not prediction:
         raise HTTPException(status_code=404, detail="Prediction not found")
     
@@ -358,10 +384,10 @@ async def stake_on_prediction(prediction_id: str, wallet_address: str, amount: f
         "amount": amount,
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
-    await db.stakes.insert_one(stake_record)
+    db.stakes.insert_one(stake_record)
     
     # Update prediction total stake
-    await db.predictions.update_one(
+    db.predictions.update_one(
         {"id": prediction_id},
         {"$inc": {"total_stake": amount}}
     )
@@ -369,8 +395,11 @@ async def stake_on_prediction(prediction_id: str, wallet_address: str, amount: f
     return {"message": "Stake successful", "stake_id": stake_record["id"]}
 
 @api_router.get("/dao-proposals", response_model=List[DAOProposal])
-async def get_dao_proposals():
-    proposals = await db.dao_proposals.find({}, {"_id": 0}).to_list(100)
+def get_dao_proposals():
+    db = get_db()
+    if db is None:
+        return []
+    proposals = list(db.dao_proposals.find({}, {"_id": 0}).limit(100))
     for prop in proposals:
         if isinstance(prop['created_at'], str):
             prop['created_at'] = datetime.fromisoformat(prop['created_at'])
@@ -379,8 +408,11 @@ async def get_dao_proposals():
     return proposals
 
 @api_router.post("/dao-proposals/{proposal_id}/vote")
-async def vote_on_proposal(proposal_id: str, wallet_address: str, vote: str):
-    proposal = await db.dao_proposals.find_one({"id": proposal_id})
+def vote_on_proposal(proposal_id: str, wallet_address: str, vote: str):
+    db = get_db()
+    if db is None:
+        raise HTTPException(status_code=503, detail="Database not available")
+    proposal = db.dao_proposals.find_one({"id": proposal_id})
     if not proposal:
         raise HTTPException(status_code=404, detail="Proposal not found")
     
@@ -389,7 +421,7 @@ async def vote_on_proposal(proposal_id: str, wallet_address: str, vote: str):
     
     # Update votes
     update_field = "votes_for" if vote == "for" else "votes_against"
-    await db.dao_proposals.update_one(
+    db.dao_proposals.update_one(
         {"id": proposal_id},
         {"$inc": {update_field: 1, "total_votes": 1}}
     )
@@ -397,10 +429,12 @@ async def vote_on_proposal(proposal_id: str, wallet_address: str, vote: str):
     return {"message": "Vote recorded successfully"}
 
 @api_router.get("/wallet/{wallet_address}/balance", response_model=WalletBalance)
-async def get_wallet_balance(wallet_address: str):
-    # Mock balance for demo
-    stakes = await db.stakes.find({"wallet_address": wallet_address}, {"_id": 0}).to_list(1000)
-    staked_amount = sum(stake["amount"] for stake in stakes)
+def get_wallet_balance(wallet_address: str):
+    db = get_db()
+    staked_amount = 0
+    if db is not None:
+        stakes = list(db.stakes.find({"wallet_address": wallet_address}, {"_id": 0}).limit(1000))
+        staked_amount = sum(stake["amount"] for stake in stakes)
     
     return {
         "wallet_address": wallet_address,
@@ -410,17 +444,29 @@ async def get_wallet_balance(wallet_address: str):
     }
 
 @api_router.get("/statistics", response_model=PlatformStats)
-async def get_platform_stats():
-    total_predictions = await db.predictions.count_documents({})
-    active_predictions = await db.predictions.count_documents({"status": "active"})
-    total_ai_models = await db.ai_models.count_documents({})
+def get_platform_stats():
+    db = get_db()
+    if db is None:
+        return {
+            "total_predictions": 0,
+            "active_predictions": 0,
+            "total_ai_models": 0,
+            "total_value_locked": 0,
+            "total_staked": 0,
+            "accuracy_rate": 0,
+            "total_users": 0
+        }
+    
+    total_predictions = db.predictions.count_documents({})
+    active_predictions = db.predictions.count_documents({"status": "active"})
+    total_ai_models = db.ai_models.count_documents({})
     
     # Calculate total value locked
-    predictions = await db.predictions.find({}, {"_id": 0, "total_stake": 1}).to_list(1000)
+    predictions = list(db.predictions.find({}, {"_id": 0, "total_stake": 1}).limit(1000))
     total_staked = sum(pred["total_stake"] for pred in predictions)
     
     # Calculate average accuracy
-    models = await db.ai_models.find({}, {"_id": 0, "accuracy_rate": 1}).to_list(100)
+    models = list(db.ai_models.find({}, {"_id": 0, "accuracy_rate": 1}).limit(100))
     avg_accuracy = sum(model["accuracy_rate"] for model in models) / len(models) if models else 0
     
     return {
@@ -434,157 +480,44 @@ async def get_platform_stats():
     }
 
 # ============ LINERA ENDPOINTS ============
-
-def verify_api_key(x_api_key: str = Header(None)):
-    api_key = os.getenv("API_KEY")
-    if api_key and x_api_key != api_key:
-        raise HTTPException(status_code=401, detail="Invalid API key")
-
-@api_router.post("/linera/market")
-async def create_linera_market(request: LineraMarketRequest, x_api_key: str = Header(None)):
-    """Create market with hybrid chain allocation"""
-    verify_api_key(x_api_key)
-    result = await linera_adapter.create_market(
-        market_id=request.market_id,
-        title=request.title,
-        description=request.description,
-        category=request.category,
-        event_date=request.event_date,
-        estimated_stake=request.estimated_stake,
-        estimated_participants=request.estimated_participants
-    )
-    if not result.get("success"):
-        raise HTTPException(status_code=500, detail=result.get("error"))
-    return result
-
-@api_router.post("/linera/stake")
-async def linera_stake(request: LineraStakeRequest):
-    """Stake on market (auto-routes to correct chain)"""
-    result = await linera_adapter.stake(
-        market_id=request.market_id,
-        amount=request.amount,
-        prediction=request.prediction,
-        user_address=request.user_address
-    )
-    if not result.get("success"):
-        raise HTTPException(status_code=500, detail=result.get("error"))
-    return result
-
-@api_router.get("/linera/state")
-async def get_linera_state(chain_id: Optional[str] = None, app_id: Optional[str] = None):
-    """Query state from Linera (optionally specify chain)"""
-    result = await linera_adapter.query_state(chain_id=chain_id, app_id=app_id)
-    if "error" in result:
-        raise HTTPException(status_code=500, detail=result["error"])
-    return result
-
-@api_router.post("/linera/resolve/{market_id}")
-async def resolve_linera_market(market_id: str, outcome: bool, x_api_key: str = Header(None)):
-    """Resolve market (auto-routes to correct chain)"""
-    verify_api_key(x_api_key)
-    result = await linera_adapter.resolve_market(market_id=market_id, outcome=outcome)
-    if not result.get("success"):
-        raise HTTPException(status_code=500, detail=result.get("error"))
-    return result
-
-# ============ HYBRID CHAIN MANAGEMENT ============
-
-@api_router.get("/linera/market/{market_id}/chain")
-async def get_market_chain_info(market_id: str):
-    """Get chain allocation info for a market"""
-    chain_info = linera_adapter.get_chain_info(market_id)
-    return {
-        "market_id": market_id,
-        "chain_info": chain_info
-    }
-
-@api_router.get("/linera/chains")
-async def get_all_chains():
-    """Get overview of all active chains"""
-    return {
-        "main_chain": {
-            "chain_id": linera_adapter.main_chain_id,
-            "app_id": linera_adapter.main_app_id,
-            "type": "main"
-        },
-        "dedicated_chains": [
-            {
-                "market_id": market_id,
-                **chain_info
-            }
-            for market_id, chain_info in linera_adapter.market_chains.items()
-            if chain_info.get("type") == "dedicated"
-        ],
-        "thresholds": {
-            "high_value": linera_adapter.high_value_threshold,
-            "high_volume": linera_adapter.high_volume_threshold
-        }
-    }
-
-@api_router.post("/linera/market/{market_id}/migrate")
-async def migrate_market_chain(
-    market_id: str, 
-    current_stake: float, 
-    participant_count: int,
-    x_api_key: str = Header(None)
-):
-    """Migrate market to dedicated chain if thresholds exceeded"""
-    verify_api_key(x_api_key)
-    result = await linera_adapter.migrate_to_dedicated_chain(
-        market_id=market_id,
-        current_stake=current_stake,
-        participant_count=participant_count
-    )
-    return result
+# TODO: Add Linera integration endpoints here
 
 @api_router.get("/linera/config")
-async def get_linera_config():
-    """Get Linera configuration and thresholds"""
+def get_linera_config():
+    """Get Linera configuration"""
     return {
-        "rpc_url": linera_adapter.rpc_url,
-        "main_chain_id": linera_adapter.main_chain_id,
-        "main_app_id": linera_adapter.main_app_id,
-        "thresholds": {
-            "high_value": linera_adapter.high_value_threshold,
-            "high_volume": linera_adapter.high_volume_threshold
-        },
-        "strategy": "hybrid"
+        "status": "not_configured",
+        "message": "Linera integration coming soon"
     }
 
 # Include router
 app.include_router(api_router)
 
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
+    allow_origins=os.getenv('CORS_ORIGINS', '*').split(','),
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
-
 @app.on_event("startup")
-async def startup_event():
+def startup_event():
+    """Non-blocking startup - seed database if available"""
+    logger.info("AION Backend starting up...")
     try:
-        await seed_database()
-        logger.info("Database seeded successfully")
+        seed_database()
     except Exception as e:
-        logger.warning(f"Could not seed database: {e}")
+        logger.warning(f"Startup warning: {e}")
 
 @app.on_event("shutdown")
-async def shutdown_db_client():
-    if mongo_available and client:
-        client.close()
-
-
-# For Railway deployment
-if __name__ == "__main__":
-    import uvicorn
-    import os
-    port = int(os.getenv("PORT", 8001))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+def shutdown_event():
+    """Cleanup on shutdown"""
+    global client
+    if client:
+        try:
+            client.close()
+            logger.info("MongoDB connection closed")
+        except:
+            pass

@@ -511,12 +511,9 @@ app.add_middleware(
 
 @app.on_event("startup")
 def startup_event():
-    """Non-blocking startup - seed database if available"""
+    """Non-blocking startup"""
     logger.info("AION Backend starting up...")
-    try:
-        seed_database()
-    except Exception as e:
-        logger.warning(f"Startup warning: {e}")
+    logger.info("Skipping database seeding on startup (call /api/seed manually if needed)")
 
 @app.on_event("shutdown")
 def shutdown_event():

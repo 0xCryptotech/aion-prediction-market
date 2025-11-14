@@ -15,11 +15,17 @@ from linera_adapter import linera_adapter
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection
+# MongoDB connection (optional)
 mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
 db_name = os.environ.get('DB_NAME', 'aion_db')
-client = AsyncIOMotorClient(mongo_url)
-db = client[db_name]
+try:
+    client = AsyncIOMotorClient(mongo_url, serverSelectionTimeoutMS=5000)
+    db = client[db_name]
+    mongo_available = True
+except Exception as e:
+    logging.warning(f"MongoDB not available: {e}")
+    db = None
+    mongo_available = False
 
 # Create the main app
 app = FastAPI()
@@ -120,9 +126,18 @@ class LineraStakeRequest(BaseModel):
 # ============ SEED DATA ============
 
 async def seed_database():
-    # Check if data already exists
-    existing_models = await db.ai_models.count_documents({})
-    if existing_models > 0:
+    # Skip if MongoDB not available
+    if not mongo_available or db is None:
+        logging.info("MongoDB not available, skipping database seeding")
+        return
+    
+    try:
+        # Check if data already exists
+        existing_models = await db.ai_models.count_documents({})
+        if existing_models > 0:
+            return
+    except Exception as e:
+        logging.warning(f"Could not seed database: {e}")
         return
     
     # Seed AI Models

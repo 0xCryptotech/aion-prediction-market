@@ -1,9 +1,10 @@
-#![cfg_attr(target_arch = "wasm32", no_main)]
+// Simplified AION Contract for Linera SDK 0.12
+// Onchain Semu - Hybrid Architecture
 
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-/// Market structure
+/// Market data structure
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Market {
     pub id: String,
@@ -15,26 +16,28 @@ pub struct Market {
     pub total_stake_no: u128,
     pub resolved: bool,
     pub outcome: Option<bool>,
+    pub created_at: u64,
 }
 
 /// User stake
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Stake {
+pub struct UserStake {
     pub amount: u128,
     pub prediction: bool,
+    pub claimed: bool,
 }
 
-/// Application state (stored onchain)
+/// Global state
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct AionState {
     pub markets: HashMap<String, Market>,
-    pub stakes: HashMap<String, HashMap<String, Stake>>, // market_id -> user_id -> stake
+    pub stakes: HashMap<String, HashMap<String, UserStake>>, // market_id -> user_id -> stake
     pub total_value_locked: u128,
 }
 
-/// Operations (transactions)
+/// Operations
 #[derive(Debug, Serialize, Deserialize)]
-pub enum Operation {
+pub enum AionOperation {
     CreateMarket {
         market_id: String,
         title: String,
@@ -42,7 +45,7 @@ pub enum Operation {
         category: String,
         event_date: u64,
     },
-    PlaceStake {
+    Stake {
         market_id: String,
         user_id: String,
         amount: u128,
@@ -54,29 +57,6 @@ pub enum Operation {
     },
 }
 
-/// Queries (read-only)
-#[derive(Debug, Serialize, Deserialize)]
-pub enum Query {
-    GetAllMarkets,
-    GetMarket { market_id: String },
-    GetUserStakes { user_id: String },
-    GetStats,
-}
-
-/// Query responses
-#[derive(Debug, Serialize, Deserialize)]
-pub enum QueryResponse {
-    Markets(Vec<Market>),
-    Market(Option<Market>),
-    Stakes(HashMap<String, Stake>),
-    Stats {
-        total_markets: usize,
-        total_value_locked: u128,
-        active_markets: usize,
-    },
-}
-
-// State management functions
 impl AionState {
     pub fn create_market(
         &mut self,
@@ -85,6 +65,7 @@ impl AionState {
         description: String,
         category: String,
         event_date: u64,
+        created_at: u64,
     ) {
         let market = Market {
             id: market_id.clone(),
@@ -96,13 +77,14 @@ impl AionState {
             total_stake_no: 0,
             resolved: false,
             outcome: None,
+            created_at,
         };
         
         self.markets.insert(market_id.clone(), market);
         self.stakes.insert(market_id, HashMap::new());
     }
     
-    pub fn place_stake(
+    pub fn stake(
         &mut self,
         market_id: &str,
         user_id: String,
@@ -116,12 +98,14 @@ impl AionState {
             return Err("Market already resolved".to_string());
         }
         
+        // Update market totals
         if prediction {
             market.total_stake_yes += amount;
         } else {
             market.total_stake_no += amount;
         }
         
+        // Update user stake
         let market_stakes = self.stakes.get_mut(market_id).unwrap();
         market_stakes
             .entry(user_id)
@@ -129,7 +113,11 @@ impl AionState {
                 stake.amount += amount;
                 stake.prediction = prediction;
             })
-            .or_insert(Stake { amount, prediction });
+            .or_insert(UserStake {
+                amount,
+                prediction,
+                claimed: false,
+            });
         
         self.total_value_locked += amount;
         Ok(())
@@ -140,29 +128,11 @@ impl AionState {
             .ok_or("Market not found")?;
         
         if market.resolved {
-            return Err("Already resolved".to_string());
+            return Err("Market already resolved".to_string());
         }
         
         market.resolved = true;
         market.outcome = Some(outcome);
         Ok(())
-    }
-    
-    pub fn get_all_markets(&self) -> Vec<Market> {
-        self.markets.values().cloned().collect()
-    }
-    
-    pub fn get_market(&self, market_id: &str) -> Option<Market> {
-        self.markets.get(market_id).cloned()
-    }
-    
-    pub fn get_user_stakes(&self, user_id: &str) -> HashMap<String, Stake> {
-        let mut result = HashMap::new();
-        for (market_id, stakes) in &self.stakes {
-            if let Some(stake) = stakes.get(user_id) {
-                result.insert(market_id.clone(), stake.clone());
-            }
-        }
-        result
     }
 }

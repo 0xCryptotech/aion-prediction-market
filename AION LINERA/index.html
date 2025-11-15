@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AION - Prediction Market</title>
+    <!-- Error Handler (Load First) -->
+    <script src="error-handler.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    <!-- Pyth Network Price Feed -->
-    <script src="https://cdn.jsdelivr.net/npm/@pythnetwork/pyth-evm-js@1.0.0/lib/index.iife.min.js"></script>
+    <!-- Pyth Network Price Feed (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/@pythnetwork/pyth-evm-js@1.0.0/lib/index.iife.min.js" onerror="console.warn('Pyth SDK not available, using fallback')"></script>
     <!-- Linera Configuration -->
     <script src="linera-config.js"></script>
     <!-- API Integration -->

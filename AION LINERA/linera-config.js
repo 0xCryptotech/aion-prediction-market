@@ -9,8 +9,8 @@ const LineraConfig = {
   
   // Main chain for governance and global state
   mainChain: {
-    chainId: 'default',
-    appId: '', // Set after deployment
+    chainId: 'e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65',
+    appId: 'e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65000000000000000000000000',
     purpose: 'Governance, user registry, global state'
   },
   

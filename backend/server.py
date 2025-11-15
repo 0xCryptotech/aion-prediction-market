@@ -8,6 +8,10 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, timezone, timedelta
 import random
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -28,14 +32,14 @@ def get_db():
             # Use MONGODB_URI or MONGO_URL from environment
             mongo_url = os.getenv("MONGODB_URI") or os.getenv("MONGO_URL")
             
-            # Skip if no MongoDB or localhost (Railway doesn't have local MongoDB)
-            if not mongo_url or "localhost" in mongo_url:
-                logger.warning("No valid MongoDB URI configured (skipping localhost)")
+            if not mongo_url:
+                logger.warning("No MongoDB URI configured")
                 return None
             
-            client = MongoClient(mongo_url, serverSelectionTimeoutMS=3000)
-            # Don't test connection here - let it fail lazily
-            logger.info("MongoDB client initialized")
+            client = MongoClient(mongo_url, serverSelectionTimeoutMS=5000)
+            # Test connection
+            client.admin.command('ping')
+            logger.info(f"MongoDB connected successfully to {mongo_url}")
         except Exception as e:
             logger.warning(f"MongoDB not available: {e}")
             return None
@@ -497,23 +501,39 @@ def get_linera_config():
         "message": "Linera integration coming soon"
     }
 
+@api_router.post("/seed")
+def seed_data():
+    """Manually seed database with initial data"""
+    try:
+        seed_database()
+        return {"message": "Database seeded successfully"}
+    except Exception as e:
+        logger.error(f"Error seeding database: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include router
 app.include_router(api_router)
 
-# CORS middleware
+# CORS middleware - Allow all origins for development
 app.add_middleware(
     CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=os.getenv('CORS_ORIGINS', '*').split(','),
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 @app.on_event("startup")
 def startup_event():
     """Non-blocking startup"""
     logger.info("AION Backend starting up...")
-    logger.info("Skipping database seeding on startup (call /api/seed manually if needed)")
+    # Auto-seed database on startup
+    try:
+        seed_database()
+        logger.info("Database seeding completed")
+    except Exception as e:
+        logger.warning(f"Database seeding skipped: {e}")
 
 @app.on_event("shutdown")
 def shutdown_event():

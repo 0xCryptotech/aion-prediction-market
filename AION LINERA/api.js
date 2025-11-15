@@ -3,11 +3,21 @@
  * Connects frontend to backend API
  */
 
-// Configuration
+// Configuration - Auto-detect environment
+const isProduction = window.location.hostname !== 'localhost' && 
+                     window.location.hostname !== '127.0.0.1' &&
+                     !window.location.protocol.includes('file');
+
 const API_CONFIG = {
-    baseURL: 'https://aion-backend-production.up.railway.app',
+    baseURL: isProduction 
+        ? 'https://aion-backend-production.up.railway.app'  // Production backend
+        : 'http://localhost:8001',  // Local backend
     timeout: 10000,
 };
+
+// Log current environment
+console.log('🌍 Environment:', isProduction ? 'Production' : 'Local');
+console.log('🔌 API URL:', API_CONFIG.baseURL);
 
 // API Client
 class AionAPI {

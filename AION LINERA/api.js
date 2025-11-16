@@ -11,13 +11,14 @@ const isProduction = window.location.hostname !== 'localhost' &&
 const API_CONFIG = {
     baseURL: isProduction 
         ? 'https://aion-backend-production.up.railway.app'  // Production backend
-        : 'http://localhost:8001',  // Local backend
+        : 'http://localhost:8001',  // Local onchain backend
     timeout: 10000,
 };
 
 // Log current environment
 console.log('🌍 Environment:', isProduction ? 'Production' : 'Local');
 console.log('🔌 API URL:', API_CONFIG.baseURL);
+console.log('⛓️  Mode: Fully Onchain');
 
 // API Client
 class AionAPI {

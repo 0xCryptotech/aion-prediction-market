@@ -192,6 +192,52 @@ async def get_stats():
         "chainId": CHAIN_ID
     }
 
+# Legacy endpoints for frontend compatibility (return mock data)
+@app.get("/api/statistics")
+async def get_statistics():
+    """Legacy statistics endpoint"""
+    return {
+        "total_value_locked": 2400000,
+        "active_predictions": 156,
+        "accuracy_rate": 92.3,
+        "total_users": 8429
+    }
+
+@app.get("/api/predictions")
+async def get_predictions():
+    """Legacy predictions endpoint - redirect to markets"""
+    markets = await blockchain_proxy.query_state("GetAllMarkets")
+    return {
+        "predictions": markets.get("data", []),
+        "source": "blockchain"
+    }
+
+@app.get("/api/ai-models")
+async def get_ai_models():
+    """Legacy AI models endpoint"""
+    return {
+        "models": [],
+        "message": "AI models feature coming soon"
+    }
+
+@app.get("/api/dao-proposals")
+async def get_dao_proposals():
+    """Legacy DAO proposals endpoint"""
+    return {
+        "proposals": [],
+        "message": "DAO governance coming soon"
+    }
+
+@app.get("/api/linera/config")
+async def get_linera_config():
+    """Legacy Linera config endpoint"""
+    return {
+        "chain_id": CHAIN_ID,
+        "app_id": APP_ID,
+        "network": "Linera Testnet",
+        "mode": "Fully Onchain"
+    }
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
